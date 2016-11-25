@@ -10,7 +10,8 @@ $n$-vertex connected undirected graph $G$ starting from a distinguished
 vertex $s\in V(G)$.  On each edge of $G$ we attach an exponential timer
 with rate 1. When the timer on an edge $vw$ rings the timer is immediately
 reset and, if exactly one of $v$ or $w$ is in $T$, then the edge $vw$
-is added to $T$.  We call this Process~E.
+is added to $T$.  We call this \emph{Process~E} and we say that Process~E
+is \emph{complete} once $T$ spans $G$.
 
 \begin{lem}\lemlabel{percolation}
   If $G$ has diameter $D$ then, with probability at least $1-1/n$, $T$
@@ -45,16 +46,22 @@ is added to $T$.  We call this Process~E.
   \]
 \end{proof}
 
+\section{The Random Edge Choice Process}
+
 Now note that the tree, $T$, that results from the preceding process
 is distributed in the same way as the spanning tree that one gets by
 starting with the tree $T=(\{s\},\emptyset)$ and repeatedly choosing
 a uniform random edge $vw$ and adding $vw$ to $T$ if and only if $vw$
-has exactly one endpoint in $V(T)$.  We call this Process~A.
+has exactly one endpoint in $V(T)$.  We call second version Process~B.
+That Process~E and Process~B produce identically distributed spanning
+trees follows from the memorylessness of exponential random variables.
+In particular, at any point in time, each of the $|E(G)|$ timers in
+Process~E is equally likely to be the next timer to ring.
 
 \begin{lem}
-  If $G$ has diameter $D$ and maximum degree $\Delta$ then, with
-  probability at least $1-1/n$, the spanning tree $T$ has diameter at
-  most $c\Delta(D+\log n)$.
+  If $G$ has diameter $D$ and maximum degree $\Delta$ then after running
+  Process~B to completion, with probability at least $1-1/n$, the spanning
+  tree $T$ has diameter at most $c\Delta(D+\log n)$.
 \end{lem}
 
 \begin{proof}
@@ -64,19 +71,20 @@ has exactly one endpoint in $V(T)$.  We call this Process~A.
   timer on $e_1$ rings, and then the timer on $e_2$ rings, and so on,
   until the timer on $e_L$ rings.  Let $t_L$ be the time at which this
   first occurs.  Then $t_L$ is the sum of $L$ independent exponential(1)
-  random variables and
+  random variables and, for any $d > 1$,
   \[
-      \Pr\{t_L\} \le L/\Delta \le \exp(-\alpha \Delta L) \enspace .
+      \Pr\{t_L\} \le L/d \le \exp(-\alpha d L) \enspace .
   \]
   If $P$ appears in $T$, then either $t_L < c(D+\log n)$ or $T$ is not
   yet a spanning tree of $G$ at time $c(D+\log n)$.  
   Therefore, 
   \[
-      \Pr\{\text{$P$ appears in $T$}\} \le 1/n + \exp(-\alpha L) \enspace .
+      \Pr\{\text{$P$ appears in $T$}\} \le 1/n 
+        + \exp\left(\frac{-\alpha L}{c(D+\log n)}\right) \enspace .
   \]
   Let $P_L$ be the set of all simple paths in $G$ that start at $s$ and have length $L$.  The probability that $T$ contains any path from $P_L$ is at most
   \[
-      1/n + |P_L|\exp(-\alpha L) \le 1/n + (\Delta-1)^L\exp(-\alpha L)
+      1/n + |P_L|\cdot\exp\left(\frac{-\alpha L}{c(D+\log n)}\right) \le 1/n + (\Delta-1)^L\cdot\exp\left(\frac{-\alpha L}{c(D+\log n)}\right)
   \]
   Therefore, the probability that $T$ contains any simple path that
   starts at $s$ and contain 
