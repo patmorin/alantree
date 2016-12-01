@@ -32,7 +32,7 @@ is \emph{complete} once $T$ spans $G$.
   time $t_i+Z_i$ where $Z_i$ is a an exponential random variable with
   rate 1.  Therefore, the random variable $t_k$ is dominated by the sum
   of $k$ independent exponentials $Z_1,\ldots,Z_k$.
-  In particular, using standard concentration results,
+  In particular, using standard concentration results \cite{X},
   \[
       \Pr\{t_k\ge c(k+\log n)\} \le \Pr\{Z_1+\cdots Z_k\ge c(k+\log n)\} \le 1/n^2 \enspace .
   \]
@@ -60,45 +60,40 @@ Process~E is equally likely to be the next timer to ring.
 
 \begin{lem}
   If $G$ has diameter $D$ and maximum degree $\Delta$ then after running
-  Process~B to completion, with probability at least $1-1/n$, the spanning
-  tree $T$ has diameter at most $c\Delta(D+\log n)$.
+  Process~B to completion, with probability at least $1-O(1/n)$, the spanning
+  tree $T$ has diameter at most $2c\Delta(D+\log n)$.
 \end{lem}
 
 \begin{proof}
   Let $P=v_0,v_1,\ldots,v_L$ be some simple path in $G$ starting at
   $s=v_0$ and let $e_i=v_{i-1}v_i$ be the $i$th edge on this path.
-  In the model of Process~E, this path can not appear before the
-  timer on $e_1$ rings, and then the timer on $e_2$ rings, and so on,
-  until the timer on $e_L$ rings.  Let $t_L$ be the time at which this
-  first occurs.  Then $t_L$ is the sum of $L$ independent exponential(1)
-  random variables and, for any $d > 1$,
+  In the model of Process~E, this path can not appear before the timer
+  on $e_1$ rings, and then the timer on $e_2$ rings, and so on, until the
+  timer on $e_L$ rings.  Let $t_L$ be the time at which this first occurs.
+  Then $t_L$ is lower-bounded by the sum of $L$ independent exponential(1)
+  random variables.  Using Chernoff's bounding technique, we can show that,
+  for any $d > 1$,
   \[
-      \Pr\{t_L\} \le L/d \le \exp(-\alpha d L) \enspace .
+      \Pr\{t_L\} \le L/d \le \exp(-L(\ln d - 1+1/d)) \le \left(\frac{e}{d}\right)^L \enspace .
   \]
   If $P$ appears in $T$, then either $t_L < c(D+\log n)$ or $T$ is not
   yet a spanning tree of $G$ at time $c(D+\log n)$.  
   Therefore, 
   \[
       \Pr\{\text{$P$ appears in $T$}\} \le 1/n 
-        + \exp\left(\frac{-\alpha L}{c(D+\log n)}\right) \enspace .
+        + \left(\frac{ec(D+\log n)}{L}\right)^L \enspace .
   \]
   Let $P_L$ be the set of all simple paths in $G$ that start at $s$ and have length $L$.  The probability that $T$ contains any path from $P_L$ is at most
   \[
-      1/n + |P_L|\cdot\exp\left(\frac{-\alpha L}{c(D+\log n)}\right) \le 1/n + (\Delta-1)^L\cdot\exp\left(\frac{-\alpha L}{c(D+\log n)}\right)
+      1/n + |P_L|\left(\frac{\Delta ec(D+\log n)}{L}\right)^L 
+      < 1/n + \left(\frac{\Delta ec(D+\log n)}{L}\right)^L \enspace ,
   \]
-  Therefore, the probability that $T$ contains any simple path that
-  starts at $s$ and contain 
-
-
-Let $\mathcal{P}$ be
-  the set of all simple paths in $G$ originating from $s$ and having length $L$.
-
-
-Therefore, the probability
-  that any such path $P$
-
-
-  to upper bound the probability that this path appears in $T$.  
+  since $|P_L|\le \Delta^L$.
+  Finally, the probability that $T$ contains any path of length at least
+  $L'=2\Delta ec(D+\log n)$ is at most
+  \[
+     \frac{1}{n}+\sum_{L=L'}^{n-1} \left(\frac{\Delta e L}{c(D+\log n)}\right)^L <  \frac{1}{n}+\sum_{L=L'}^{n-1} (1/2)^L < 2/n \enspace . 
+  \]
 \end{proof}
 
 
