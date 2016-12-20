@@ -35,8 +35,6 @@ and for all $t>1$,
     \Pr\left\{\sum_{i=1}^n Z_i \ge \mu k t\right\} \le \exp (k-kt/2) \enspace . \eqlabel{tail-bound}
 \end{equation}
 
-
-
 \section{The Exponential Process (First Passage Percolation)}
 
 Consider the following process for growing a spanning tree, $T$, of an
@@ -208,14 +206,14 @@ $V_1,\ldots,V_L$, each of size $\delta$. The edge set of $H$ is
 
 First we show that $H$, under the models of Process~E and Process~FP
 has very low-weight paths between its vertices.
+Assign an independent $\exponential(1)$ weight to each edge of $H$.
+Let $d_H(v,w)$ denote the weight of the minimum weight path from $v$
+to $w$ in the resulting weighted graph.
 
 \begin{lem}\lemlabel{lightning}
-   Fix some vertex $v\in V_i$ and $w\in V_j$, $j>i$, and assign an
-   independent $\exponential(1)$ weight to each edge of $H$.  Let $d(v,w)$
-   denote the weight of the minimum weight path from $v$ to $w$ in the
-   resulting weighted graph.  Then,
+   For any vertex $v\in V_i$ and any vertex $w\in V_j$, $j>i$,
    \[
-       \Pr\{d(v,w) > t(j-i-1)/\delta + r) \} \le
+       \Pr\{d_H(v,w) > t(j-i-1)/\delta + r) \} \le
        \begin{cases}
            \exp(-r) & \text{if $j-i=1$} \\
            \exp((1-t/2)(j-i-1)) + \exp(-r) & \text{otherwise.}
@@ -272,22 +270,26 @@ degree 2 nodes.  The height of this tree is
 \end{align*}
 
 For a degree three node $v$ of $I$, we will define the \emph{original
-height} of $v$ as the height of $v$ before subdividing edges of $I$.
+height} of $v$ as the height of $v$ before subdividing edges of $I$.  For
+two leaves $v$ and $w$ of $I$, we let $h(v,w)$ denote the original height
+of the lowest-common ancestor of $v$ and $w$.  Assign $\exponential(1)$
+independent edge weights to each of the edges of $I$ and let $d_I(v,w)$
+denote the weight of the unique path from $v$ to $w$ in the resulting
+weighted graph.
+
 
 \begin{lem}\lemlabel{slow-train}
-   Assign $\exponential(1)$ independent edge weights to each of the edges
-   of $I$, let $v$ and $w$ be two leaves of $I$ such that the path
-   from $u$ to $w$ uses a node whose original height is $h$, and let $d(v,w)$
-   denote the weight of the path from $v$ to $w$.  Then,
+   Let $v$ and $w$ be any two leaves of $I$ and let $h=h(v,w)$. Then,
    \[  
-        \Pr\{d(v,w) \le 2s(h)/e^2  \} \le L^{-2a} \enspace .
+        \Pr\{d_I(v,w) \le 2s(h)/e^2  \} \le L^{-2a} \enspace .
    \]
 \end{lem}
 
 \begin{proof}
-   The path from $v$ to $w$ uses at least two edges that are incident to
-   nodes of original height $h$.  Therefore, $d(u,w)$ is lower bounded
-   by the sum of $2s(h)$ $\exponential(1)$. Therefore, by \eqref{head-bound},
+   The path from $v$ to $w$ uses the two edges incident to the lowest
+   common ancestor of $v$ and $w$.  Therefore, $d_I(v,w)$ is lower bounded
+   by the sum of $2s(h)$ $\exponential(1)$ random variables. Therefore, 
+   by \eqref{head-bound},
    \[
       \Pr\{d(v,w) \le 2s(h)/e^2  \} 
        \le \exp(-2s(h)) \le \exp(-2a\log L) = L^{-2a} \enspace . \qedhere
@@ -297,8 +299,11 @@ height} of $v$ as the height of $v$ before subdividing edges of $I$.
 \subsection{Putting it Together}
 
 The lower-bound graph $G$ is now constructed by taking a tree $I$ with
-$L$ leaves and a graph $H$ with $L$ groups $V_1,\ldots,V_L$ each of
-size $\delta=\lfloor(\Delta-1)/2\rfloor$.  Next, we consider the leaves of $I$ in the order they are encountered in a depth first-traversal of $I$ and, for each $i\in\{1,\ldots,L\}$ we identify the $i$th leaf of $I$ with some vertex in $V_i$.  See \figref{g}.
+$L$ leaves and a graph $H$ with $L$ groups $V_1,\ldots,V_L$ each of size
+$\delta=\lfloor(\Delta-1)/2\rfloor$.  Next, we consider the leaves of
+$I$ in the order they are encountered in a depth first-traversal of $I$
+and, for each $i\in\{1,\ldots,L\}$ we identify the $i$th leaf of $I$
+with some vertex in $V_i$.  See \figref{g}.
 
 \begin{figure}
   \begin{center}
@@ -330,51 +335,87 @@ a graph $G$ with diameter $D$ and maximum degree $\Delta$.
   edge weight and compute a shortest path tree rooted at $s$ in the
   resulting weighted graph.  Fix $1\le i< j\le L$ and consider the two
   vertices $v\in V_i\cap V(I)$ and $w\in V_j\cap V(I)$ that are common
-  to $H$ and $I$.  Below, we will assume that $j-i>1$; the case $j-i=1$
-  is even simpler.
+  to $H$ and $I$.  
 
-  In $I$, there is a unique path from $v$ to $w$ and it has weight $W_I$.
-  This path contains at least $2s(h)$ edges, for $h=\lceil\log (j-i+1)
-  \rceil$.  By \lemref{slow-train},
+  Let $h=h(v,w)$.  Observe that $h \ge \lceil\log (j-i+1)\rceil$, so
+  that $2^h > i-j-1$.
+%  Note that $2^{h}>i-j-1$
+%  \[
+%     \Pr\{W_I \le 2a(j-i-1)/(\beta e^2)\} \le 
+%     \Pr\{W_I \le 2a2^h/(\beta e^2)\} \le 
+%     \Pr\{W_I \le 2s(h)/e^2\} \le L^{-2a} \enspace ,
+%  \]
+%  where the last inequality is the statement of \lemref{slow-train}.
+%  So, $W_I$ is almost always longer than $2a(j-i-1)/(\beta e^2)$
+  Let $r=s(h)/e^2$,
   \[
-     \Pr\{W_I \le 2s(h)/e^2\} \le L^{-2a}
+      t = \frac{\delta s(h)}{e^2(j-i-1)} \enspace , 
   \]
-  Let $W_H$ denote the weight of the minimum weight path in $H$ from
-  $v$ to $w$.  Then, by \lemref{lightning},
+  and verify that, if $d_H(v,w) \le t(j-i-1) + r$, then $d_H(v,w) \le 2s(h)/e^2$:
   \[
-     \Pr\{W_H \ge t(j-i-1)/\delta+r\} \le \exp((1-t/2)(j-i-1)) + \exp(-r)
-  \]
-  We take $r=s(h)/e^2$ and
+     \Pr\{d_H(v,w) > d_I(v,w)\} \le \Pr\{d_I(v,w) < 2s(h)/e^2\}
+            + \Pr\{d_H(v,w) \ge t(j-i-1)+ r \}
+  \] 
+  The two probabilities on the right hand side are the subjects of
+  \lemref{slow-train} and \lemref{lightning}, respectively.
+  Using these bounds, and the fact that
   \[
-      t = \frac{\delta s(h)}{e^2(j-i-1)} \enspace . 
+      s(h) \ge a\cdot \max\{(j-i-1)/\delta, \log L\} \enspace .
   \]
-  If $s(h) = a 2^h/\delta$ (because $2^h/\delta\ge\log L$), then we obtain:
-  \begin{align*}
-     \Pr\{W_H > W_I\} & \le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
-         & \le \exp((1-t/2)(j-i-1)) + \exp(-s(h)/e^2) \\
-         & \le \exp((1-t/2)(j-i-1)) + L^{-a/e^2} \\
-         & \le \exp\left(j-i-1 - \frac{a2^h}{2e^2}\right) + L^{-a/e^2} \\
-         & \le \exp\left(j-i+1 - \frac{a(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
-         & \le \exp\left(\frac{(2e^2-a)(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
-         & \le L^{-\Omega(a)} + L^{-a/e^2} \enspace ,
-  \end{align*}
-  where the last step follows because
-  \[
-     \delta \log L \le 2^h \le 8(j-i-1) \enspace , 
-  \]
-  so $j-i-1 \ge \delta\log L/8$.
-
-  If $s(h) = a\log L$ (because $2^h/\delta < \log L$), then 
-  \begin{align*}
-     \Pr\{W_H > W_I\} 
-         & \le \exp\left(j-i-1 - \frac{a\delta\log L}{2e^2}\right) + L^{-a/e^2} \\
-         & \le L^{-\Omega(a)} + L^{-a/e^2} \\
-XXXXXX
-\le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
-
-  \end{align*}
-  for sufficiently large $a$.  The result follows by applying the union
-  bound for all $\binom{L}{2}$ choices of $i$ and $j$.
+  shows that $\Pr\{d_H(v,w) > d_I(v,w)\} \le L^{-\Omega(a)}$.
+  Applying the union bound for all $\binom{L}{2}$ choices of $i$ and $j$
+  then shows that the probability the shortest path tree rooted at $s$
+  contains any path that joins two vertices in $H$ is at most $L^{-\Omega(a)}$.
+  In particular, with probability at least $1-L^{-\Omega(a)}$, the shortest
+  path tree rooted at $s$ contains a path of $L$ edges from $s$ to every vertex $v\in V_L$.
+%
+%
+%
+%Then, by \lemref{lightning},
+%  \[
+%     \Pr\{W_H \ge t(j-i-1)/\delta+r\} \le \exp((1-t/2)(j-i-1)) + \exp(-r)
+%  \]
+%  We take $r=s(h)/e^2$ and
+%  \[
+%      t = \frac{\delta s(h)}{e^2(j-i-1)} \enspace . 
+%  \]
+%  Recall that $s(h)=\max\{a\log L,a2^h/\delta\}$.  When $s(h)=a\log L$, we have
+%   
+%  \begin{align*}
+%     \Pr\{W_H > W_I\} & \le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
+%         & \le \exp(j-i-1-\delta a\log L/e^2) + \exp(-(a/e^2)\log L) \\
+%         & = 2L^{-\Omega(a)}
+%  \end{align*}
+%  
+%
+%
+%  If $s(h) = a 2^h/\delta$ (because $2^h/\delta\ge\log L$), then
+%  \[   s(h)
+%  then we obtain:
+%  \begin{align*}
+%     \Pr\{W_H > W_I\} & \le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
+%         & \le \exp((1-t/2)(j-i-1)) + \exp(-s(h)/e^2) \\
+%         & \le \exp((1-t/2)(j-i-1)) + L^{-a/e^2} \\
+%         & \le \exp(j-i-1-s(h)/e^2) + L^{-a/e^2} \\
+%
+%         & \le \exp\left(j-i-1 - \frac{a2^h}{2e^2}\right) + L^{-a/e^2} \\
+%         & \le \exp\left(j-i+1 - \frac{a(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
+%         & \le \exp\left(\frac{(2e^2-a)(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
+%         & \le L^{-\Omega(\delta a)} + L^{-a/e^2} \\
+%         & = O(L^{-\Omega(a)})
+%  \end{align*}
+%   
+%
+%  If $s(h) = a\log L$ (because $2^h/\delta < \log L$), then 
+%  \begin{align*}
+%     \Pr\{W_H > W_I\} 
+%         & \le \exp\left(j-i-1 - \frac{\delta a\log L}{2e^2}\right) + L^{-a/e^2} \\
+%         & \le L^{-\Omega(a)} + L^{-a/e^2} \\
+%     \le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
+%
+%  \end{align*}
+%  for sufficiently large $a$.  The result follows by applying the union
+%  bound for all $\binom{L}{2}$ choices of $i$ and $j$.
  \end{proof}
 \end{document}
 
