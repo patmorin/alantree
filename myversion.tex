@@ -301,7 +301,7 @@ a graph $G$ with diameter maximum degree $\Delta$ and diameter $D$.
 
 \begin{thm}
   If we run Process~B on the graph $G$ defined above starting at some
-  vertex $s\in V_1$, then with probability at least $1-\exp(-cL)$,
+  vertex $s\in V_1$, then with probability at least $1-L^{-\Omega(a)}$,
   the resulting spanning tree contains a path of length at least $L$.
 \end{thm}
 
@@ -333,15 +333,16 @@ a graph $G$ with diameter maximum degree $\Delta$ and diameter $D$.
      \Pr\{w(P_H) > w(P_I)\} & \le \exp(-(t-1)(j-i-1))/2 + \exp(-r) \\
          & \le \exp\left(-\delta s(h)/(4c) + (j-i-1)/2\right)
                                + \exp(-s(h)/(2c)) \\
-         & \le \exp\left(-a2^h/(4c) + (j-i-1)/2\right)
+         & \le \exp\left(-a\cdot\max\{2^h,\delta\log L\}/(4c) + (j-i-1)/2\right)
                                + \exp(-a\log L/(2c)) \\
-         & \le \exp\left(-a(j-i+1)/(4c)) + (j-i-1)/2\right)
+         & \le \exp\left(-a\cdot\max\{j-i+1,\delta\log L\}/(4c)) + (j-i-1)/2\right)
                                + \exp(-a\log L/(2c)) \\
-         & \le \exp\left(-a(j-i+1)/(4c)) + (j-i-1)/2\right)
-                               + \exp(-a\log L/(2c)) \\
+         & \le \exp\left(-\Omega(a)\log L\right) + \exp(-\Omega(a)\log L) \\
+         & \le 2L^{-\Omega(a)} \enspace ,
   \end{align*}
+  for sufficiently large $a$.  The result follows by applying the union
+  bound for all $\binom{L}{2}$ choices of $i$ and $j$.
  \end{proof}
-
 \end{document}
 
 %Let $H=(V,E)$
