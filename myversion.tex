@@ -1,10 +1,24 @@
-\documentclass{patmorin}
+\documentclass[lotsofwhite]{patmorin}
 \usepackage{pat}
 \usepackage{graphicx}
 
 \DeclareMathOperator{\exponential}{exponential}
 
+\title{\MakeUppercase{Notes on Growing a Tree in a Graph}}
+\author{\ }
+
 \begin{document}
+\maketitle
+\section{Introduction}
+
+We consider the following process for growing a spanning tree,
+$T$, of a graph $G$ starting at some vertex $s\in V(G)$.  Intially,
+$T=(s,\emptyset)$ is the single vertex tree constaining only $s$. We then
+repeatedly select, uniformly at random an edge from $E(G)$ that has one
+edpoint in $V(T)$ and one endpoint not in $V(T)$ and we add this edge
+to $T$.  For an $n$-vertex graph $G$, the tree $T$ spans $G$ after $n-1$
+steps.  We are interested in the height of this (random) spanning tree.
+
 \section{Inequalities for Sums of Exponentials}
 
 We will make use of two inequalities on sums of exponential random
@@ -54,8 +68,8 @@ the shortest path tree rooted at $s$.  We call this latter process
   $v_{i+1}$ may join the tree before this ring and even before $t_i$.)
   By the memoryless property of exponentials, this next ring occurs at
   time $t_i+Z_i$ where $Z_i$ is a an exponential random variable with
-  rate 1.  Therefore, the random variable $t_k$ is dominated by the sum
-  of $k$ independent exponentials $Z_1,\ldots,Z_k$.  Therefore,
+  rate 1.  Therefore, the random variable $t_k$ is lower-bounded by the
+  sum of $k$ independent exponentials $Z_1,\ldots,Z_k$.  Therefore,
   \begin{align*}
       \Pr\left\{t_k\ge \left(\frac{4\log n}{k}+2\right)k\right\} 
         & \le \Pr\left\{Z_1+\cdots Z_k\ge \left(\frac{4\log n}{k}+2\right)k\right\} \\ 
@@ -130,7 +144,7 @@ Process~E is equally likely to be the next timer to ring.
 \subsection{The Lower Bound}
 
 Note that \thmref{alantree-upper-bound} is obviously asymptotically
-tight for graph with maximum degree $\Delta\in O(1)$ and diameter
+tight for graphs with maximum degree $\Delta\in O(1)$ and diameter
 $D\in\Omega(\log n)$.  For instance, \thmref{alantree-upper-bound}
 shows that, for constant $d$, running Process~B on a $n^{1/d}\times
 \cdots\times n^{1/d}$ grid or toroidal grid produces a
@@ -143,13 +157,13 @@ In this setting, a different argument shows that Process~B produces a
 spanning tree of diameter $\Theta(\log n)$ rather than the $O(\log^2 n)$
 bound given by \thmref{alantree-upper-bound}.
 
-Thus, makes it natural to wonder if one can eliminate or reduce the
-dependence on $\Delta$ in \thmref{alantree-upper-bound}.  Intuitively,
-higher degree should produce spanning trees of lower diameter.  However,
-the example of a sequence of $D/2$ $(\Delta-1)$-cliques joined in sequence
-(see \figref{clique-path}) shows that Process~B may produce spanning
-trees of diameter $\Omega(D\log\Delta)$.  Therefore, the dependence on
-$\Delta$ can not be eliminated entirely.
+It is natural to ask if one can eliminate or reduce the dependence on
+$\Delta$ in \thmref{alantree-upper-bound}.  Intuitively, higher degree
+should produce spanning trees of lower diameter.  However, the example
+of a sequence of $D/2$ $(\Delta-1)$-cliques joined in sequence (see
+\figref{clique-path}) shows that Process~B may produce spanning trees of
+diameter $\Omega(D\log\Delta)$.  Therefore, the dependence on $\Delta$
+can not be eliminated entirely.
 
 \begin{figure}
   \begin{center}
@@ -161,33 +175,28 @@ $\Delta$ can not be eliminated entirely.
   \figlabel{clique-path}
 \end{figure}
 
-Here we show that, for any $\Delta$ and any $D\in\Omega(\log^2\Delta)$,
-we can construct a graph $G=G_{D,\Delta}$ of diameter $D$ and maximum
-degree $\Delta$ for which Process~B produces a spanning tree of diameter
-$\Omega(\Delta D)$.  Thus, the upper-bound \thmref{alantree-upper-bound}
-is tight for these graphs.  
+Next we show that, in fact, a linear dependence on $\Delta$ is necessary:
+For any $\Delta$ and any $D\in\Omega(\log^2\Delta)$, we can construct a
+graph $G=G_{D,\Delta}$ of diameter $D$ and maximum degree $\Delta$ for
+which Process~B produces a spanning tree of diameter $\Omega(\Delta D)$.
+Thus, the upper-bound of \thmref{alantree-upper-bound} is asymptotically
+tight for these graphs.
 
 The graph $G$ is obtained by gluing together two graphs $H$ and $I$.
-The graph $G$ has high diameter and high connectivity.  The graph $I$
+The graph $H$ has high diameter and high connectivity.  The graph $I$
 has low connectivity and low diameter.  By joining them we obtain a graph
 of low diameter (because of $I$) but for which Process~B is more likely
 to find paths in $H$ (because of its high connectivity).  We begin by
-defining any studying $H$ and $I$ independently.
+defining and studying $H$ and $I$ independently.
 
 
 \subsection{The Ladder Graph $H$}
 
 Fix some integers $L,\delta\in\N$ to be described later.  Refer to
-\figref{h}.  The graph $H$ has a special vertex $s$ and $L$ groups of
-vertices $V_1,\ldots,V_L$, each containing $\delta$ vertices.  The graph 
-$H$ has vertex set
+\figref{h}.  The vertices of $H$ are partitioned in to $L$ groups
+$V_1,\ldots,V_L$, each of size $\delta$. The edge set of $H$ is
 \[
-   V(H) = \{s\}\cup\bigcup_{i=1}^L V_i
-\]
-and edge set
-\[
-   E(H) = \{sv : v\in V_1\}
-       \cup \{vw : v\in V_{i},\, w\in V_{i+1}\} \enspace .
+   E(H) = \bigcup_{i=1}^{K-1} \{vw : v\in V_{i},\, w\in V_{i+1}\} \enspace .
 \]
 \begin{figure}
   \begin{center}
@@ -207,32 +216,35 @@ has very low-weight paths between its vertices.
    resulting weighted graph.  Then,
    \[
        \Pr\{d(v,w) > t(j-i-1)/\delta + r) \} \le
-         \exp(-(t-1)(j-i-1)/2) + \exp(-r) \enspace .
+       \begin{cases}
+           \exp(-r) & \text{if $j-i=1$} \\
+           \exp((1-t/2)(j-i-1)) + \exp(-r) & \text{otherwise.}
+       \end{cases}
    \]
 \end{lem}
 
 \begin{proof}
    Consider the following greedy algorithm for finding a path from $v$
-   to $w$: When the path has reached some vertex $x\in V_{k}$, for
-   $k<j-1$, the algorithm extends the path by taking the minimum weight
-   edge between $x$ and some vertex in $V_{k+1}$.  When the algorithm
-   reaches some $x\in V_{j-1}$, it takes the edge $xw$.
+   to $w$: The path starts at $v$ (which is in $V_i$).  When the path
+   has reached some vertex $x\in V_{k}$, for $k<j-1$, the algorithm
+   extends the path by taking the minimum-weight edge joining $x$ to some
+   vertex in $V_{k+1}$.  When the algorithm reaches some $x\in V_{j-1}$,
+   it takes the edge $xw$.
 
-   Let $m=j-i$.
-   Each of the first $m-1$ edges in the resulting path has a
-   weight that is the minimum of $\delta$ $\exponential(1)$ random
-   variables.  Thus, the weight of these edges is the sum of $m-1$
-   $\exponential(\delta)$ random variables $X_1,\ldots,X_{m-1}$.  
-   By \eqref{tail-bound}, 
+   Let $m=j-i$.  Each of the first $m-1$ edges in the resulting path
+   has a weight that is the minimum of $\delta$ $\exponential(1)$
+   random variables.  Thus, the weight of these edges is the sum of
+   $m-1$ $\exponential(\delta)$ random variables $X_1,\ldots,X_{m-1}$.
+   By \eqref{tail-bound},
    \begin{equation}
      \Pr\left\{\sum_{\ell=1}^{m-1} X_\ell > t(m-1)/\delta \right\} \le 
-        \exp(-(t-1)(m-1)/2) \enspace .  \eqlabel{part-i}
+        \exp((1-t/2)(m-1)) \enspace .  \eqlabel{part-i}
    \end{equation}
    The last edge in this path has a weight $X_m$ that is an
    $\exponential(1)$ random variable.  From the definition
    of the exponential distribution,
    \begin{equation}
-      \Pr\{X_m > r\} = \exp(-r)) \enspace . \eqlabel{part-ii}
+      \Pr\{X_m > r\} = \exp(-r) \enspace . \eqlabel{part-ii}
    \end{equation}
    If $\sum_{\ell=1}^{m-1} X_\ell \le t(m-1)/\delta$ and $X_m \le r$, then
    $d(v,w)\le t(j-i-1)/\delta + r$, so we complete the proof by 
@@ -247,31 +259,39 @@ with $L$ leaves whose edges have been subdivided.  More specifically,
 at a node $v$ of height $h$ in this tree, we subdivide the edges leading
 to $v$'s children
 \[
-   s(h) = a\cdot\max\{2^h/\delta,\log L\} 
+   s(h) = \left\lceil a\cdot\max\{2^h/\delta,\log L\}\right\rceil 
 \]
 times so that each edge becomes a path of length $s(h)$.  Here $a$ is a
 (sufficiently large) constant that is discussed later.  The resulting
 tree has $L$ leaves, $L-1$ degree 3 nodes, and the remaining nodes are
 degree 2 nodes.  The height of this tree is
-\[
-   a\cdot\sum_{h=0}^{\log L} \max\{\log L, 2^h/\delta\}
-     = O( (\log\delta+\log\log L)\log L + L/\delta ) \enspace .
-\]
+\begin{align*}
+   h(I) & = \sum_{h=0}^{\log L} s(h) \\
+        & = \cdot\sum_{h=0}^{\log L} \left\lceil a\max\{\log L, 2^h/\delta\}\right\rceil \\
+        & = O( (\log\delta+\log\log L)\log L + L/\delta ) \enspace .
+\end{align*}
 
+For a degree three node $v$ of $I$, we will define the \emph{original
+height} of $v$ as the height of $v$ before subdividing edges of $I$.
 
 \begin{lem}\lemlabel{slow-train}
    Assign $\exponential(1)$ independent edge weights to each of the edges
-   of $I$, and let $v$ and $w$ be two leaves of $I$ such that the path from $u$ to $w$ visits $2h+1$ degree 3 nodes.  Then, 
+   of $I$, let $v$ and $w$ be two leaves of $I$ such that the path
+   from $u$ to $w$ uses a node whose original height is $h$, and let $d(v,w)$
+   denote the weight of the path from $v$ to $w$.  Then,
    \[  
-        \Pr\{d(v,w) \le 2s(h)/c  \} \le \left(\frac{e}{c}\right)^{s(h)} \enspace .
+        \Pr\{d(v,w) \le 2s(h)/e^2  \} \le L^{-2a} \enspace .
    \]
 \end{lem}
 
 \begin{proof}
-   The path from $v$ to $w$ goes through a node that (before subdividing
-   edges of $I$) had height $h$. Therefore, $d(u,w)$ is lower bounded
-   by the sum of $2s(h)$ $\exponential(1)$ random variables.  The lemma
-   now follows from \eqref{head-bound}.
+   The path from $v$ to $w$ uses at least two edges that are incident to
+   nodes of original height $h$.  Therefore, $d(u,w)$ is lower bounded
+   by the sum of $2s(h)$ $\exponential(1)$. Therefore, by \eqref{head-bound},
+   \[
+      \Pr\{d(v,w) \le 2s(h)/e^2  \} 
+       \le \exp(-2s(h)) \le \exp(-2a\log L) = L^{-2a} \enspace . \qedhere
+   \]
 \end{proof}
 
 \subsection{Putting it Together}
@@ -288,7 +308,7 @@ size $\delta=\lfloor(\Delta-1)/2\rfloor$.  Next, we consider the leaves of $I$ i
   \figlabel{g}
 \end{figure}
 
-Note that the graph $G$ has maximum degree $\Delta=2\delta+1$.
+Note that the graph $G$ has maximum degree $\Delta\le 2\delta+1$.
 Furthermore, every vertex of $G$ is either in $I$, or adjacent to a
 vertex in $I$.  Therefore, the diameter of $G$ is at most two more than
 twice the height of $I$. Therefore $G$ has diameter
@@ -297,7 +317,7 @@ twice the height of $I$. Therefore $G$ has diameter
 \]
 for $L\in\Omega(\Delta\log\Delta\log\log\Delta)$.  That is, for any
 $\Delta$ and any $D\in\Omega(\log\Delta\log\log\Delta)$ we can construct
-a graph $G$ with diameter maximum degree $\Delta$ and diameter $D$.
+a graph $G$ with diameter $D$ and maximum degree $\Delta$.
 
 \begin{thm}
   If we run Process~B on the graph $G$ defined above starting at some
@@ -310,35 +330,48 @@ a graph $G$ with diameter maximum degree $\Delta$ and diameter $D$.
   edge weight and compute a shortest path tree rooted at $s$ in the
   resulting weighted graph.  Fix $1\le i< j\le L$ and consider the two
   vertices $v\in V_i\cap V(I)$ and $w\in V_j\cap V(I)$ that are common
-  to $H$ and $I$.
+  to $H$ and $I$.  Below, we will assume that $j-i>1$; the case $j-i=1$
+  is even simpler.
 
-  In $I$, there is a unique path $P_I$ from $v$ to $w$.  This path
-  contains at least $2s(h)$ edges, for $h=\lceil\log j-i+1 \rceil$.
-  By \lemref{slow-train}, 
+  In $I$, there is a unique path from $v$ to $w$ and it has weight $W_I$.
+  This path contains at least $2s(h)$ edges, for $h=\lceil\log (j-i+1)
+  \rceil$.  By \lemref{slow-train},
   \[
-     \Pr\{w(P_I) \le 2s(h)/c\} \le \left(\frac{e}{c}\right)^{s(h)} \enspace .
+     \Pr\{W_I \le 2s(h)/e^2\} \le L^{-2a}
   \]
-
-  On the other hand, \lemref{lightning} says that the minimum weight path
-  $P_H$ from $v$ to $w$ in $H$ satisfies
+  Let $W_H$ denote the weight of the minimum weight path in $H$ from
+  $v$ to $w$.  Then, by \lemref{lightning},
   \[
-     \Pr\{w(P_H) \ge t((j-i-1)/\delta)+r\} \le \exp(-(t-1)(j-i-1)/2) + \exp(-r)
+     \Pr\{W_H \ge t(j-i-1)/\delta+r\} \le \exp((1-t/2)(j-i-1)) + \exp(-r)
   \]
-  Taking $r=s(h)/(2c)$ and
+  We take $r=s(h)/e^2$ and
   \[
-      t = \frac{\delta s(h)}{2c(j-i-1)} \enspace, 
+      t = \frac{\delta s(h)}{e^2(j-i-1)} \enspace . 
   \]
-  we obtain
+  If $s(h) = a 2^h/\delta$ (because $2^h/\delta\ge\log L$), then we obtain:
   \begin{align*}
-     \Pr\{w(P_H) > w(P_I)\} & \le \exp(-(t-1)(j-i-1))/2 + \exp(-r) \\
-         & \le \exp\left(-\delta s(h)/(4c) + (j-i-1)/2\right)
-                               + \exp(-s(h)/(2c)) \\
-         & \le \exp\left(-a\cdot\max\{2^h,\delta\log L\}/(4c) + (j-i-1)/2\right)
-                               + \exp(-a\log L/(2c)) \\
-         & \le \exp\left(-a\cdot\max\{j-i+1,\delta\log L\}/(4c)) + (j-i-1)/2\right)
-                               + \exp(-a\log L/(2c)) \\
-         & \le \exp\left(-\Omega(a)\log L\right) + \exp(-\Omega(a)\log L) \\
-         & \le 2L^{-\Omega(a)} \enspace ,
+     \Pr\{W_H > W_I\} & \le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
+         & \le \exp((1-t/2)(j-i-1)) + \exp(-s(h)/e^2) \\
+         & \le \exp((1-t/2)(j-i-1)) + L^{-a/e^2} \\
+         & \le \exp\left(j-i-1 - \frac{a2^h}{2e^2}\right) + L^{-a/e^2} \\
+         & \le \exp\left(j-i+1 - \frac{a(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
+         & \le \exp\left(\frac{(2e^2-a)(j-i+1)}{2e^2}\right) + L^{-a/e^2} \\
+         & \le L^{-\Omega(a)} + L^{-a/e^2} \enspace ,
+  \end{align*}
+  where the last step follows because
+  \[
+     \delta \log L \le 2^h \le 8(j-i-1) \enspace , 
+  \]
+  so $j-i-1 \ge \delta\log L/8$.
+
+  If $s(h) = a\log L$ (because $2^h/\delta < \log L$), then 
+  \begin{align*}
+     \Pr\{W_H > W_I\} 
+         & \le \exp\left(j-i-1 - \frac{a\delta\log L}{2e^2}\right) + L^{-a/e^2} \\
+         & \le L^{-\Omega(a)} + L^{-a/e^2} \\
+XXXXXX
+\le \exp((1-t/2)(j-i-1)) + \exp(-r) \\
+
   \end{align*}
   for sufficiently large $a$.  The result follows by applying the union
   bound for all $\binom{L}{2}$ choices of $i$ and $j$.
