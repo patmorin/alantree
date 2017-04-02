@@ -4,7 +4,7 @@
 
 \DeclareMathOperator{\exponential}{exponential}
 \DeclareMathOperator{\binomial}{binomial}
-\DeclareMathOperator{\gammarv}{Gamma}
+\DeclareMathOperator{\erlang}{Erlang}
 
 \title{\MakeUppercase{Notes on Growing a Tree in a Graph}}
 \author{\ }
@@ -114,12 +114,30 @@ bounds.
 \section{Inequalities for Sums of Exponentials}
 \seclabel{inequalities}
 
+Recall that an $\exponential(\lambda)$ random variable, $X$, has
+distribution 
+\[
+   \Pr\{X>x\} = e^{-\lambda x} 
+\]
+and mean $\E[X] = \int_0^{\infty} \Pr\{X>x\} = 1/\lambda$.  
+We make extensive use of the fact that exponential random variables are
+\emph{memoryless}:
+\[
+    \Pr\{X > t+x\mid X>t\} = \frac{\Pr\{X> t+x\}}{\Pr\{X > t\}}
+           = \frac{e^{-\lambda(t+x)}}{e^{-\lambda t}} = e^{-\lambda x} = \Pr\{X > x\} \enspace .
+\]
+We will also often take the minimum of $k$ independent $\exponential(\lambda)$ random variables and use the fact that this is distributed like an
+$\exponential(\lambda k)$ random variable:
+\[
+   \Pr\{\min\{X_1,\ldots,X_k\} > x\} 
+      = (\Pr\{X_1 > x\})^{k}
+      = e^{-k\lambda x} \sim \exponential(\lambda k) \enspace .
+\]
 We will make use of two inequalities for sums of exponential random
 variables, both of which can be obtained using Chernoff's bounding
 method.  If $Z_1,\ldots,Z_k$ are independent $\exponential(\lambda)$
 random variables (so that they each have mean $\mu=1/\lambda$), then
 for all $d>1$,
-
 \begin{equation}
     \Pr\left\{\sum_{i=1}^k Z_i \le \mu k/d\right\} \le \exp(-k(\ln d -1 + 1/d)) \le \left(\frac{e}{d}\right)^k  \eqlabel{head-bound}
 \end{equation}
@@ -127,6 +145,39 @@ and for all $t>1$,
 \begin{equation}
     \Pr\left\{\sum_{i=1}^k Z_i \ge \mu k t\right\} \le \exp (k-kt/2) \enspace . \eqlabel{tail-bound}
 \end{equation}
+
+The distribution of the sum of $k$ independent $\exponential(\lambda)$
+random variables has a name, it is called the $\erlang(k,\lambda)$
+distribution, i.e.,
+\[
+    \erlang(k,\lambda) \sim \sum_{i=1}^k X_k \enspace ,
+\]
+where $X_1,\ldots,X_k$ are independent $\exponential(\lambda)$ random variables.
+If $Y_1,\ldots,Y_d$ are $\erlang(2,1)$ random variables, then
+\begin{equation}
+    \E[\min\{Y_1,\ldots,Y_d\}] = \left(\frac{2\pi}{d}\right)^{1/2}  \enspace . \eqlabel{erlang-two}
+\end{equation}
+(This is a special case of a more general result that will be discussed below.)
+If $Z_1,\ldots,Z_d$ are $\erlang(3,1)$ random variables, then
+\begin{equation}
+    \E[\min\{Z_1,\ldots,Z_d\}] = \left(\frac{C_d}{d}\right)^{1/3}  \eqlabel{erlang-three} \enspace ,
+\end{equation}
+where $C_d =  6^{1/3}\Gamma (1/3) / 3 + o_d(1)$.  The following is a brief justifcation of \eqref{erlang-three}: If $M$ is the minimum of $d$ independent $\erlang(3,1)$ random 
+variables, then $Md^{1/3}$ tends in distribution to a random variable 
+$Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
+\mathrm{d}z = 6^{1/3}\Gamma (1/3) / 3$. 
+
+Finally, in one special case we will have random variables
+$Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
+and $Z_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
+\eqref{erlang-two}:
+\begin{equation}
+   \E[\min\{Q_1,\ldots,Q_d\}] = \left(\frac{2\pi}{\delta d}\right)^{1/2}
+     \enspace .
+     \eqlabel{weird-one}
+\end{equation}
+Luc can justify this.
+
 
 
 \section{Upper Bounds}
@@ -160,7 +211,7 @@ the following meta-Theorem:
    random variables so, by \eqref{head-bound} and the union bound over
    all $a^L$ paths, the probability of the second event is at most
    \[
-       a^L \left(\frac{eK}{L} \right)^L = \left(\frac{1}{c}\right)^{ceaK}
+       a^L \left(\frac{eK}{L} \right)^L \le \left(\frac{1}{c}\right)^{ceaK}
        \enspace . \qedhere
    \]
 \end{proof}
@@ -186,7 +237,7 @@ We begin with a universal upper bound on first-passage percolation time.
   Let $e_i=v_{i-1}v_i$ be the $i$th edge on this path.
 
   In Process~FP, each edge $e_i$ is assigned an exponential weight $X_i$.
-  The path from $s$ to $v$ in $T$ does not have length greater than
+  The path from $s$ to $v$ in $T$ does not have weight greater than
   $W(P)=\sum_{i=1}^k X_i$.
   \begin{align*}
       \Pr\left\{W(P)\ge \left(\frac{4\ln n}{k}+2\right)k\right\} 
@@ -202,7 +253,7 @@ We begin with a universal upper bound on first-passage percolation time.
   by the discussion above and the union bond,
   \[
       \Pr\{W^*> ((4\ln n/D)+2)D\} 
-          \le \sum_{v\in V(G)}\Pr\{t(v) \ge ((4\ln n/D)+2)D\}     
+          \le \sum_{v\in V(G)}\Pr\{W(v) \ge ((4\ln n/D)+2)D\}     
        \le 1/n \enspace . \qedhere
   \]
 \end{proof}
@@ -245,10 +296,10 @@ tight for graphs of constant maximum degree:
 
 The \emph{$d$-cube} is the graph having vertex set $\{0,1\}^d$ in
 which two vertices are adjacent if and only if they differ in exactly
-one coordinate.  Every vertex in the $d$-cube has degree $d=\log_2 n$
-and the $d$-cube has diameter $D=d$.  The $d$-cube is an interesting
-example in which the path count is high, but this is counteracted by a
-low first-passage percolation time.
+one coordinate.  Every vertex in the $d$-cube has degree $d$ and the
+$d$-cube has diameter $D=d$.  The $d$-cube is an interesting example
+in which the path count is high, but this is counteracted by a low
+first-passage percolation time.
 
 \begin{thm}\thmlabel{alantree-upper-bound-hypercube}
   Let $n=2^d$, let $G$ be the $d$-cube and let $T$ be the tree obtained
@@ -257,33 +308,32 @@ low first-passage percolation time.
 \end{thm}
 
 \begin{proof}
-  Fill and Pemantle \cite{fill.pemantle:first} show that the weight of the 
-  heaviest root-to-leaf path in $T$ (the first-passage
-  percolation time) for the hypercube is at most 14.05 with probability
-  $1-o_n(1)$.  Every vertex of the hypercube has degree $d$, so the number of paths of length $L$ starting at $s$ is at most
-  $d^L$.  The result then follows by applying \lemref{meta-theorem}
-  with $p=o_n(1)$, $c=2$, $K=14.05$, and $a=d$.
+  Fill and Pemantle \cite{fill.pemantle:percolation} show that the weight of
+  the heaviest root-to-leaf path in $T$ (the first-passage percolation
+  time) for the hypercube is at most 14.05 with probability $1-o_n(1)$.
+  Every vertex of the hypercube has degree $d$, so the number of paths
+  of length $L$ starting at $s$ is less than $d^L$.  The result then follows
+  by applying \lemref{meta-theorem} with $p=o_n(1)$, $c=2$, $K=14.05$,
+  and $a=d$.
 \end{proof}
 
-A generalization of the $d$-cube is the $(d,k)$-grid with vertex set
-$\{0,\ldots,k\}^d$ and an edge between two vertices if and only if
-the (Euclidean or $\ell_1$) distance between them is 1. iThe $d$-cube
-is then just the $(d,1)$-cube, while the $(2,\sqrt{n})$-cube is the
-familiar $\sqrt{n}\times\sqrt{n}$ grid.  Note that the diameter of the
-$(d,k)$-cube is $dk$.  Next we prove an upper bound of $O(k)$ on the
-first-passage percolation time for the $(d,k)$-cube that allows us to
-obtain an optimal bound on $h(T)$.
+The \emph{$(d,k)$-grid} is the graph with vertex set $\{0,\ldots,k\}^d$
+and an edge between two vertices if and only if the (Euclidean or
+$\ell_1$) distance between them is 1.  The $(d,k)$-grid has $n=(k+1)^d$
+vertices, diameter $D=kd$, and maximum degree at most $\Delta=2d$. Note
+that the $d$-cube is a special case; it is the $(d,1)$-grid.
 
-\begin{thm}
-  Let $n=k^d$, let $G$ be the $(d,k)$-cube and let $T$ be the tree obtained
+\thmref{dk-grid-foxtrot}, in \appref{dk-grid-foxtrot}, shows that
+the first-passage percolation time in the $(d,k)$-grid is $O(k)$ with
+probability $1-o_n(1)$.  Applying \lemref{meta-theorem} with 
+the first-passage percolation bound in \thmref{dk-grid-foxtrot} yields
+the following:
+
+\begin{cor}
+  Let $n=(k+1)^d$, let $G$ be the $(d,k)$-cube and let $T$ be the tree obtained
   by running Process~FP starting at any vertex $s\in V(G)$.  Then,
-  with probability at least $1-o_n(1)$, the heaviest root-to-leaf path
-  in $T$ has weight $O(k)$.
-\end{thm}
-
-\begin{proof}
-   TODO: This is the fox-trot algorithm.
-\end{proof}
+  with probability at least $1-o_n(1)$, the height of $T$ is $O(dk)$.
+\end{cor}
 
 
 
@@ -308,7 +358,7 @@ walks of length $L$.
    is obtained by repeatedly removing a vertex of degree at most $d$).
 
    Let $W=v_{i_0},\ldots,v_{i_L}$ be any walk of length $L$ in $G$ and
-   let and let $k$ denote the number of indices $\ell$ such that $i_{\ell-1}
+   let $k$ denote the number of indices $\ell$ such that $i_{\ell-1}
    < i_{\ell}$.  
    If $k\ge L/2$ then we can specify $W$ in the following way:
    \begin{enumerate}
@@ -415,7 +465,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
 
 \begin{proof}
    The following proof makes use some basic notions related to graphs
-   on surfaces; see Mohar and Thomassen \cite{mohar.thomassen} for basic
+   on surfaces; see Mohar and Thomassen \cite{mohar.thomassen:graphs} for basic
    definitions and results.
    Since $G$ has Euler genus $g$, it has a 2-cell embedding in a surface
    of Euler genus $g$.  Euler's formula then states that 
@@ -437,7 +487,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
    has average degree less than 7, so $G$ contains a vertex of degree
    at most $6$.
   
-   When remove a vertex from $G$ we obtain a graph whose Euler genus is
+   When we remove a vertex from $G$ we obtain a graph whose Euler genus is
    not more than that of $G$.  Therefore, by repeatedly removing a degree
    6 vertex, we can order the vertices of $G$ as $v_1,\ldots,v_n$ so that,
    for each $i\in\{1,\ldots,n-6g\}$, $v_i$ has at most 6 neighbours among
@@ -465,7 +515,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
    \end{enumerate}
    Therefore, the total number of simple paths of length $L$ for which
    $k\ge L/2-3g$ is at most $n2^L6^{L/2-3g}\Delta^{L/2+3g}$.  Any simple
-   path uses most $6g$ core edges.  Therefore, for any simple path
+   path uses most $6g$ annoying edges.  Therefore, for any simple path
    $P$ of length $L$, either $P$ or its reverse has $k\ge L/2-3g$.
    Thus, the total number of simple paths of length $L$ is at most
    $2n2^L6^{L/2-3g}\Delta^{L/2+3g}$ as required.
@@ -760,12 +810,12 @@ of low degeneracy.
  
   In this graph, one can go from any vertex in $V_i$ to some vertex in 
   $V_{i+1}$ by taking a path
-  whose weight is the minimum of $\delta$ $\gammarv(2,1)$ random
+  whose weight is the minimum of $\delta$ $\erlang(2,1)$ random
   variables.  The expected length of this path is therefore at most
   $\ell=c(L-1)/\sqrt{\delta}$ for some constant $c$. Therefore, there is
   a path from any vertex in $V_1$ to some vertex in $V_L$ whose weight is
   the sum of independent random variables $X_1,\ldots,X_{L-1}$, where each
-  $X_i$ is distributed like the minimum of $\delta$ $\gammarv(2,1)$ random
+  $X_i$ is distributed like the minimum of $\delta$ $\erlang(2,1)$ random
   variables. Any standard trick for concentrating sums of independent
   random variables then shows that the probability that the weight of
   this path exceeds $2\ell$ is $o_L(1)$.
@@ -1075,12 +1125,12 @@ of low degeneracy.
 %L_{k}\setminus\{v\}$, and $z\in\{L_{k-1}\}$. The number of paths in
 %$P$ is $r=(d-k)k^2$; the paths in $P$ are edge-disjoint; and the weight
 %of each path in $P$ is the sum of three independent $\exponential(1)$
-%random variables, i.e., it is a $\gammarv(3,1)$ random variable.
+%random variables, i.e., it is a $\erlang(3,1)$ random variable.
 %
 %This means that the lightest path in $P$ has a weight, $Z_k$, that is
-%the minimum of $r$ independent $\gammarv(3,1)$ random variables.  We know
+%the minimum of $r$ independent $\erlang(3,1)$ random variables.  We know
 %that $\E[Z_k]=Cr^{-1/3}$, where $C = C_r = 6^{1/3}\Gamma(1/3)/3 + o_r(1)$.%
-%\footnote{If $M$ is the minimum of $r$ independent $\gammarv(3,1)$ random
+%\footnote{If $M$ is the minimum of $r$ independent $\erlang(3,1)$ random
 %variables, then $Mr^{1/3}$ tends in distribution to a random variable
 %$Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
 %\mathrm{d}z = C$.}
@@ -1179,12 +1229,12 @@ of low degeneracy.
 %   In the second case, this algorithm considers a whole set $P$
 %   of edge-disjoint paths.  The weight of each path in $P$ is
 %   the sum of three $\exponential(1)$ random variables, so it is a
-%   $\gammarv(3,1)$ random variable.  Since the paths are edge disjoint,
-%   these $\gammarv(3,1)$ variables are independent, so the weight of
-%   this path is the minimum of $|P|$ independent $\gammarv(3,1)$ random
+%   $\erlang(3,1)$ random variable.  Since the paths are edge disjoint,
+%   these $\erlang(3,1)$ variables are independent, so the weight of
+%   this path is the minimum of $|P|$ independent $\erlang(3,1)$ random
 %   variables and has expected value $C|P|^{-1/3}$, where $C = C_{|P|} =
 %   6^{1/3}\Gamma(1/3)/3 + o_{|P|}(1)$.%
-%   \footnote{If $M$ is the minimum of $r$ independent $\gammarv(3,1)$
+%   \footnote{If $M$ is the minimum of $r$ independent $\erlang(3,1)$
 %   random variables, then $Mr^{1/3}$ tends in distribution to a random
 %   variable $Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty
 %   \exp(-z^3/6)\, \mathrm{d}z = C$.}
@@ -1205,7 +1255,7 @@ of low degeneracy.
 %   rounds, numbered $0,\ldots,nd-1$.  During the $i$th round, the weight
 %   of edges crossed is either dominated by an $\exponential(\alpha d)$
 %   random variable, $X_i$, or by a random variable $Z_i$ that is the
-%   minimum of $(1-\alpha)d((nd-i)/n)^2$ independent $\gammarv(3,1)$
+%   minimum of $(1-\alpha)d((nd-i)/n)^2$ independent $\erlang(3,1)$
 %   random variables.  That is, the total weight of the resulting path
 %   is dominated by 
 %   \[
@@ -1235,8 +1285,228 @@ research took place at the Rio Workshop on Geometry and Graphs, at IMPA,
 February 12--18, 2017.  We are grateful to the workshop organizers and
 other participants for providing stimulating working environments.
 
+\bibliographystyle{plain}
+\bibliography{alantree}
+
+\appendix
+\section{First-Passage Percolation-Time Bounds}
+
+In this appendix, we prove (in some cases reprove) some results on
+first-passage percolation time.
+TODO:Talk about why
+
+These results are all for grid graphs.  The \emph{$(d,k)$-grid} with
+vertex set $\{0,\ldots,k\}^d$ and an edge between two vertices if
+and only if the (Euclidean or $\ell_1$) distance between them is 1.
+For two grid vertices $u=(u_1,\ldots,u_d)$ and $w=(w_1,\ldots,w_d)$
+we define the \emph{$\ell_1$ distance} between them as
+\[
+   \|uw\|_1 = \sum_{i=1}^d |u_i-w_i|
+\]
+and we define the \emph{Hamming distance} between them as
+\[
+   \|uw\|_H = \sum_{i=1}^d [u_i\neq w_i] \enspace ,
+\]
+where $[\cdot]$ denotes the \emph{indicator function} whose value is 0
+or 1 depending on whether its argument is false or true, respectively.
+
+\subsection{The Grid with Moderate Dimensions}
+
+First we use a greedy approach to show that, when the dimension $d$
+is small compared to $k$, a greedy strategy works to find short paths.
+
+\begin{thm}\thmlabel{dk-grid-moderate}
+   Let $n=k^d$, for some $d\in O(k/\log k)$, let $G$ be the $(d,k)$-grid
+   and let $T$ be the tree obtained by running Process~FP starting at
+   any vertex $s\in V(G)$.  Then, with probability at least $1-o_k(1)$,
+   the heaviest root-to-leaf path in $T$ has weight $O(k)$.
+\end{thm}
+
+\begin{proof}
+   Consider the following \emph{greedy algorithm} to find a light path
+   from $s$ to some vertex $v$:  Starting at $s$, repeatedly
+   move across the lightest edge that reduces the distance to $v$.
+
+   We analyze this greedy algorithm using the Process~E view. Without
+   loss of generality, assume that every coordinate of $v$ is greater
+   than or equal every coordinate of $s$.  When the algorithm is at some
+   vertex $v$, imagine that there are $d$ independent $\exponential(1)$
+   timers $X_1,\ldots,X_d$. When the first of these timers rings, say
+   timer $X_i$ we move to the vertex $(v_1,\ldots,v_{i}+1,\ldots,v_d)$
+   if that brings us closer to $v$, otherwise we remain at $v$ and reset
+   timer $X_i$.  
+   Allow the preceding process to run until $ckd$ timer rings have
+   occurred.  
+
+   This algorithm may fail in one of two ways:
+   \begin{enumerate}
+      \item The algorithm may take too long waiting for $ckd$ timer
+       rings.  The times between consecutive rings are independent
+       $\exponential(d)$ random variables and the weight of the path
+       the algorithm traverses is upper-bounded the sum of these random
+       variables, which has expectation $ck$ and, by \eqref{tail-bound},
+       the probability that it exceeds $2ck$ is at most $\exp(-ckd)$.
+
+      \item The algorithm may fail to reach $v$ at the end of $ckd$ timer
+      rings.  This can only happen if, there is some $i\in\{1,\ldots,d\}$,
+      such that the timer for coordinate $i$ rang fewer than $k$ times.
+      The number of times the timer for coordinate $i$ rings is a
+      $\binomial(n,1/d)$ random variable that has expectation $ck$.
+      The probability that this number of rings is less than $k$ is
+      most $\exp(-(1-1/c)^2ck)$.  Therefore, the probability that the 
+      algorithm fails in this way is at most $d\exp(-(1-1/c)^2ck)$
+   \end{enumerate} 
+
+   Applying the union bound over each of the $(k+1)^{d}$ choices of $v$
+   then proves what we want, provided that
+   \[
+         \exp(-\Omega(c)k) k^d \to 0 \enspace ,
+   \]
+   which is true, for some sufficiently large $c$, provided that $d\in O(k/\log k)$.
+\end{proof}
+
+\subsection{Hypercube Percolation}
+
+The greedy algorithm described in the previous section fails when the
+dimension $d$ is much larger than the side-length $k$.  An extreme
+example of this is the hypercube, i.e., the $(d,1)$-grid.  In this case,
+it is easy to verify that the greedy algorithm produces a path from $s$
+to $v$ whose expected length is
+\[
+    \sum_{i=1}^{\|sv\|_H} 1/i = \ln \|sv\|_H + O(1) \enspace . 
+\]
+Here we show that a modification of the greedy algorithm does work.
+This result is not new, though the proof is.
+
+\begin{thm}\thmlabel{hypercube-percolation}
+  Let $n=k^d$, let $G$ be the $(d,1)$-grid and let $T$ be the tree obtained
+  by running Process~FP starting at any vertex $s\in V(G)$.  Then,
+  with probability at least $1-o_n(1)$, the heaviest root-to-leaf path
+  in $T$ has weight $O(1)$.
+\end{thm}
+
+\begin{proof}
+  We begin by describing an algorithm for finding a light path from
+  $s=(0,\ldots,0)$ to $t=(1,\ldots,1)$.  
+
+  If the algorithm has already found a path from $s$
+  to $v$, then it does one of two things depending on the distance
+  $\ell=\|vt\|_H$.
+  \begin{enumerate}
+     \item If $\ell \ge d/2$, then the algorithm selects the lightest
+     edge incident to $v$ that brings it closer to $t$. The weight of
+     this edge is an $\exponential(\ell)$ random variable, $X_\ell$,
+     whose expected value is $1/\ell\le 2/d$.
+
+   \item Otherwise, let $L_i = \{ v\in V(G) : \|vt\|_1=i\}$ denote the
+    set of vertices of $G$ whose distance to $t$ is $i$.  The algorithm
+    considers the $r=(d-\ell)\ell^2$ paths $vxyz$ that go from $v$ to a
+    vertex in $x\in L_{\ell+1}$, $y\in L_{\ell}\setminus v$, and then to
+    $z\in L_{\ell-1}$.  Each such path has a weight, $Y_i$, that is the
+    sum of three $\exponential(1)$ random variables and is therefore a
+    $\erlang(3,1)$ random variable.  No two such paths share an edge,
+    so these gamma random variables are independent and their minimum
+    has expected value $C/r^{-1/3}$.\footnote{Put Luc's thing here.}
+  \end{enumerate}
+  Notice that after each step of the algorithm, the distance to $t$ is
+  reduced by 1, so the algorithm performs exactly $d$ steps.  The weight
+  of the resulting path, $P$, is
+  \begin{equation}
+     W(P)  = \sum_{\ell=1}^{\lfloor d/2\rfloor} Y_\ell +
+              \sum_{\ell=\lfloor d/2\rfloor+1}^d X_\ell
+     \eqlabel{foxtrot-weight}
+  \end{equation}
+  
+  Therefore, the expected weight of $P$ is 
+  \begin{align*}
+      \E[W(P)] & = \sum_{\ell=1}^{\lfloor d/2\rfloor} \E[Y_\ell] +
+              \sum_{\ell=\lfloor d/2\rfloor+1}^d \E[X_\ell] \\
+    & = \sum_{\ell=1}^{\lfloor d/2\rfloor} C(d-\ell)^{-1/3}\ell^{-2/3} +
+     \sum_{\ell=\lfloor d/2\rfloor+1}^d 1/\ell \\
+     & \le
+     C(d/2)^{-1/3}\sum_{\ell=1}^{\lfloor d/2\rfloor} \ell^{-2/3} + 1 \\
+     & = O(1) \enspace .
+  \end{align*}
+
+  We have shown how to find a path, $P$, from $s=(0,\ldots,0)$ to
+  $t=(1,\ldots,1)$ so that has $\E[W(P)]=O(1)$.  Going from there,
+  namely \eqref{foxtrot-weight}, to an upper bound that holds, with high
+  probability for all choices of $s$ and $t$ is fairly straightforward.
+  The random variables $X_{\lfloor d/2\rfloor+1},\ldots,X_d$ are
+  independent, but $Y_1,\ldots,Y_{\lfloor d/2\rfloor}$ are not. However,
+  the set $\{Y_\ell : \mbox{$\ell$ is even} \}$ is independent and so is
+  the set $\{Y_\ell : \mbox{$\ell$ is odd} \}$.  Therefore, we can split
+  \eqref{foxtrot-weight} into three sums, each of independent random
+  variables, and apply concentration inequalities to each of them to
+  obtain the desired result.  We leave the details to a sufficiently
+  interested reader.
+\end{proof}
+
+\subsection{A General Theorem}
+\applabel{dk-grid-foxtrot}
+
+Next, we show that the ideas used in \thmref{hypercube-percolation}
+can be used to provide a general result that holds for all grids of
+any dimension and any side-length.  This includes the hypercube and
+2-dimensional grid as special cases.
+
+\begin{thm}\thmlabel{dk-grid-foxtrot}
+   Let $n=k^d$, let $G$ be the $(d,k)$-grid
+   and let $T$ be the tree obtained by running Process~FP starting at
+   any vertex $s\in V(G)$.  Then, with probability at least $1-o_n(1)$,
+   the heaviest root-to-leaf path in $T$ has weight $O(k)$.
+\end{thm}
+
+\begin{proof}
+Let $s=(0,\ldots,0)$ and $t=(k,\ldots,k)$. We will describe an algorithm
+for finding a path from $s$ to $t$ and analyze its expected running time.
+If the algorithm has already constructed a path from $s$ to some vertex $v$,
+then it does one of the following, based on $\|vt\|_H$:
+\begin{enumerate}
+
+  \item If $\|vt\|_H \ge d/2$, then the algorithm chooses the lightest 
+    edge that brings it to a vertex closer to $t$.  The weight of this
+    edge is an $\exponential(\|vt\|_H)$ random variable and therefore has
+    expected weight at most $1/\|vt\|_H \le 2/d$.
+
+  \item Otherwise, let $L_i = \{v\in V(G): \|vt\|_1=i\}$ and let
+    $\ell=\|vt\|_1$ (note the use of $\ell_1$ distance, and not Hamming
+    distance here).  The algorithm chooses the lightest path $vxyz$ among
+    all paths with $x\in L_{\ell+1}$,  $y\in L_{\ell}\setminus\{v\}$,
+    and $z\in L_{\ell-1}$.
+
+    The number of choices of paths is exactly
+    \begin{align*}
+        r(v) & = (d-\|vt\|_H)\|vt\|_H^2 
+               + (\|vs\|_H-d+\|vt\|_H)(\|vt\|_H-1)^2 \\
+             & \ge \|vs\|_H(\|vt\|_H-1)^2
+    \end{align*}
+    The weight of each of these paths is a
+    $\erlang(3,1)$ random variable, so the expected weight of the path
+    chosen in this step is at most $Cr(v)^{-1/3}$
+    %\|vs\|_H^{-1/3}\|vt\|_H^{-2/3}$.
+\end{enumerate}
+Let $P$ be the path that results from this algorithm.  Let $S$ be the
+set of path vertices at which the algorithm used the first option above
+and let $T$ be the set of path vertices at which the algorithm used the
+second option above.  Then
+\begin{align*}
+    \E[W(P)] & \le |S|/d + C\sum_{v\in T}r(v)^{-1/3} \\
+             & = |S|/d + C\sum_{i=1}^{dk}\sum_{v\in T\cap L_i}r(v)^{-1/3} \\
+             & = |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}r(v)^{-1/3} \\
+             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}\|vs\|_H^{-1/3}(\|vt\|_H-1)^{-2/3} \\
+             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}(\|vs\|_1/k)^{-1/3}(\|vt\|_1/k-1)^{-2/3} \\
+             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}(\|vs\|_1/k)^{-1/3}(\|vt\|_1/k-1)^{-2/3} \\
+\end{align*}
 
 
+Before we can analyze
+$W(P)$, we need a few preliminary observations relating Hamming distance and $\ell_1$ distance.  First, we note that
+\begin{equation}
+   d-\|vs\|_H \ge \|vs\|_1/k \enspace .
+\end{equation}
+Next we note that, when using the second option for a vertex $v$, it is because $\|vt\|_H < d/2$, which implies that $\|vs\|_1 \ge dk/2$.
+\end{proof}
 
 
 
