@@ -185,9 +185,9 @@ and $Z_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need
 \begin{equation}
    \E[\min\{Q_1,\ldots,Q_d\}] = \left(\frac{2\pi+o(1)}{\delta d}\right)^{1/2}
      \enspace .
-     \eqlabel{weird-one}
+     \eqlabel{non-uniform-erlang}
 \end{equation}
-Luc can justify this.
+Luc has promised to write this up.
 
 
 
@@ -195,7 +195,7 @@ Luc can justify this.
 \seclabel{upper-bounds}
 
 In this section, we prove our upper bounds. All of them are based on
-the following meta-Theorem:
+the following meta-theorem:
 
 \begin{lem}\lemlabel{meta-theorem}
    Let $G$ be an $n$-vertex graph, $s\in V(G)$, $a\ge 1$, $0\le p<1$, $c>0$, 
@@ -785,7 +785,7 @@ so we will call this graph $G(a,L,\Delta)$.
 \subsection{Lower Bounds for Degenerate Graphs}
 
 Next we show that the construction given above can be adapted to graphs
-of low degeneracy.
+of low degeneracy.  We start with planar graphs:
 
 \begin{thm}\thmlabel{alantree-lower-bound-planar}
   For every $\Delta\ge 3$ and every $L\in\Omega(\sqrt{\Delta}\ln\Delta)$,
@@ -812,17 +812,16 @@ of low degeneracy.
     \figlabel{planar-h}
   \end{figure}
  
-  In this graph, one can go from any vertex in $V_i$ to some vertex in 
-  $V_{i+1}$ by taking a path
-  whose weight is the minimum of $\delta$ $\erlang(2,1)$ random
-  variables.  The expected length of this path is therefore at most
-  $\ell=c(L-1)/\sqrt{\delta}$ for some constant $c$. Therefore, there is
-  a path from any vertex in $V_1$ to some vertex in $V_L$ whose weight is
-  the sum of independent random variables $X_1,\ldots,X_{L-1}$, where each
-  $X_i$ is distributed like the minimum of $\delta$ $\erlang(2,1)$ random
-  variables. Any standard trick for concentrating sums of independent
-  random variables then shows that the probability that the weight of
-  this path exceeds $2\ell$ is $o_L(1)$.
+  In this graph, one can go from any vertex in $V_i$ to some vertex in
+  $V_{i+1}$ by taking a path whose weight is the minimum of $\delta$
+  $\erlang(2,1)$ random variables.   Therefore, we one can find a path
+  from any vertex in $V_1$ to some vertex in $V_L$ whose weight is the
+  sum of independent random variables $X_1,\ldots,X_{L-1}$, where each
+  $X_i$ is distributed like the minimum of $\delta$ $\erlang(2,1)$
+  random variables.  By \eqref{erlang-two}, the expected weight of
+  this path is $\ell \in O(L/\sqrt{\delta})$.  Any standard trick for
+  concentrating sums of independent random variables then shows that the
+  probability that the weight of this path exceeds $2\ell$ is $o_L(1)$.
 
   As in the proof of \thmref{alantree-lower-bound}, this implies
   that the only way in which a path of length at least $2L-1$ does not
@@ -832,6 +831,8 @@ of low degeneracy.
   the probability this is occurs is $o_L(1)$.
 \end{proof}
 
+Next we describe a single lower-bound construction that is $d$-degenerate,
+has thickness $d$ and treewidth $O(d)$.
 
 \begin{thm}\thmlabel{alantree-lower-bound-degenerate}
   For every $\Delta\ge 3$, $d\le \Delta$ and every
@@ -873,7 +874,7 @@ of low degeneracy.
   $V_{i'}$ to one of $d$ color classes, so that each $v\in V_i'$ is
   assigned a distinct colour.   Now partition the edges incident to
   these vertices amond $d$ subgraphs depending on the color of the
-  vertex they are assigned to.  Edges not incident to these vertices
+  vertex they are incident to.  Edges not incident to these vertices
   can be assigned to any subgraph.  With this partition of edges, each
   subgraph becomes a subgraph of the planar graph used in the proof of
   \thmref{alantree-lower-bound-planar}.
@@ -923,363 +924,37 @@ of low degeneracy.
   subgraph is a single vertex.  For a vertex $v\in V_{i'}$ this subgraph
   is a path joining two vertices of $T'$.
 
-  Therefore, $T'$ is a tree-decomposition of $G$ with whose largest bag
+  Therefore, $T'$ is a tree-decomposition of $G$ whose largest bag
   has size $3d+2$.  Therefore $G$ has treewidth at most $3d+1$.
 
-  As before, all that remains is to show that with probability
-  $1-o_L(1)$, there is a path from $s\in V_1$ to some vertex $v\in
-  V_{L}$ whose weight is at most $cL/\sqrt{d\delta}$.  Again, we
-  find this path with a greedy algorithm.  To move from some vertex
-  $v\in V_i'$ to $V_{i+1}'$, we consider $\delta d$ paths from $v$ to a
-  vertex in $V_{i+1}$ to a vertex in $V_{i+1}'$ and take the lightest one.
+  As before, all that remains is to show that with probability $1-o_L(1)$,
+  there is a path from $s\in V_1$ to some vertex $v\in V_{L}$ whose
+  weight is at most $cL/\sqrt{d\delta}$.  Again, we find this path with a
+  greedy algorithm.  To move from some vertex $v\in V_i'$ to $V_{i+1}'$,
+  we consider the $\delta$ paths from $vxy$ where $x\in V_{i+1}$ and
+  $xy$ is the lightest edge joining $x$ to some vertex $y\in V_{i+1}'$.
   The weight of the second edge of each such path is the minimum of
   $d$ independent $\exponential(1)$ random variables, so it is an
-  $\exponential(d)$ random variable.  The first edge of each such
-  path is an $\exponential(1)$ random variable.  Thus, the weight of the
-  path we choose is distributed like $\min\{Z_i:i\in\{1,\ldots,\delta\}\}$,
-  where each $Z_i=X_i+Y_i$ with $X_i\sim
-  \exponential(1)$ and $Y_i\sim\exponential(\delta)$ and all variables
-  independent.
+  $\exponential(d)$ random variable.  The first edge of each such path
+  is an $\exponential(1)$ random variable.  Thus, the weight of the path
+  we choose is distributed like $\min\{Z_i:i\in\{1,\ldots,\delta\}\}$,
+  where each $Z_i=X_i+Y_i$ with $X_i\sim \exponential(1)$ and
+  $Y_i\sim\exponential(\delta)$ and all variables independent.
 
-  A fairly simple calculation, done somewhere else (?) shows that
-  \[
-      \E[\min\{Z_i:i\in\{1,\ldots,\delta\}\}] \le c/\sqrt{d\delta} \enspace .
+  An upper bound on the expectation of this random variable is given
+  in \eqref{non-uniform-erlang}:
+  \[ 
+      \E[\min\{Z_i:i\in\{1,\ldots,\delta\}\}] = O(1/\sqrt{d\delta}) \enspace .
   \]
-  Therefore, the expected weight of the path found by the greedy algorithm
-  is at most $cL/\sqrt{d\delta}$.  The weight of this path is the sum
-  of $L$ independent (and reasonable) random variables so the probability
-  that it exceeds $c'L/\sqrt{d\delta}$ for some sufficiently large constant
+  Therefore, the expected weight of the path found by the greedy
+  algorithm is at most $\ell \in O(L/\sqrt{d\delta})$.  The weight of
+  this path is the sum of $L-1$ independent random variables so, again,
+  any number of techniques can be used to show that the probability that
+  it exceeds $c'L/\sqrt{d\delta}$ for some sufficiently large constant
   $c'$ is $o_L(1)$.
 \end{proof}
 
  
-
-%\section{Some Fluff}
-%
-%This is just a place to try out a few arguments.  First, let's look at high dimensional grids:
-%
-%\subsection{Grids in Higher Dimensions}
-%\label{sec:grids_old}
-%
-%The $d$-dimensional $(n+1)\times\cdots (n+1)$ grid is the is the graph
-%whose vertex set is $\{0,\ldots,n\}^d$ and in which two vertices are
-%adjacent if their Euclidean distance is exactly 1.
-%
-%The grid has diameter $D=dn$ and maximum degree $\Delta=2d$.  For
-%$d=O(1)$, \thmref{alantree-upper-bound} gives an asymptotically tight bound of
-%$O(n)$ on the height of the spanning tree, but for non-constant $d$,
-%gives an upper bound of $O(d^2n) = O(dD)$, which is not obviously tight.
-%Here, we argue that, at least for a very large range of $d$, the height
-%of the spanning tree is only $O(dn)=O(D)$.
-%
-%\begin{lem}\lemlabel{grid}
-%  If $G$ is a $d$-dimensional $(n+1)\times\cdots\times(n+1)$  grid with
-%  $d\in o(n/\log n)$ then, with probability at least $1-O(n^{-ad})$, the
-%  lightest path from $(n,\ldots,n)$ to $(0,\ldots,0)$ has weight $O(n)$.
-%\end{lem}
-%
-%\begin{proof}
-%Consider the \emph{greedy path} that repeatedly chooses the minimum weight edge
-%that reduces a vertex coordinate.  This greedy path will reach $(0,\ldots,0)$ after exactly $dn$ steps.  Let  
-%\[
-%    r=dn-\sqrt{ad^3n\ln n}
-%\]
-%Let $\mathcal{E}_r$ denote the event that any coordinate becomes $0$
-%during the first $r$ steps.
-%We claim that
-%\[
-%    \Pr\{\mathcal{E}_r\} \le \exp(-\Omega(ad\log n)) \enspace .
-%\]
-%Indeed, until some coordinate reaches zero, each of the $d$ coordinates
-%is equally likely to be reduced.  Therefore, after $r$ steps, the
-%number of times the $i$th coordinate has been reduced is dominated by
-%a $\binomial(r, 1/d)$ random variable, $B_i$, that has mean 
-%\[
-%    \mu=r/d = n - \sqrt{adn\ln n} \enspace .
-%\]
-%Therefore, 
-%\begin{align*}
-%    \Pr\{B_i \ge n\} 
-%       & = \Pr\{B_i \ge (n/\mu)\mu\} \\
-%       & = \Pr\left\{B_i \ge 
-%           \left(1+\Theta\left(\sqrt{\frac{ad\log n}{n}}\right)\mu\right)\right\} \\
-%       & \le \exp(-\Theta(ad\log n)) \\
-%       & = n^{-\Theta(ad)} 
-%\end{align*}
-%where the last inequality is an application of the simplified Chernoff bound
-%$\Pr\{X>(1+\epsilon)\mu\} \le \exp(-\epsilon^2\mu/3)$. 
-%
-%Let $\mathcal{E}$ be the event: $\max\{B_i:i\in\{1,\ldots,d\}\} \ge n$.  Then the union bound gives:
-%\[
-%    \Pr\{\mathcal{E}_r\}
-%    = \Pr\{\max\{B_i:i\in\{1,\ldots,d\}\} \ge n\} 
-%    \le d n^{-\Theta(ad)} = n^{-\Theta(ad)} \enspace .
-%\]
-%Let $X_i$ be the weight of the $i$th edge in the resulting path.
-%Then, conditional on $\overline{\mathcal{E}}_r$, $X_1,\ldots,X_r$ are
-%independent $\exponential(d)$ random variables. By \eqref{tail-bound},
-%\[
-%   \Pr\left\{\sum_{i=1}^r X_i > tn\,\Bigg{|}\, \overline{\mathcal{E}}_r\right\}  
-%        \le \exp((1-t/2)n) \enspace .
-%\]
-%On the other hand, for $i>r$, $X_i$ is dominated by an $\exponential(1)$
-%random variable, so
-%\[
-%   \Pr\left\{\sum_{i=r+1}^{dn} X_i > n \right\}  
-%      \le \exp\left(-\Theta(n)\right) \enspace .
-%\]
-%Therefore the probability that the greedy path (and hence the lightest path) has weight more than $2tn$ is at most 
-%\[
-%    \Pr\{\mathcal{E}_r\} + \exp((1-t/2)n) + \exp(-\Theta(n)) = n^{-\Omega(ad)} \enspace ,
-%\]
-%for $d\in o(n/\log n)$ and $t\ge 3$. 
-%\end{proof}
-%
-%For the general case, in which we want to bound the lightest path from
-%$(0,\ldots,0)$ to $(x_1,\ldots,x_d)$, we can appeal to the view in which
-%each edge has an exponential timer that keeps resetting itself when it
-%rings and we pretend we're in an infinite grid, but we ignore any ring
-%that would take us outside of $[0,x_1]\times\cdots\times[0,x_d]$. We run
-%this process until we hear $nd-r$ rings, at which point have crossed
-%edges for every coordinate at least $nd-o(n/d)$ times, so we're within
-%distance distance $o(n)$ from the destination vertex.  
-%
-%\subsection{Slightly simplified argument for grids in higher dimensions}
-%\newcommand{\prob}[1]
-%{\Pr\left\{ #1\right\}}
-%
-%In this section we provide a slightly simpler proof for grids in higher dimensions (so we re-prove everything in Section~\ref{sec:grids_old}).
-%
-%We consider the $d$-dimensional grid with vertex set
-%$\{0,1,\dots,n-1\}^d$, which has $n^d$ vertices.
-%Define $\lambda = 2 + 3 d \ln n / n$.
-%The main lemma is:
-%\begin{lem}\label{lem:gridcovertime}
-%With probability at least $1-1/n$,
-%Process FP is completed by time $\lambda n$.
-%\end{lem}
-%
-%An immediate corollary is that the height of our randomly grown spanning tree is bounded by maximum degree times $\lambda n$, which is $O(dn + d^2 \ln n)$.
-%Since $dn$ is an obvious lower bound, this is tight whenever $d = O( n/\ln n)$.
-%
-%\begin{proof}[Proof of Lemma~\ref{lem:gridcovertime}]
-%Suppose we orient each edge decreasingly:
-%if $uv$ is an edge, and $v$ is closer to origin than $u$,
-%then we orient the edge from $u$ to $v$.
-%For any given vertex $v$, we prove that with probability at least $1-n^{-d-1}$, there is a directed path of weight $\lambda n$ to the origin. Union bound over all vertices completes the proof.
-%
-%We consider the greedy algorithm for building this path: start from $v$; in each step, among all out-going edges, choose an edge with minimum weight and move along that.
-%Note that, if the current vertex has $k$ positive coordinates, then the out-degree is $k$, and the expected weight of next edge is $1/k$,
-%and this edge is equally likely to be any of the $k$ outgoing edges.
-%
-%We now take an alternative viewpoint:
-%suppose there are $d$ independent exponential clocks with rate 1, one for each coordinate.
-%We build the greedy path as follows:
-%we start from $v$;
-%whenever the $i$-th clock rings, if the $i$-th coordinate is positive, decrease this coordinate by 1, and reset the clock.
-%Note that the time it takes to reach the origin, is precisely the weight of the greedy path.
-%This is easy to see, e.g.\ by induction:
-%suppose we are at a vertex with $k$ positive coordinates.
-%Then, we may just focus on the corresponding $k$ clocks.
-%The expected time to hear a ring is $1/k$, and this ring is equally likely to come from any of the $k$ clocks.
-%Whenever we make a step, by memoryless property of exponential distribution, we can think that all clocks are reset.
-%
-%In this clock-based viewpoint, as soon as all clocks have rung at least $n$ times, we have arrived at the origin.
-%Consider the first clock.
-%The time it takes for this clock to ring $n$ times is
-%$X_1+\dots+X_n$,
-%where $X_i$ are i.i.d.\ exponentials with rate 1.
-%So, applying union bound over all clocks, it suffices to have
-%$$d \prob{X_1+\dots+X_n > \lambda n} < n^{-d-1}.$$
-%This holds for our choice of $\lambda=2+3d \ln n/n$ (e.g.\ it follows from \eqref{tail-bound}).
-%\end{proof}
-%
-%\subsection{The Hypercube}
-%
-%Recall that the $d$-dimensional hypercube is the graph on vertex set
-%$\{0,1\}^d$ and in which two vertices are adjacent if their Hamming
-%distance is 1.
-%
-%Fill and Pemantle show that on the hypercube, first-passage percolation is complete in $O(1)$ time.  Here we do the same with a somewhat different argument.
-%
-%\begin{lem}\lemlabel{hypercube}
-%Let $G$ be the $d$-dimensional hypercube with indepedenent $\exponential(1)$ edge weights.  Then the lightest path from $s=(0,\ldots,0)$ to $t=(1,\ldots,1)$ has expected weight $O(1)$.
-%\end{lem}
-%
-%\begin{proof}
-%Fix some constant $0<\alpha<1$ that will be discussed later.
-%We construct a path from $s$ to $t$ as follows:  The first
-%$q=\alpha d$ steps of this path make a greedy choice, taking the
-%lightest edge that reduces the distance to $t$.  During the $i$th step,
-%$i\in\{0,\ldots,q-1\}$, the weight of the edge crossed is the minimum of
-%$d-i$ $\exponential(1)$ random variables, so it is an $\exponential(d-i)$
-%random variable $X_i$. The expected cost of this part of the path is
-%\[
-%   \E\left[\sum_{i=0}^{q-1} X_i\right] = 
-%   \sum_{i=0}^{q-1} E[X_i] = 
-%   \sum_{i=0}^{q-1} 1/(d-i) = H_d-H_q \le \int_q^d x^{-1}\,\mathrm{d}x = \ln(1/\alpha)  \enspace .
-%\]
-%
-%The second part of the path is constructed in a sequence of rounds,
-%each consisting of three steps---one step back and two steps forward.
-%For each $\ell\in\{0,\ldots,d\}$, let $L_\ell$ be the set of vertices
-%having distance $\ell$ from $t$ (so $|L_\ell|={d\choose \ell}$).  Suppose
-%that, at the start of a round, the algorithm is at vertex $v\in L_k$.
-%Consider the set, $P$, of all paths $v,x,y,z$ with $x\in L_{k+1}$, $y\in
-%L_{k}\setminus\{v\}$, and $z\in\{L_{k-1}\}$. The number of paths in
-%$P$ is $r=(d-k)k^2$; the paths in $P$ are edge-disjoint; and the weight
-%of each path in $P$ is the sum of three independent $\exponential(1)$
-%random variables, i.e., it is a $\erlang(3,1)$ random variable.
-%
-%This means that the lightest path in $P$ has a weight, $Z_k$, that is
-%the minimum of $r$ independent $\erlang(3,1)$ random variables.  We know
-%that $\E[Z_k]=Cr^{-1/3}$, where $C = C_r = 6^{1/3}\Gamma(1/3)/3 + o_r(1)$.%
-%\footnote{If $M$ is the minimum of $r$ independent $\erlang(3,1)$ random
-%variables, then $Mr^{1/3}$ tends in distribution to a random variable
-%$Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
-%\mathrm{d}z = C$.}
-%Therefore,
-%\[
-%    \E[Z_k] = Cr^{-1/3} = C((d-k)k^2)^{-1/3} \le C(\alpha dk^2)^{-1/3} \enspace .
-%\]
-%The expected weight of the second part of the path is therefore
-%\begin{align*}
-% \E\left[\sum_{k=1}^{d-q} Z_k\right] 
-%    & = \sum_{k=1}^{d-q} \E[Z_k] \\
-%    & \le C(\alpha d)^{-1/3}\sum_{k=1}^{(1-\alpha)d} k^{-2/3} \\
-%    & \le C(\alpha d)^{-1/3}\left(1+\int_1^{(1-\alpha)d} x^{-2/3}\,\mathrm{d}x\right) \\
-%    & \le 3C(\alpha d)^{-1/3}((1-\alpha)d)^{1/3} \\
-%    & = 3C(\alpha /(1-\alpha))^{1/3} \enspace .
-%\end{align*}
-%Thus, the total expected length of the resulting path is
-%\[
-%    \ln(1/\alpha) + 3C(\alpha /(1-\alpha))^{1/3} \enspace . \qedhere
-%\]
-%\end{proof}
-%
-%Minimizing the final expression in the proof of \lemref{hypercube}
-%gives an upper bound of approximately $4.8$ on the expected weight of
-%the resulting path.  This is better than Fill and Pemantle's $2(\ln
-%4+2\sqrt{3})+3\approx 7.02$, but does not come close to Martinsson's
-%tight bound of $\ln(1+\sqrt{2})\approx 0.881$.
-%
-%To prove an upper bound on the weight of the heaviest root to leaf path,
-%we first need a concentration result on the weight, $W$, of the path from
-%$(0,\ldots,0)$ to $(1,\ldots,1)$ of the form $\Pr\{W > C\} = o(2^{-d})$.
-%We can do this by showing that the quantities $\sum_{i=1}^q X_i$ and
-%$\sum_{k=1}^{d-q} Z_k$ are concentrated around their expected values.
-%The first sum is easy---all the terms are independent, so we can apply
-%our favourite concentration inequality.  The second sum requires a
-%little more care, since the $Z_k$'s are not independent. However, $Z_i$
-%is independent of $Z_j$ if $|j-i| > 1$. Thus, we can apply concentration
-%inequalities separately to $\sum_{i=1}^{\lfloor q/2\rfloor} Z_{2i}$
-%and $\sum_{i=1}^{\lceil q/2\rceil} Z_{2i-1}$.
-%
-%To see what the $(0,\ldots,0)$ to $(1,\ldots,1)$ case is
-%sufficient, consider the following algorithm for finding a path from
-%$s=(0,\ldots,0)$ to $v=(b_1,\ldots,b_d)$.  The algorithm starts with a
-%set $L=\{1,\ldots,d\}$ and performs $\alpha d$ greedy steps.  When the
-%algorithm is at a vertex $u=(u_1,\ldots,u_d)$, it chooses the lightest
-%edge that leaves $u$ across a coordinate $i\in L$.  If this edge
-%
-%XXXXX finish here
-%
-%\subsection{The Whole Enchilada}
-%
-%Next we present a theorem that covers the case of the $d$-dimensional
-%grid with $n^d$ vertices for any $n$ and any $d$.  As a special case,
-%we obtain the hypercube when $n=2$ and $d\to\infty$.   The argument is a generalization of the argument for the hypercube sketched above.
-%
-%\begin{lem}
-%   Let $G$ be the $d$-dimensional grid on vertex set $\{0,\ldots,n\}^d$
-%   with independent $\exponential(1)$ edge weights. Then, with
-%   probability $1-o(n^{-d})$, $G$ contains a path from $s=(0,\ldots,0)$
-%   to $t=(n-1,\ldots,n-1)$ of weight $O(n)$.
-%\end{lem}
-%
-%\begin{proof}
-%   For two vertices
-%   $v$ and $w$, let $\|vw\|_H$ denote the Hamming distance between $v$ and $w$,
-%   i.e., the number of coordinates at which $v$ and $w$ differ.
-%   Let $\|vw\|_1$ denote the $L_1$ distance between $v$ and $w$, i.e., $\|vw\|_1=\sum_{i=1}^d |v_i-w_i|$.  Observe
-%   that 
-%   \begin{equation}
-%      \|vw\|_H \ge \|vw\|_1/n \enspace . \eqlabel{hamming-l1}
-%   \end{equation}
-%
-%   We construct the path starting at $s$.  When the path has reached a
-%   vertex $v$, it is extended in one of two ways:
-%   \begin{enumerate}
-%      \item If $\|vt\|_H > \alpha d$, then the path proceeds along the
-%      lightest edge incident to $v$ that leads to a vertex that is closer
-%      to $t$.  
-%
-%      \item Otherwise, the path will cross three edges, one that moves
-%      further from $t$ and two that move closer to $t$.  For each
-%      $\ell\in\{0,\ldots,nd\}$, let $L_\ell$ be the set of vertices
-%      having distance $\ell$ from $t$.
-%      Consider the set, $P$, of all paths $v,x,y,z$ with
-%      $x\in L_{k+1}$, $y\in L_{k}\setminus\{v\}$, and $z\in\{L_{k-1}\}$.
-%      The path then proceeds along the lightest path in $P$.
-%   \end{enumerate}
-%   Since both types of extensions reduce the distance to $t$ by one,
-%   this algorithm reaches $t$ after exactly $nd$ iterations.
-%
-%   In the first case, this algorithm takes a step across an edge whose
-%   weight is the minimum of at least $\alpha d$ $\exponential(1)$
-%   random variables, so the weight of each such step is dominated by an
-%   $\exponential(\alpha d)$ random variable.
-%
-%   In the second case, this algorithm considers a whole set $P$
-%   of edge-disjoint paths.  The weight of each path in $P$ is
-%   the sum of three $\exponential(1)$ random variables, so it is a
-%   $\erlang(3,1)$ random variable.  Since the paths are edge disjoint,
-%   these $\erlang(3,1)$ variables are independent, so the weight of
-%   this path is the minimum of $|P|$ independent $\erlang(3,1)$ random
-%   variables and has expected value $C|P|^{-1/3}$, where $C = C_{|P|} =
-%   6^{1/3}\Gamma(1/3)/3 + o_{|P|}(1)$.%
-%   \footnote{If $M$ is the minimum of $r$ independent $\erlang(3,1)$
-%   random variables, then $Mr^{1/3}$ tends in distribution to a random
-%   variable $Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty
-%   \exp(-z^3/6)\, \mathrm{d}z = C$.}
-%   To prove our result,
-%   we now need a lower-bound on $|P|$.
-%
-%   To make a path in $P$ we have $d-\|vt\|_H> (1-\alpha)d$ choices for
-%   the first edge, $\|v,t\|_H$ choices for the second edge and at least
-%   $\|vt\|_H$ choices for the third edge. So
-%   \[
-%     |P| \ge (1-\alpha)d\|vt\|_H^2 
-%         \ge (1-\alpha)d(\|vt\|_1/n)^2 
-%     \enspace ,
-%   \]
-%   where the second inequality is an application of \eqref{hamming-l1}.
-%
-%   We can now pull everything together. The algorithm proceeds in $nd$
-%   rounds, numbered $0,\ldots,nd-1$.  During the $i$th round, the weight
-%   of edges crossed is either dominated by an $\exponential(\alpha d)$
-%   random variable, $X_i$, or by a random variable $Z_i$ that is the
-%   minimum of $(1-\alpha)d((nd-i)/n)^2$ independent $\erlang(3,1)$
-%   random variables.  That is, the total weight of the resulting path
-%   is dominated by 
-%   \[
-%      \sum_{i=0}^{nd-1} (X_i + Z_i)
-%   \]
-%   The sum of $X_i$'s has expected value $n/\alpha$ and the sum of the $Z_i$'s
-%   has expected value:
-%   \begin{align*}
-%       \sum_{i=0}^{nd-1} \E[Z_i] 
-%       & = \sum_{i=0}^{nd-1} C((1-\alpha)d(nd-i)/n^2)^{-1/3} \\
-%       & = C\left(\frac{(1-\alpha)d}{n^2}\right)^{-1/3}\sum_{i=0}^{nd-1} (nd-i)^{-2/3} \\
-%       & = C\left(\frac{(1-\alpha)d}{n^2}\right)^{-1/3}\sum_{i=1}^{nd} i^{-2/3} \\
-%       & = C\left(\frac{(1-\alpha)d}{n^2}\right)^{-1/3}(nd)^{1/3} \\
-%       & = Cn(1-\alpha)^{-1/3} \enspace .
-%   \end{align*}
-%   And we get the concentration result using \eqref{tail-bound} and
-%   G\'abor's concentration result for the sum of $Z_i$'s.
-%\end{proof}
-
-
 \section*{Acknowledgements}
 
 Some of this research took place at the Workshop on Random Geometric
@@ -1296,8 +971,29 @@ other participants for providing stimulating working environments.
 \section{First-Passage Percolation-Time Bounds}
 
 In this appendix, we prove (in some cases reprove) some results on
-first-passage percolation time.
-TODO:Talk about why
+first-passage percolation time on the $(d,k)$-cube that hold for
+all values of $d$ and $k$.  Before doing so, though, we note that
+these results already follow from the $O(1)$ bound on first-passage
+percolation time on the hypercube.  To see why, observe that the
+crux of the problem involves studying the weight of the lightest path
+from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can find a
+path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$ for
+$i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
+result for the $d$-cube shows that one can get from $v_i$ to $v_{i+1}$
+with a path whose expected weight is $O(1)$.  Thus, one can get from $s$
+to $t$ with a path whose expected weight is $O(k)$.
+
+Nevertheless, we provide an alternate proof here.  One reason for this
+is help make our results self-contained.  Another, however, is that
+our arguments differ significantly from those of Fill and Pemantle
+\cite{fill.pemantle:percolation} and So and So \cite{so.so:XXX}.
+In particular, our proofs use greedy algorithms to find light paths.
+Our proof for the hypercube, for example, shows that one can find a path
+of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
+Exact shortest path algorithms, like Dijkstra's algorithm requires at
+least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-cube, our proof
+gives an algorithm that finds a short path in $O(kd^4)$ time, while a
+shortest path agorithm would require $\Omega(d(k+1)^d)$ time.
 
 These results are all for grid graphs.  The \emph{$(d,k)$-grid} with
 vertex set $\{0,\ldots,k\}^d$ and an edge between two vertices if
