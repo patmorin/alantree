@@ -98,14 +98,25 @@ with probability $1-o_n(1)$:
   $h(T)\in O(\sqrt{\Delta}(D+\log n))$, provided that $g <
   C\Delta^{1/2}D/\log\Delta$.
 
-  \item On the $d$-dimensional grid of side-length $\ell$ (which has
-  $n=(\ell+1)^d$ vertices), $h(T)\in O(D)=O(d\ell)$. This holds for any $d\ge
-  1$ and any $\ell\ge 1$.  In particular, it implies this result for the
-  hypercube ($\ell=1$ and $d=\log_2 n$) and the 2-dimensional grid ($d=2$
-  and $\ell=\sqrt{n}$) and everything in between.
+  \item On the $d$-dimensional grid of side-length $k$ (which has
+  $n=(k+1)^d$ vertices), $h(T)\in O(D)=O(dk)$. This holds for any $d\ge
+  1$ and any $k\ge 1$.  In particular, it implies this result for the
+  hypercube ($k=1$ and $d=\log_2 n$), the 2-dimensional grid ($d=2$
+  and $k=\sqrt{n}$) and everything in between.
 \end{itemize}
 
-\Secref{inequalities} presents two simple inequalities on sums of
+A few of our results make use of, and generalize, results on first-passage
+percolation with exponential edge weights (Process~FP).  In particular,
+we make use of a result of Fill and Pemantle that shows that the
+first-passage percolation time on the hypercube is $O(1)$.
+We note also that, when the starting graph, $G$, is the complete graph
+on $n$ vertices, then the spanning-tree $T$ we obtain is a \emph{random
+recursive tree} \cite{X}.  Devroye \cite{devroye} and Pittel \cite{pittle}
+have shown that the expected height of the tree in this case is
+$(e+o_n(1))\ln n$.
+
+The remainder of this paper is organized as follows:
+\Secref{inequalities} presents some basic facts about sums of
 independent exponential random variables that we use throughout.
 \Secref{upper-bounds} presents our upper bounds on $h(T)$.
 \Secref{lower-bounds} presents families of graphs that match our upper
@@ -114,12 +125,12 @@ bounds.
 \section{Inequalities for Sums of Exponentials}
 \seclabel{inequalities}
 
-Recall that an $\exponential(\lambda)$ random variable, $X$, has
-distribution 
+Recall that an $\exponential(\lambda)$ random variable, $X$, has the
+distribution defined by
 \[
    \Pr\{X>x\} = e^{-\lambda x} 
 \]
-and mean $\E[X] = \int_0^{\infty} \Pr\{X>x\} = 1/\lambda$.  
+and mean $\E[X] = \int_0^{\infty} \Pr\{X>x\}\,\mathrm{d}x = 1/\lambda$.  
 We make extensive use of the fact that exponential random variables are
 \emph{memoryless}:
 \[
@@ -155,7 +166,7 @@ distribution, i.e.,
 where $X_1,\ldots,X_k$ are independent $\exponential(\lambda)$ random variables.
 If $Y_1,\ldots,Y_d$ are $\erlang(2,1)$ random variables, then
 \begin{equation}
-    \E[\min\{Y_1,\ldots,Y_d\}] = \left(\frac{2\pi}{d}\right)^{1/2}  \enspace . \eqlabel{erlang-two}
+    \E[\min\{Y_1,\ldots,Y_d\}] = \left(\frac{2\pi+o_d(1)}{d}\right)^{1/2}  \enspace . \eqlabel{erlang-two}
 \end{equation}
 (This is a special case of a more general result that will be discussed below.)
 If $Z_1,\ldots,Z_d$ are $\erlang(3,1)$ random variables, then
@@ -172,7 +183,7 @@ $Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
 and $Z_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
 \eqref{erlang-two}:
 \begin{equation}
-   \E[\min\{Q_1,\ldots,Q_d\}] = \left(\frac{2\pi}{\delta d}\right)^{1/2}
+   \E[\min\{Q_1,\ldots,Q_d\}] = \left(\frac{2\pi+o(1)}{\delta d}\right)^{1/2}
      \enspace .
      \eqlabel{weird-one}
 \end{equation}
@@ -528,7 +539,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
   Process~FP starting at any vertex $s\in V(G)$.  There exists a constant
   $C$ such that, if $g\ln\Delta \le C\Delta^{1/2}D$ then,
   with probability at least $1-o_n(1)$,
-  $h(T)\in O(\Delta^{1/2}(D+\log n))$.
+  $h(T)\in O(\sqrt{\Delta}(D+\log n))$.
 \end{thm}
 
 \begin{proof}
@@ -539,7 +550,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
      (c\Delta)^{L/2+3g} 
         = \left((c\Delta)^{1/2+3g/L}\right)^L
         \le \left((c\Delta)^{1/2+1/\ln\Delta}\right)^L
-        = \left((ce\Delta)^{1/2}\right)^L
+        \le \left((e\Delta)^{1/2}\right)^L
         = (ce\Delta)^{L/2} \enspace .
   \]
   Therefore, we apply \lemref{meta-theorem} with $a=(ce\Delta)^{1/2}$,
@@ -554,49 +565,42 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
 \section{Lower Bounds}
 \seclabel{lower-bounds}
 
-Note that Theorems~\ref{thm:alantree-upper-bound} and
-\ref{thm:alantree-upper-bound-degenerate} are obviously asymptotically
-tight for graphs with maximum degree $\Delta\in O(1)$ and diameter
-$D\in\Omega(\ln n)$.  For instance, \thmref{alantree-upper-bound}
-shows that, for constant $d$, running Process~A on a $n^{1/d}\times
-\cdots\times n^{1/d}$ grid or toroidal grid produces a spanning tree of
-height $\Theta(n^{1/d})$.  For $d\in O(1)$, this is tight.
+Next, we describe a series of lower bound constructions that match the
+upper bounds obtained in the previous section.  In particular, these
+constructions show that the dependence on $\Delta$ in the upper bounds
+in the previous section can not be asymptotically reduced.
 
-However, \thmref{alantree-upper-bound} is not tight for some graphs,
-like the $d$-dimensional hypercube, which has $n=2^d$ vertices, maximum
-degree $\Delta = d/2 \in \Theta(\log n)$ and diameter $D=d\in\Theta(\log
-n)$, thus \thmref{alantree-upper-bound} upper bounds the height
-of $T$ by $O(\log^2 n)$.  However, a result of Fill and Pemantle
-\cite{fill.pemantle:first} shows that, with high probability, the
-heaviest root leaf path in $T$ has weight $O(1)$.  Using this, instead
-of \lemref{percolation}, in the proof of \thmref{alantree-upper-bound}
-shows that, with high probability the height of $T$ is $O(\log n)$.
-
-It is natural to ask if one can eliminate or reduce the dependence on
-$\Delta$ in \thmref{alantree-upper-bound}.  Intuitively, higher degree
-should produce spanning trees of lower diameter.  However, the example
-of a sequence of $D/2$ $(\Delta-1)$-cliques joined in sequence (see
-\figref{clique-path}) shows that Process~A may produce spanning trees
-of diameter $\Omega(D\ln\Delta)$.  Therefore the dependence on $\Delta$
-can not be eliminated entirely; there is at least a logarithmic dependence
-on $\Delta$.
-
-\begin{figure}
-  \begin{center}
-    \includegraphics{figs/clique-path}
-  \end{center}
-  \caption{A sequence of $D/2$ $(\Delta-1)$-cliques gives a graph $G$
-   with diameter $D$ and maximum degree $\Delta$ for which Process~A
-   produces a spannning tree of height $\Omega(D\log\Delta)$.}
-  \figlabel{clique-path}
-\end{figure}
-
-Next we show that, in fact, a linear dependence on $\Delta$ is necessary:
-For any $\Delta$ and any $D\in\Omega(\log\Delta)$, we can construct a
-graph $G=G_{D,\Delta}$ of diameter $D$ and maximum degree $\Delta$ for
-which Process~A produces a spanning tree of diameter $\Omega(\Delta D)$.
-Thus, the upper-bound of \thmref{alantree-upper-bound} is asymptotically
-tight for these graphs.
+%It is natural to ask if one can eliminate or reduce the dependence on
+%$\Delta$ in the results of the previous section.  Intuitively, high degree
+%should produce spanning trees of lower height.  However, the example
+%of a sequence of $D/2$ $(\Delta-1)$-cliques joined in sequence (see
+%\figref{clique-path}) shows that Process~A may produce spanning trees
+%of diameter $\Omega(D\ln\Delta)$.  Therefore the dependence on $\Delta$
+%can not be eliminated entirely; there is at least a logarithmic dependence
+%on $\Delta$.
+%
+%\begin{figure}
+%  \begin{center}
+%    \includegraphics{figs/clique-path}
+%  \end{center}
+%  \caption{A sequence of $D/2$ $(\Delta-1)$-cliques gives a graph $G$
+%   with diameter $D$ and maximum degree $\Delta$ for which Process~A
+%   produces a spannning tree of height $\Omega(D\log\Delta)$.}
+%  \figlabel{clique-path}
+%\end{figure}
+%
+%Next we show that, in fact, a linear dependence on $\Delta$ is necessary
+%for general graphs: For any $\Delta$ and any $D\in\Omega(\log\Delta)$,
+%we can construct a graph $G=G_{D,\Delta}$ of diameter $D$ and
+%maximum degree $\Delta$ for which Process~A produces a spanning
+%tree of diameter $\Omega(\Delta D)$.  Thus, the upper-bound of
+%\thmref{alantree-upper-bound} is asymptotically tight.
+%We construct
+%We also construct examples of graphs of thickness
+%$\Theta(d)$ and graphs of treewidth $\Theta(d)$ for which the tree
+%$T$ has height $\Omega(\sqrt{\Delta d}D)$, thereby showing that the
+%upper bound in \thmref{alantree-upper-bound-degenerate} for $d$-degenerate
+%graphs is tight for these families of graphs.
 
 \subsection{Lower Bounds for General Graphs}
 
