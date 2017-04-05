@@ -587,8 +587,17 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
 
 \subsection{Edge Expanders}
 
-For an $n$-vertex graph $G$ and a subset $A\subseteq V(G)$, define $e(A)=\{vw\in
-E(G): v\in A,\, w\not\in A\}$, and for any $k\in\{1,\ldots,n-1\}$, define 
+All of the preceding upper bounds on $h(T)$ have a (linear or rootish)
+dependence on $\Delta$, the maximum degree of a vertex in $G$.
+This seems somewhat counterintuitive, since high degree vertices in $G$
+should produce high degree vertices in $T$ and therefore decrease $h(T)$.
+In this section we show that low height trees result not from high degree,
+but rather from high edge expansion (also called isoperimetric number
+or Cheeger constant).
+
+For an $n$-vertex graph $G$ and a subset $A\subseteq V(G)$,
+define $e(A)=|\{vw\in E(G): v\in A,\, w\not\in A\}|$, and for any
+$k\in\{1,\ldots,n-1\}$, define
 \[
     e_k(G) = \min\{e(A) : A\subseteq V(G),\, |A|=k \} \enspace .
 \]
@@ -600,42 +609,22 @@ We also define
 \[
     \Phi_k(G) = e_k(G)/k
 \]
-and
+and the \emph{edge expansion} of $G$ is
 \[
     \Phi(G) = \min_{k=1}^{\lfloor n/2\rfloor}\Phi_k(G)
 \]
-Finally, we define
+We will express the height of $T$ in terms of the quantity $\Psi(G)$, which is closely related to the edge expansion:
 \[
-    \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{e_k(G)}
+    \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{e_k(G)} 
             = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi_k(G)}
             \le \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi(G)}
             = \frac{\ln n +O(1)}{\Phi(G)}
 \]
-%
-%
-%The \emph{$k$-conductance} of $G$ is
-%\[
-%    \Phi_k(G) = \min\{e(A)/k : A\subseteq V(G),\, |A|=k\} \enspace .
-%\]
-%The value $\Phi_k(G)$ is important when studying Process~A.  If $A$ is the set of vertices currently in $T$, $|A|=k$ and $vw$ is an edge with $u\in A$ and $w\not\in A$, then the probability that Process~A selects $uw$ as the next edge to add to $T$ is
-%\[
-%    \frac{1}{e(A)} \le \frac{1}{k\Phi_{k}(G)} \enspace .
-%\]
-%The \emph{conductance} of $G$ is
-%\[
-%    \Phi(G) = \min\{\Phi_k(G) : k\in\{1,\ldots,\lfloor n/2\rfloor\}\} 
-%         \enspace .
-%\]
-%And finally, we define
-%\[
-%    \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{\Phi_k(G)}
-%     \le \frac{\ln n+O(1)}{\Phi(G)} \enspace .
-%\]
 \begin{thm}\thmlabel{alantree-upper-bound-edge-expander}
   Let $G$ be an $n$-vertex graph with with maximum degree $\Delta$
   and let $T$ be the tree obtained by running
   Process~FP starting at any vertex $s\in V(G)$.  Then, with probability
-  at least $1-o_n(1)$, $h(T) \in O(\Delta\Psi(G))$.
+  at least $1-o_n(1)$, $h(T) \in O(\Delta\Psi(G))\subseteq O(\Delta\log n/\Phi(G))$.
 \end{thm}
 
 Before proving \thmref{alantree-upper-bound-edge-expander}, we
@@ -651,22 +640,38 @@ of Devroye and Pittel for the height of the random recursive tree
 \cite{devroye:branching,pittel:note}.
 
 \begin{proof}
-   Fix some path $P=(s=v_0),\ldots,v_m$ in $G$ and suppose that $P$
-   appears as a path in $T$.  Then there are times $k_0<k_1<\cdots<k_m<n$ with
-   $k_0=0$ and, for each $i\in\{1,\ldots,m\}$, $v_i$ joins $T$ when $T$ has
-   size $k_i$.  For a fixed $P$ and fixed $1\le k_1<\ldots<k_m<n$, the probability
+   Fix some path $P=(s=v_0),v_1,\ldots,v_L$ in $G$ and suppose that $P$
+   appears as a path in $T$.  Then there are times $k_0<k_1<\cdots<k_L<n$ with
+   $k_0=0$ and, for each $i\in\{1,\ldots,L\}$, $v_i$ joins $T$ when $T$ has
+   size $k_i$.  For a fixed $P$ and fixed $1\le k_1<\ldots<k_L<n$, the probability
    that this happens is at most
    \[
-       \prod_{i=1}^{m} \frac{1}{e_{k_i}(G)}
+       \prod_{i=1}^{L} \frac{1}{e_{k_i}(G)} 
+           = \prod_{i=1}^{L} \frac{1}{k_i\Phi_{k_i}(G)} 
    \]  
    and the probability that $P$ appears in $T$ (without fixing
-   $k_1,\ldots,k_m$) is at most
+   $k_1,\ldots,k_L$) is at most
    \begin{align*}
-       \sum_{1\le k_1<\cdots<k_m< n}
+       \sum_{1\le k_1<\cdots<k_L< n}
         \left(
-         \prod_{i=1}^{m} \frac{1}{e_{k_i}(G)}
-        \right)
+         \prod_{i=1}^{L} \frac{1}{k_i\Phi_{k_i}(G)}
+        \right) &
+       < 
+       \frac{1}{L!}\left(\sum_{(k_1,\ldots,k_L)\in\{1,\ldots,n-1\}^L}
+        \left(
+         \prod_{i=1}^{L} \frac{1}{k_i\Phi_{k_i}(G)}
+        \right)\right)  \\
+       &= \frac{1}{L!}\left(\sum_{k=1}^n\frac{1}{k\Phi_k(G)}\right)^L \\
+       &\le \frac{(2\Psi(G))^L}{L!} \\
+       &\le \left(\frac{2e\Psi(G)}{L}\right)^L
    \end{align*}
+   Finally, since $G$ contains at most $\Delta^L$ paths of length $L$,
+   
+   \[
+        \Pr\{h(T) \ge L\} \le \left(\frac{2e\Delta\Psi(G)}{L}\right)^L
+         \le \left(\frac{1}{2}\right)^L \enspace ,
+   \]
+   for $L\ge 4e\Delta\Psi(G)$.
 \end{proof}
 
 
