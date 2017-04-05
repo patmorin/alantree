@@ -6,8 +6,19 @@
 \DeclareMathOperator{\binomial}{binomial}
 \DeclareMathOperator{\erlang}{Erlang}
 
+
 \title{\MakeUppercase{Notes on Growing a Tree in a Graph}}
-\author{\ }
+\author{Authors TBD}
+
+%   Luc~Devroye,
+%   Vida~Dujmovi\'c,
+%   Alan~Frieze,
+%   G\'abor~Lugosi,
+%   Abbas~Mehrabian,
+%   Pat~Morin,
+%   Bruce~Reed,
+%   and Anastasios~Sidiropoulos 
+%}
 
 \begin{document}
 \maketitle
@@ -25,7 +36,7 @@ this edge to $T$.
 \section{Introduction}
 
 We consider the following process for growing a spanning tree,
-$T$, of a graph $G$ starting at some vertex $s\in V(G)$.  Intially,
+$T$, of an $n$-vertex graph $G$ starting at some vertex $s\in V(G)$.  Intially,
 $T=(s,\emptyset)$ is the single vertex tree containing only $s$. We then
 repeatedly select, uniformly at random, an edge from $E(G)$ that has one
 endpoint in $V(T)$ and one endpoint not in $V(T)$ and we add this edge
@@ -105,15 +116,30 @@ with probability $1-o_n(1)$:
   and $k=\sqrt{n}$) and everything in between.
 \end{itemize}
 
-A few of our results make use of, and generalize, results on first-passage
-percolation with exponential edge weights (Process~FP).  In particular,
-we make use of a result of Fill and Pemantle that shows that the
-first-passage percolation time on the hypercube is $O(1)$.
-We note also that, when the starting graph, $G$, is the complete graph
-on $n$ vertices, then the spanning-tree $T$ we obtain is a \emph{random
-recursive tree} \cite{X}.  Devroye \cite{devroye} and Pittel \cite{pittle}
-have shown that the expected height of the tree in this case is
-$(e+o_n(1))\ln n$.
+Our main tool, \lemref{meta-theorem}, relates the quantity $h(T)$ we are
+studying to first-passage percolation time with exponential edge weights
+(starting from $s$) and to the number of simple paths of length $L$
+starting at $s$.  To use this tool, we provide several new results on
+first-passage percolation times for various families of graphs as well
+as new results on counting simple paths in various families of graphs.
+
+First-passage percolation time on the $d$-cube has received considerable
+attention. Fill and Pemantle \cite{fill.pemantle:percolation} showed
+that, with probability $1-o_d(1)$, the first-passage percolation time on
+the $d$-cube is at most $14.05+o_d(1)$.  This was later improved to $1.693
++o_d(1)$ by Bollob\'as and Kohayakawa \cite{bollobas.kohayakawa:on} and
+recently to  $1.574 +o_d(1)$ by Martinsson \cite{martinsson:unoriented}.
+This should be compared with the best lower bound, also due to Fill and
+Pemantle \cite{fill.pemantle:percolation} of $1.414-o(1)$.
+
+When $G$ is the complete graph on $n$ nodes, each node in $T$ is adjacent
+to every node not in $T$.  Therefore, Process~A repeatedly selects
+a node $v$ uniformly at random from $T$ and attaches a leaf to $v$.
+This is exactly the \emph{random recursive tree} model of random trees.
+Devroye \cite{devroye:branching} and Pittel \cite{pittel:note} have shown
+that the expected height of a random recursive tree is $(e+o_n(1))\ln n$.
+More precisely, they show that $\lim_{n\to\infty} h(T)/\ln n = e$ with
+probability 1.
 
 The remainder of this paper is organized as follows:
 \Secref{inequalities} presents some basic facts about sums of
@@ -346,8 +372,6 @@ the following:
   with probability at least $1-o_n(1)$, the height of $T$ is $O(dk)$.
 \end{cor}
 
-
-
 \subsection{Degenerate Graphs}
 
 A graph $G$ is $d$-degenerate if every induced subgraph of $G$ has
@@ -409,7 +433,7 @@ walks of length $L$.
 \end{proof}
 
 
-\subsubsection{Remarks}
+\subsection{Remarks on Degenerate Graphs}
 \seclabel{degeneracy-discussion}
 
 Note that \thmref{alantree-upper-bound-degenerate} actually implies
@@ -560,6 +584,91 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
   \]
   Therefore, with a sufficiently large $C$, the condition $g\ln\Delta \le C\Delta^{1/2}D$ implies that $L\ge 3\ln\Delta$, which justifies the choice of $a$.
 \end{proof}
+
+\subsection{Edge Expanders}
+
+For an $n$-vertex graph $G$ and a subset $A\subseteq V(G)$, define $e(A)=\{vw\in
+E(G): v\in A,\, w\not\in A\}$, and for any $k\in\{1,\ldots,n-1\}$, define 
+\[
+    e_k(G) = \min\{e(A) : A\subseteq V(G),\, |A|=k \} \enspace .
+\]
+Observe that $e_k(G)$ is symmetric in the sense that
+\[
+    e_k(G) = e_{n-k}(G) \enspace .
+\]
+We also define
+\[
+    \Phi_k(G) = e_k(G)/k
+\]
+and
+\[
+    \Phi(G) = \min_{k=1}^{\lfloor n/2\rfloor}\Phi_k(G)
+\]
+Finally, we define
+\[
+    \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{e_k(G)}
+            = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi_k(G)}
+            \le \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi(G)}
+            = \frac{\ln n +O(1)}{\Phi(G)}
+\]
+%
+%
+%The \emph{$k$-conductance} of $G$ is
+%\[
+%    \Phi_k(G) = \min\{e(A)/k : A\subseteq V(G),\, |A|=k\} \enspace .
+%\]
+%The value $\Phi_k(G)$ is important when studying Process~A.  If $A$ is the set of vertices currently in $T$, $|A|=k$ and $vw$ is an edge with $u\in A$ and $w\not\in A$, then the probability that Process~A selects $uw$ as the next edge to add to $T$ is
+%\[
+%    \frac{1}{e(A)} \le \frac{1}{k\Phi_{k}(G)} \enspace .
+%\]
+%The \emph{conductance} of $G$ is
+%\[
+%    \Phi(G) = \min\{\Phi_k(G) : k\in\{1,\ldots,\lfloor n/2\rfloor\}\} 
+%         \enspace .
+%\]
+%And finally, we define
+%\[
+%    \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{\Phi_k(G)}
+%     \le \frac{\ln n+O(1)}{\Phi(G)} \enspace .
+%\]
+\begin{thm}\thmlabel{alantree-upper-bound-edge-expander}
+  Let $G$ be an $n$-vertex graph with with maximum degree $\Delta$
+  and let $T$ be the tree obtained by running
+  Process~FP starting at any vertex $s\in V(G)$.  Then, with probability
+  at least $1-o_n(1)$, $h(T) \in O(\Delta\Psi(G))$.
+\end{thm}
+
+Before proving \thmref{alantree-upper-bound-edge-expander}, we
+consider the example of the complete graph $G=K_n$.  In this graph,
+the minimum degree is $n-1$, so all preceding theorems (at best)
+imply an upper bound of $O(n)$ on $h(T)$.  However, $e(A)=|A|(n-|A|)$
+for all non-empty $A\subseteq V(K_n)$. Therefore $\Phi_k(K_n) = n-k$,
+so $\Phi(K_n) = \lceil n/2\rceil$, and $\Psi(K_n) = O(\log n/n)$.
+Then \thmref{alantree-upper-bound-edge-expander} implies that $h(T)\in
+O(\log n)$ with high probability when $G=K_n$.  This upper bound
+is of the right order of magnitude, since it matches the results
+of Devroye and Pittel for the height of the random recursive tree
+\cite{devroye:branching,pittel:note}.
+
+\begin{proof}
+   Fix some path $P=(s=v_0),\ldots,v_m$ in $G$ and suppose that $P$
+   appears as a path in $T$.  Then there are times $k_0<k_1<\cdots<k_m<n$ with
+   $k_0=0$ and, for each $i\in\{1,\ldots,m\}$, $v_i$ joins $T$ when $T$ has
+   size $k_i$.  For a fixed $P$ and fixed $1\le k_1<\ldots<k_m<n$, the probability
+   that this happens is at most
+   \[
+       \prod_{i=1}^{m} \frac{1}{e_{k_i}(G)}
+   \]  
+   and the probability that $P$ appears in $T$ (without fixing
+   $k_1,\ldots,k_m$) is at most
+   \begin{align*}
+       \sum_{1\le k_1<\cdots<k_m< n}
+        \left(
+         \prod_{i=1}^{m} \frac{1}{e_{k_i}(G)}
+        \right)
+   \end{align*}
+\end{proof}
+
 
 
 \section{Lower Bounds}
@@ -984,9 +1093,9 @@ with a path whose expected weight is $O(1)$.  Thus, one can get from $s$
 to $t$ with a path whose expected weight is $O(k)$.
 
 Nevertheless, we provide an alternate proof here.  One reason for this
-is help make our results self-contained.  Another, however, is that
+is to make our results self-contained.  Another, however, is that
 our arguments differ significantly from those of Fill and Pemantle
-\cite{fill.pemantle:percolation} and So and So \cite{so.so:XXX}.
+\cite{fill.pemantle:percolation} and Martinsson \cite{martinsson:unoriented}.
 In particular, our proofs use greedy algorithms to find light paths.
 Our proof for the hypercube, for example, shows that one can find a path
 of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
@@ -1016,7 +1125,7 @@ First we use a greedy approach to show that, when the dimension $d$
 is small compared to $k$, a greedy strategy works to find short paths.
 
 \begin{thm}\thmlabel{dk-grid-moderate}
-   Let $n=k^d$, for some $d\in O(k/\log k)$, let $G$ be the $(d,k)$-grid
+   Let $n=k^d$, for some $d\in O(k/\log(k+1))$, let $G$ be the $(d,k)$-grid
    and let $T$ be the tree obtained by running Process~FP starting at
    any vertex $s\in V(G)$.  Then, with probability at least $1-o_k(1)$,
    the heaviest root-to-leaf path in $T$ has weight $O(k)$.
@@ -1060,12 +1169,12 @@ is small compared to $k$, a greedy strategy works to find short paths.
    Applying the union bound over each of the $(k+1)^{d}$ choices of $v$
    then proves what we want, provided that
    \[
-         \exp(-\Omega(c)k) k^d \to 0 \enspace ,
+         \exp(-\Omega(c)k) (k+1)^d \to 0 \enspace ,
    \]
-   which is true, for some sufficiently large $c$, provided that $d\in O(k/\log k)$.
+   which is true, for some sufficiently large $c$, provided that $d\in O(k/\log (k+1))$.
 \end{proof}
 
-\subsection{Hypercube Percolation}
+\subsection{The Hypercube}
 
 The greedy algorithm described in the previous section fails when the
 dimension $d$ is much larger than the side-length $k$.  An extreme
@@ -1142,7 +1251,7 @@ This result is not new, though the proof is.
   interested reader.
 \end{proof}
 
-\subsection{A General Theorem}
+\subsection{The Grid in any Dimension}
 \applabel{dk-grid-foxtrot}
 
 Next, we show that the ideas used in \thmref{hypercube-percolation}
