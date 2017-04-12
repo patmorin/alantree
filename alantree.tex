@@ -64,7 +64,7 @@ Thus, Process~E produces spanning trees with the same distribution as
 those produced by Process~B, and hence also Process~A.
 
 Also, by the memorylessness of exponential random variables, Process~E
-is equivalent to selecting an exponential(1) edge weight for each edge
+is equivalent to selecting an exponential(1) edge \emph{weight} for each edge
 of $G$ and then computing the shortest (or rather, lightest) path
 tree rooted at $s$.  We call this latter process \emph{Process~FP}
 (for first-passage percolation).  That this process is equivalent to
@@ -86,35 +86,46 @@ The weight of the heaviest root-to-leaf path in $T$ is called the
 \emph{first-passage percolation time} and will play an important role
 in our results.
 
-In this paper we show that the height of $T$ depends (obviously)
-on the diameter, $D$, of $G$ and (less obviously) on the maximum degree,
-$\Delta$ of $G$.  We prove the following results (all of which hold
+In this paper we show that the height of $T$ depends (obviously) on
+the diameter, $D$, of $G$ and (less obviously) on the maximum degree,
+$\Delta$, of $G$.  We prove the following results (all of which hold
 with probability $1-o_n(1)$:
 
-\begin{itemize}
+\begin{enumerate}
   \item For any $n$-vertex graph $G$, $h(T)\in O(\Delta(D+\log n))$.
-  For $D>\log n$, this is tight; for every $\Delta\ge 2$ and every $D \ge
-  \log\Delta$, there exists a graph of diameter $D$ and maximum degree
-  $\Delta$ such that the expected height of $T$ is $\Omega(\Delta D)$.
+  For $D\in \Omega(\log n)$, this is tight; for every $\Delta\ge 2$ and every
+  $D \ge \log\Delta$, there exists a graph of diameter $D$ and
+  maximum degree $\Delta$ such that the expected height of $T$ is
+  $\Omega(\Delta D)$.  See Theorems~\ref{thm:alantree-upper-bound}
+  and \ref{thm:alantree-lower-bound}.
 
-  \item For any $n$-vertex $d$-degenerate graph $G$,\footnote{The concepts
-  of degeneracy, Euler genus, thickness, and treewidth are defined in
-  \secref{degeneracy-discussion}.} $h(T)\in O(\sqrt{d\Delta}(D+\log n))$.
-  The class of $O(1)$-degenerate graphs is enormous and includes every
-  minor-closed graph family.  This upper bound is tight, even for
-  planar graphs ($d=5$), graphs of thickenss $t$ ($d=5t$), and graphs
-  of treewidth $k$ ($d=k$).
+  \item For any $n$-vertex $d$-degenerate graph $G$,\footnote{The
+  concepts of degeneracy, Euler genus, thickness, and treewidth
+  are defined in \secref{degeneracy-discussion}.} $h(T)\in
+  O(\sqrt{d\Delta}(D+\log n))$.  The class of $O(1)$-degenerate
+  graphs is enormous and includes every minor-closed graph family.
+  This upper bound is tight, even for planar graphs ($d=5$),
+  graphs of thickenss $t$ ($d=5t$), and graphs of treewidth $k$
+  ($d=k$).  See Theorems~\ref{thm:alantree-upper-bound-degenerate},
+  \ref{thm:alantree-lower-bound-planar},
+  and \ref{thm:alantree-lower-bound-degenerate}.
 
   \item For any $n$-vertex graph $G$ of Euler genus $g$,
   $h(T)\in O(\sqrt{\Delta}(D+\log n))$, provided that $g <
-  C\Delta^{1/2}D/\log\Delta$.
+  C\sqrt{\Delta}D/\log\Delta$.  See \thmref{alantree-upper-bound-genus}.
 
   \item On the $d$-dimensional grid of side-length $k$ (which has
   $n=(k+1)^d$ vertices), $h(T)\in O(D)=O(dk)$. This holds for any $d\ge
   1$ and any $k\ge 1$.  In particular, it implies this result for the
   hypercube ($k=1$ and $d=\log_2 n$), the 2-dimensional grid ($d=2$
-  and $k=\sqrt{n}$) and everything in between.
-\end{itemize}
+  and $k=\sqrt{n}$) and everything in between.  See \corref{alantree-upper-bound-dk-grid}.
+
+  \item If the graph $G$ has edge-expansion factor $\Phi$, then
+  $h(T)\in O(\Phi^{-1}\Delta\log n)$.  This implies, for example,
+  that $h(T)\in O(\log n)$ if $G$ is the complete graph or if $G$ is
+  a random $\Delta$-regular graph (since a random $\Delta$-regular graph has
+  $\Phi=\Omega(\Delta)$).  See \thmref{alantree-upper-bound-cheeger}.
+\end{enumerate}
 
 Our main tool, \lemref{meta-theorem}, relates the quantity $h(T)$ we are
 studying to first-passage percolation time with exponential edge weights
@@ -139,26 +150,26 @@ This is exactly the \emph{random recursive tree} model of random trees.
 Devroye \cite{devroye:branching} and Pittel \cite{pittel:note} have shown
 that the expected height of a random recursive tree is $(e+o_n(1))\ln n$.
 More precisely, they show that $\lim_{n\to\infty} h(T)/\ln n = e$ with
-probability 1.
+probability 1. 
 
 The remainder of this paper is organized as follows:
 \Secref{inequalities} presents some basic facts about sums of
 independent exponential random variables that we use throughout.
 \Secref{upper-bounds} presents our upper bounds on $h(T)$.
-\Secref{lower-bounds} presents families of graphs that match our upper
+\Secref{lower-bounds} presents families of graphs where $h(T)$ matches our upper
 bounds.
 
 \section{Inequalities for Sums of Exponentials}
 \seclabel{inequalities}
 
-Recall that an $\exponential(\lambda)$ random variable, $X$, has the
+Recall that an $\exponential(\lambda)$ random variable, $X$ has a
 distribution defined by
 \[
-   \Pr\{X>x\} = e^{-\lambda x} 
+   \Pr\{X>x\} = e^{-\lambda x}  \enspace , \enspace x\ge 0
 \]
-and mean $\E[X] = \int_0^{\infty} \Pr\{X>x\}\,\mathrm{d}x = 1/\lambda$.  
-We make extensive use of the fact that exponential random variables are
-\emph{memoryless}:
+and mean $\E[X] = \int_0^{\infty}
+\Pr\{X>x\}\,\mathrm{d}x = 1/\lambda$.  We make extensive use of the fact
+that exponential random variables are \emph{memoryless}:
 \[
     \Pr\{X > t+x\mid X>t\} = \frac{\Pr\{X> t+x\}}{\Pr\{X > t\}}
            = \frac{e^{-\lambda(t+x)}}{e^{-\lambda t}} = e^{-\lambda x} = \Pr\{X > x\} \enspace .
@@ -206,10 +217,10 @@ $Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
 
 Finally, in one special case we will have random variables
 $Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
-and $Z_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
+and $Y_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
 \eqref{erlang-two}:
 \begin{equation}
-   \E[\min\{Q_1,\ldots,Q_d\}] = \left(\frac{2\pi+o(1)}{\delta d}\right)^{1/2}
+   \E[\min\{Q_1,\ldots,Q_d\}] = \frac{\sqrt{2\pi}+1}{\sqrt{\delta d}}
      \enspace .
      \eqlabel{non-uniform-erlang}
 \end{equation}
@@ -366,7 +377,7 @@ probability $1-o_n(1)$.  Applying \lemref{meta-theorem} with
 the first-passage percolation bound in \thmref{dk-grid-foxtrot} yields
 the following:
 
-\begin{cor}
+\begin{cor}\corlabel{alantree-upper-bound-dk-grid}
   Let $n=(k+1)^d$, let $G$ be the $(d,k)$-cube and let $T$ be the tree obtained
   by running Process~FP starting at any vertex $s\in V(G)$.  Then,
   with probability at least $1-o_n(1)$, the height of $T$ is $O(dk)$.
@@ -392,12 +403,14 @@ walks of length $L$.
    $d$ edges in the subgraph induced by $v_i,\ldots,v_n$ (this ordering
    is obtained by repeatedly removing a vertex of degree at most $d$).
 
+   This is an encoding argument, in which we upper bound the number of
+   paths by showing how to encode them.
    Let $W=v_{i_0},\ldots,v_{i_L}$ be any walk of length $L$ in $G$ and
-   let $k$ denote the number of indices $\ell$ such that $i_{\ell-1}
+   let $k$ denote the number of indices $\ell\in\{1,\ldots,L\}$ such that $i_{\ell-1}
    < i_{\ell}$.  
    If $k\ge L/2$ then we can specify $W$ in the following way:
    \begin{enumerate}
-     \item We first specify the starting vertex $v_{i_0}$.  There $n$
+     \item We first specify the starting vertex $v_{i_0}$.  There are $n$
        ways to do this.
      \item Next we specify whether $i_{\ell-1} < i_{\ell}$ for each
        $\ell\in\{1,\ldots,L\}$.  There are $2^L$ ways to do this.
@@ -416,7 +429,7 @@ walks of length $L$.
 
    The second part of the theorem comes from the fact that $D\ge
    \log_\Delta n$ so, when $L>D\log\Delta=\log n$,
-   \[ (32d\Delta)^{L/2} \ge 2n2^L \enspace . \qedhere \]
+   \[ (32d\Delta)^{L/2} \ge 2n2^L(d\Delta)^{L/2} \enspace . \qedhere \]
 \end{proof}
 
 \begin{thm}\thmlabel{alantree-upper-bound-degenerate}
@@ -428,7 +441,7 @@ walks of length $L$.
 
 \begin{proof}
   The proof is an application of \lemref{meta-theorem} with
-  $a=(cd\Delta)^{1/2}$, $p=1/n$, $K=O(D+\log n)$ and $c=2$. This bound
+  $a=(32d\Delta)^{1/2}$, $p=1/n$, $K=O(D+\log n)$ and $c=2$. This bound
   on $a$ is justified by \lemref{few-walks}.
 \end{proof}
 
@@ -466,8 +479,8 @@ graph classes:
       the set of bags that contain $v$ is connected.
   \end{enumerate}
   The \emph{width} of a tree-decomposition is one less than the size
-  of its largest bag.  The treewidth of $G$ is the width of the minimum
-  width tree decomposition of $G$.
+  of its largest bag.  The \emph{treewidth} of $G$ is the minimum
+  width of any tree decomposition of $G$.
   Graphs of treewidth $k$ are $k$-degenerate. (This is a consequence
   of the fact that $k$-trees are edge-maximal graphs of treewidth $k$.)
 \end{itemize} 
@@ -484,15 +497,15 @@ O(\sqrt{\Delta}(D+\log n))$ with high probability.
 \subsection{Graphs of Bounded Genus}
 
 \thmref{alantree-upper-bound} implies that, when $G$ has Euler genus
-$g$, $h(T)\in O(g^{1/4}\Delta^{1/2}(D+\log n))$.
-Here we show that the dependence on the genus $g$ can be reduced when
-the diameter, $D$, is large compared to the genus.  Specifically, the
-following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
-\Delta)$.
+$g$, $h(T)\in O(g^{1/4}\Delta^{1/2}(D+\log n))$.  Here we show that
+the dependence on the genus $g$ can be reduced when the diameter, $D$,
+is large compared to the genus.  We begin with a upper-bound on path
+counts that is better (for graphs for graphs of small genus) than 
+\lemref{few-walks}.
 
 \begin{lem}\lemlabel{few-paths-genus}
    Let $G$ be a simple $n$-vertex graph of Euler genus $g$, diameter
-   $D$, and maximum degree $\Delta$. Then the number of simple paths
+   $D$, and maximum degree $\Delta\ge 6$. Then the number of simple paths
    in $G$ of length $L$ is at most $2n2^{L}6^{L/2-3g}\Delta^{L/2+3g}$.
    In particular, if $L>D\log\Delta$, then the number of simple paths
    in $G$ is at most $(c\Delta)^{L/2+3g}$ for some constant $c$.
@@ -505,17 +518,17 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
    Since $G$ has Euler genus $g$, it has a 2-cell embedding in a surface
    of Euler genus $g$.  Euler's formula then states that 
    \begin{equation}
-      e = n+f-2+g \enspace ,  \eqlabel{euler}
+      m = n+f-2+g \enspace ,  \eqlabel{euler}
    \end{equation}
-   where $n$ and $e$ are the numbers of vertices and edges of
+   where $n$ and $m$ are the numbers of vertices and edges of
    $G$ and $f$ is the number of faces in the embedding of $G$.  
    Every edge is on the boundary of at most 2 faces of the embedding
    and, since $G$ is simple, 
    every face is
-   bounded by at least 3 edges.  Therefore, $f \le 2e/3$, so \eqref{euler}
+   bounded by at least 3 edges.  Therefore, $f \le 2m/3$, so \eqref{euler}
    becomes
    \[
-       e\le 3n-6+3g \enspace .
+       m\le 3n-6+3g \enspace .
    \]
    Therefore, the average degree of an $n$-vertex Euler genus $g$ graph
    is at most $6+(6g-12)/n$.  In particular, if $n \ge 6g$, then $g$
@@ -529,15 +542,15 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
    $v_{i+1},\ldots,v_n$.  We call $v_{n-6g+1},\ldots,v_n$ \emph{annoying
    vertices} and edges between them are \emph{annoying edges}.
 
-   Let $P=v_{i_0},\ldots,v_{i_L}$ be any simple path of length $L$
-   in $G$.  An edge $v_{i_\ell}v_{i_{\ell+1}}$ in $P$ is \emph{bad}
-   if it is annoying or if $i_{\ell}>i_{\ell+1}$. If an edge of $P$
-   is not bad, then it is \emph{good}.  Let $k$ denote the number of
-   good edges in $P$.
+   Let $P=v_{i_0},\ldots,v_{i_L}$ be any simple path of length $L$ in $G$.
+   For each $i\in\{1,\ldots,L\}$, the edge $v_{i_{\ell-1}}v_{i_{\ell}}$
+   in $P$ is \emph{bad} if it is annoying or if $i_{\ell-1}>i_{\ell}$. If
+   an edge of $P$ is not bad, then it is \emph{good}.  Let $k$ denote
+   the number of good edges in $P$.
 
-   If $k\ge n/2-3g$ then we can specify $P$ in the following way:
+   If $k\ge L/2-3g$ then we can specify $P$ in the following way:
    \begin{enumerate}
-     \item We first specify the starting vertex $v_{i_1}$.  There $n$
+     \item We first specify the starting vertex $v_{i_0}$.  There are $n$
        ways to do this.
      \item Next we specify whether each edge of $P$ is good or bad.
        There are $2^L$ ways to do this.
@@ -553,7 +566,15 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
    path uses most $6g$ annoying edges.  Therefore, for any simple path
    $P$ of length $L$, either $P$ or its reverse has $k\ge L/2-3g$.
    Thus, the total number of simple paths of length $L$ is at most
-   $2n2^L6^{L/2-3g}\Delta^{L/2+3g}$ as required.
+   $2n2^L6^{L/2-3g}\Delta^{L/2+3g}$ as required.  
+
+
+   For the second part of the theorem, we it is sufficient to choose $c=96\alpha=\alpha\times 4\times4\times 6$, where $\alpha > 4^{1/\log n}$.  Since $L>D\log \Delta \ge \log n$, we get
+   \[
+       (96\alpha\Delta)^{L/2+3g} 
+        \ge \alpha^{L/2} 4^{L/2}4^{L/2} 6^{L/2} \Delta^{L/2+3g}
+        \ge 2 n 2^{L} 6^{L/2-3g} \Delta^{L/2+3g} \enspace . \qedhere
+   \]
 \end{proof}
 
 
@@ -561,7 +582,7 @@ following theorem gives an improved bound when $D\in\omega(g^{3/4}\log
   Let $G$ be an $n$-vertex Euler-genus $g$ graph with diameter $D$,
   maximum degree $\Delta$ and let $T$ be the tree obtained by running
   Process~FP starting at any vertex $s\in V(G)$.  There exists a constant
-  $C$ such that, if $g\ln\Delta \le C\Delta^{1/2}D$ then,
+  $C$ such that, if $g\ln\Delta \le C\sqrt{\Delta}D$ then,
   with probability at least $1-o_n(1)$,
   $h(T)\in O(\sqrt{\Delta}(D+\log n))$.
 \end{thm}
@@ -613,18 +634,25 @@ and the \emph{edge expansion} of $G$ is
 \[
     \Phi(G) = \min_{k=1}^{\lfloor n/2\rfloor}\Phi_k(G)
 \]
-We will express the height of $T$ in terms of the quantity $\Psi(G)$, which is closely related to the edge expansion:
+We will express the height of $T$ in terms of the \emph{total inverse
+perimeter size} $\Psi$, which is closely related to the edge expansion:
 \[
     \Psi(G) = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{e_k(G)} 
             = \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi_k(G)}
             \le \sum_{k=1}^{\lfloor n/2\rfloor} \frac{1}{k\Phi(G)}
-            = \frac{\ln n +O(1)}{\Phi(G)}
+            = \frac{\ln n +O(1)}{\Phi(G)} \enspace .
 \]
-\begin{thm}\thmlabel{alantree-upper-bound-edge-expander}
-  Let $G$ be an $n$-vertex graph with with maximum degree $\Delta$
-  and let $T$ be the tree obtained by running
-  Process~FP starting at any vertex $s\in V(G)$.  Then, with probability
-  at least $1-o_n(1)$, $h(T) \in O(\Delta\Psi(G))\subseteq O(\Delta\log n/\Phi(G))$.
+
+\textbf{TODO:} Does $\Psi(G)$ have a name?  I just made up total
+inverse perimeter size, and it's not a very good name.
+
+\begin{thm}\thmlabel{alantree-upper-bound-cheeger}
+  \thmlabel{alantree-upper-bound-edge-expander}
+  Let $G$ be an $n$-vertex graph with with maximum degree $\Delta$,
+  edge-expansion $\Phi$, total inverse perimeter size $\Psi$,
+  and let $T$ be the tree obtained by running Process~FP starting at
+  any vertex $s\in V(G)$.  Then, with probability at least $1-o_n(1)$,
+  $h(T) \in O(\Psi\Delta)\subseteq O(\Phi^{-1}\Delta\log n)$.
 \end{thm}
 
 Before proving \thmref{alantree-upper-bound-edge-expander}, we
@@ -635,16 +663,21 @@ for all non-empty $A\subseteq V(K_n)$. Therefore $\Phi_k(K_n) = n-k$,
 so $\Phi(K_n) = \lceil n/2\rceil$, and $\Psi(K_n) = O(\log n/n)$.
 Then \thmref{alantree-upper-bound-edge-expander} implies that $h(T)\in
 O(\log n)$ with high probability when $G=K_n$.  This upper bound
-is of the right order of magnitude, since it matches the results
+is of the right order of magnitude, since it matches the (tight) results
 of Devroye and Pittel for the height of the random recursive tree
 \cite{devroye:branching,pittel:note}.
 
+\textbf{TODO:} Luc suggested there might already exist first-passage
+percolation results for graphs with large Cheeger constants.  If so,
+then we may be able to replace this proof with an application
+\lemref{meta-theorem}.
+
 \begin{proof}
    Fix some path $P=(s=v_0),v_1,\ldots,v_L$ in $G$ and suppose that $P$
-   appears as a path in $T$.  Then there are times $k_0<k_1<\cdots<k_L<n$ with
-   $k_0=0$ and, for each $i\in\{1,\ldots,L\}$, $v_i$ joins $T$ when $T$ has
-   size $k_i$.  For a fixed $P$ and fixed $1\le k_1<\ldots<k_L<n$, the probability
-   that this happens is at most
+   appears as a path in $T$.  Then there are times $k_0<k_1<\cdots<k_L<n$
+   with $k_0=0$ and, for each $i\in\{1,\ldots,L\}$, $v_i$ joins $T$ when
+   $T$ has size $k_i$.  For a fixed $P$ and fixed $1\le k_1<\ldots<k_L<n$,
+   the probability that this happens is at most
    \[
        \prod_{i=1}^{L} \frac{1}{e_{k_i}(G)} 
            = \prod_{i=1}^{L} \frac{1}{k_i\Phi_{k_i}(G)} 
@@ -662,27 +695,52 @@ of Devroye and Pittel for the height of the random recursive tree
          \prod_{i=1}^{L} \frac{1}{k_i\Phi_{k_i}(G)}
         \right)\right)  \\
        &= \frac{1}{L!}\left(\sum_{k=1}^n\frac{1}{k\Phi_k(G)}\right)^L \\
-       &\le \frac{(2\Psi(G))^L}{L!} \\
-       &\le \left(\frac{2e\Psi(G)}{L}\right)^L
+       &\le \frac{(2\Psi)^L}{L!} \\
+       &\le \left(\frac{2e\Psi}{L}\right)^L
    \end{align*}
    Finally, since $G$ contains at most $\Delta^L$ paths of length $L$,
    
    \[
-        \Pr\{h(T) \ge L\} \le \left(\frac{2e\Delta\Psi(G)}{L}\right)^L
+        \Pr\{h(T) \ge L\} \le \left(\frac{2e\Psi\Delta}{L}\right)^L
          \le \left(\frac{1}{2}\right)^L \enspace ,
    \]
-   for $L\ge 4e\Delta\Psi(G)$.
+   for $L\ge 4e\Psi\Delta$.
 \end{proof}
 
+Observe that the last step in the proof of
+\thmref{alantree-upper-bound-cheeger} is to use the union bound over all
+paths of length $L$.  If we have a better upper-bound than $\Delta^L$ on
+the number of such paths, then we obtain a better upper bound on $h(T)$.
+We have better upper bounds for $d$-degenerate graphs and graphs of
+Euler genus $g$, and these yield the following two results:
+
+\begin{cor}
+  Let $G$ be an $n$-vertex $d$-degenerate graph with diameter $D$ and
+  maximum degree $\Delta$, total inverse perimeter size $\Psi$,
+  and let $T$ be the tree obtained by running
+  Process~FP starting at any vertex $s\in V(G)$.  Then, with probability
+  at least $1-O(1/n)$, $h(T)\in O(\Psi\sqrt{d\Delta}(D+\log n))$.
+\end{cor}
+
+\begin{cor}
+  Let $G$ be an $n$-vertex Euler-genus $g$ graph with diameter $D$,
+  maximum degree $\Delta$, total inverse perimeter size $\Psi$, and let
+  $T$ be the tree obtained by running Process~FP starting at any vertex
+  $s\in V(G)$.  There exists a constant $C$ such that, if $g\ln\Delta \le
+  C\sqrt{\Delta}D$ then, with probability at least $1-o_n(1)$, $h(T)\in
+  O(\Psi\sqrt{\Delta}(D+\log n))$.
+\end{cor}
 
 
 \section{Lower Bounds}
 \seclabel{lower-bounds}
 
-Next, we describe a series of lower bound constructions that match the
-upper bounds obtained in the previous section.  In particular, these
-constructions show that the dependence on $\Delta$ in the upper bounds
-in the previous section can not be asymptotically reduced.
+Next, we describe a series of lower bound
+constructions that match the upper bounds obtained in
+Theorems~\ref{thm:alantree-upper-bound}--\ref{thm:alantree-upper-bound-genus}.
+In particular, these constructions show that the dependence on $\Delta$
+in the upper bounds in the previous section can not be asymptotically
+reduced.
 
 %It is natural to ask if one can eliminate or reduce the dependence on
 %$\Delta$ in the results of the previous section.  Intuitively, high degree
@@ -1252,7 +1310,7 @@ This result is not new, though the proof is.
   the set $\{Y_\ell : \mbox{$\ell$ is odd} \}$.  Therefore, we can split
   \eqref{foxtrot-weight} into three sums, each of independent random
   variables, and apply concentration inequalities to each of them to
-  obtain the desired result.  We leave the details to a sufficiently
+  obtain the desired result. The details are left to a sufficiently
   interested reader.
 \end{proof}
 
@@ -1322,7 +1380,101 @@ $W(P)$, we need a few preliminary observations relating Hamming distance and $\e
 Next we note that, when using the second option for a vertex $v$, it is because $\|vt\|_H < d/2$, which implies that $\|vs\|_1 \ge dk/2$.
 \end{proof}
 
+\section{A Lemma on the Sum of Two Exponentials}
+\seclabel{lucs-lemma}
 
+Consider the random variables $Q_1,\ldots,Q_\delta$ where each
+$Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$ and $Y_i\sim\exponential(d)$
+with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
 
+\begin{lem}\lemlabel{luc}
+   For $\delta\ge d \ge 5$, 
+   \[  \E[M] \le \frac{\sqrt{8\pi} + 1}{\sqrt{d\delta}} \enspace . \]
+\end{lem}
+
+\begin{proof}
+   We note first that $Q_1$ has density
+   \[
+        \frac{d}{d-1}\left(e^x - e^{-xd}\right) \enspace , \enspace x\ge 0
+   \]
+   Next,
+   \[
+        \Pr\{M \ge x\} = \left(\Pr\{Q_1\ge x\}\right)^{\delta} \enspace ,
+   \]
+   where 
+   \[
+        \Pr\{Q_1\ge x\} = \frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right) \enspace ,\enspace x\ge 0 \enspace .
+   \]
+   Then
+   \begin{align}
+       \E[M] 
+        & = \int_0^\infty \left(\frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right)\right)^\delta \,\mathrm{d}x \notag \\ 
+        & \le
+          \int_0^a \left(\frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right)\right)^\delta \,\mathrm{d}x  \eqlabel{integral-a} \\
+          & \quad + \int_b^\infty \left(\frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right)\right)^\delta \,\mathrm{d}x \enspace , \eqlabel{integral-b}
+   \end{align}
+   if $b\le a$.  We will select such $a$ and $b$ and show that 
+   \[  \eqref{integral-a} \le \sqrt{\frac{8\pi}{d\delta}} \enspace , \enspace
+       \eqref{integral-b} \le \frac{1}{\delta} \le \frac{1}{\sqrt{d\delta}} \enspace .
+   \]
+   For this, we choose 
+   \[
+        a = \frac{9}{4}\cdot\frac{d-1}{d^2} \enspace, \enspace b=\ln\left(\frac{d}{d-1}\right)
+   \]
+   We first prove the bound on \eqref{integral-a}:  By Taylor's series, 
+   \[   e^{-x} \le 1 - x + \frac{x^2}{2} \enspace , \enspace x\ge 0 \enspace , \]
+   and
+   \[   e^{-xd} \ge 1 - xd + \frac{(xd)^2}{2} - \frac{(xd)^3}{6}\enspace , \enspace x\ge 0 \enspace . \]
+   So,
+   \begin{align}
+       \left(\frac{d}{d-1}\right)\left(e^{-x}-\frac{e^{-xd}}{d}\right)
+       & \le 
+       \left(
+         1-\frac{1}{d}+\frac{x^2}{2}-\frac{x^2d}{2}+\frac{x^3d^3}{6}
+       \right) \left(\frac{d}{d-1}\right) \notag \\
+       & = 1-\frac{dx^2}{2}+\frac{x^3d^2}{6(d-1)}  \eqlabel{sweet}
+   \end{align}
+   Note that
+   \[
+         \frac{x^3d^3}{6(d-1)} \le a\cdot \frac{d^3}{6(d-1)}\cdot x^2
+      = \frac{3}{8}dx^2 
+      \enspace ,
+   \] 
+   since $d/(d-1) \le 5/4$. And so,
+   \[
+      \eqref{sweet} \le 1-\frac{1}{8}\cdot dx^2 \enspace , \enspace x \le a \enspace .
+   \]
+   Hence,
+   \begin{align*}
+      \eqref{integral-a} 
+        & \le \int_0^a\left(1-\frac{1}{8}dx^2\right)^\delta \, \mathrm{d}x \\
+        & \le \int_0^a e^{-\frac{d\delta}{8}x^2} \mathrm{d}x \\
+        & = \frac{1}{2}+\sqrt{2\pi}\times\sqrt{\frac{4}{d\delta}} \\
+        & = \sqrt{\frac{2\pi}{d\delta}} \enspace .
+   \end{align*}
+   Next we prove the bound on \eqref{integral-b}.  We use the trivial bound:
+   \[
+       \frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right) 
+         \le \frac{d}{d-1}e^{-x}
+       \enspace .
+   \]
+   Then,
+   \[
+      \eqref{integral-b} \le \left(\frac{d}{d-1}\right)^\delta
+       \int_b^\infty e^{-x\delta} \,\mathrm{d}x 
+       = \frac{1}{\delta}\left(\frac{d}{d-1}\right)^\delta e^{-b\delta}
+       = \frac{1}{\delta} \enspace .
+   \]
+   Finally, we prove that $b<a$.  Note that 
+   \[  b=\log\left(1+\frac{1}{d-1}\right)  \le \frac{1}{d-1} \enspace , \]
+   so it suffices to verify that $a(d-1)\ge 1$.  This is equivalent to verifying
+   that
+   \[ 9(d-1)^2 \ge 4d^2 \enspace , \]
+   or
+   \[ 9d^2 - 18d + 9 \ge 4d^2 \enspace , \]
+   or
+   \[ 5d^2 - 18d + 9 \ge 0 \enspace . \]
+   The left hand side of this last equation is non-negative for all $d\ge 3$.
+\end{proof}
 
 \end{document}
