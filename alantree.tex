@@ -1,6 +1,12 @@
 \documentclass[lotsofwhite]{patmorin}
 \usepackage{pat}
 \usepackage{graphicx}
+\usepackage{datetime}
+\usepackage[mathlines]{lineno}
+
+\linenumbers
+
+\date{\today, \currenttime}
 
 \DeclareMathOperator{\exponential}{exponential}
 \DeclareMathOperator{\binomial}{binomial}
@@ -165,7 +171,7 @@ bounds.
 Recall that an $\exponential(\lambda)$ random variable, $X$ has a
 distribution defined by
 \[
-   \Pr\{X>x\} = e^{-\lambda x}  \enspace , \enspace x\ge 0
+   \Pr\{X>x\} = e^{-\lambda x}  \enspace , \enspace x\ge 0 \enspace ,
 \]
 and mean $\E[X] = \int_0^{\infty}
 \Pr\{X>x\}\,\mathrm{d}x = 1/\lambda$.  We make extensive use of the fact
