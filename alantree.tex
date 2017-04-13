@@ -1103,7 +1103,7 @@ has thickness $d$ and treewidth $O(d)$.
   there is a path from $s\in V_1$ to some vertex $v\in V_{L}$ whose
   weight is at most $cL/\sqrt{d\delta}$.  Again, we find this path with a
   greedy algorithm.  To move from some vertex $v\in V_i'$ to $V_{i+1}'$,
-  we consider the $\delta$ paths from $vxy$ where $x\in V_{i+1}$ and
+  we consider the $\delta$ paths $vxy$ where $x\in V_{i+1}$ and
   $xy$ is the lightest edge joining $x$ to some vertex $y\in V_{i+1}'$.
   The weight of the second edge of each such path is the minimum of
   $d$ independent $\exponential(1)$ random variables, so it is an
@@ -1133,8 +1133,9 @@ Some of this research took place at the Workshop on Random Geometric
 Graphs and Their Applications to Complex Networks, at the Banff
 International Research Station, November 6--11, 2016.  More of this
 research took place at the Rio Workshop on Geometry and Graphs, at IMPA,
-February 12--18, 2017.  We are grateful to the workshop organizers and
-other participants for providing stimulating working environments.
+February 12--18, 2017.  In both cases, we are grateful to the workshop
+organizers and other participants for providing stimulating working
+environments.
 
 \bibliographystyle{plain}
 \bibliography{alantree}
@@ -1272,13 +1273,13 @@ This result is not new, though the proof is.
 
    \item Otherwise, let $L_i = \{ v\in V(G) : \|vt\|_1=i\}$ denote the
     set of vertices of $G$ whose distance to $t$ is $i$.  The algorithm
-    considers the $r=(d-\ell)\ell^2$ paths $vxyz$ that go from $v$ to a
-    vertex in $x\in L_{\ell+1}$, $y\in L_{\ell}\setminus v$, and then to
-    $z\in L_{\ell-1}$.  Each such path has a weight, $Y_i$, that is the
-    sum of three $\exponential(1)$ random variables and is therefore a
-    $\erlang(3,1)$ random variable.  No two such paths share an edge,
-    so these gamma random variables are independent and their minimum
-    has expected value $C/r^{-1/3}$.\footnote{Put Luc's thing here.}
+    considers the $r=(d-\ell)\ell^2$ paths $vxyz$ that go from $v$ to
+    a vertex in $x\in L_{\ell+1}$, $y\in L_{\ell}\setminus v$, and then
+    to $z\in L_{\ell-1}$.  Each such path has a weight, $Y_i$, that is
+    the sum of three $\exponential(1)$ random variables and is therefore
+    a $\erlang(3,1)$ random variable.  No two such paths share an edge,
+    so these random variables are independent and, by \eqref{erlang-three}
+    their minimum has expected value $C/r^{-1/3}$.
   \end{enumerate}
   Notice that after each step of the algorithm, the distance to $t$ is
   reduced by 1, so the algorithm performs exactly $d$ steps.  The weight
