@@ -385,9 +385,9 @@ the first-passage percolation bound in \thmref{dk-grid-foxtrot} yields
 the following:
 
 \begin{cor}\corlabel{alantree-upper-bound-dk-grid}
-  Let $n=(k+1)^d$, let $G$ be the $(d,k)$-cube and let $T$ be the tree obtained
+  Let $n=(k+1)^d$, let $G$ be the $(d,k)$-grid and let $T$ be the tree obtained
   by running Process~FP starting at any vertex $s\in V(G)$.  Then,
-  with probability at least $1-o_n(1)$, the height of $T$ is $O(dk)$.
+  with probability at least $1-o_n(1)$, $h(T)\in O(dk)$.
 \end{cor}
 
 \subsection{Degenerate Graphs}
@@ -1151,7 +1151,7 @@ environments.
 \section{First-Passage Percolation-Time Bounds}
 
 In this appendix, we prove (in some cases reprove) some results on
-first-passage percolation time on the $(d,k)$-cube that hold for
+first-passage percolation time on the $(d,k)$-grid that hold for
 all values of $d$ and $k$.  Before doing so, though, we note that
 these results already follow from the $O(1)$ bound on first-passage
 percolation time on the hypercube.  To see why, observe that the
@@ -1159,7 +1159,7 @@ crux of the problem involves studying the weight of the lightest path
 from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can find a
 path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$ for
 $i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
-result for the $d$-cube shows that one can get from $v_i$ to $v_{i+1}$
+result for the $d$-grid shows that one can get from $v_i$ to $v_{i+1}$
 with a path whose expected weight is $O(1)$.  Thus, one can get from $s$
 to $t$ with a path whose expected weight is $O(k)$.
 
@@ -1171,7 +1171,7 @@ In particular, our proofs use greedy algorithms to find light paths.
 Our proof for the hypercube, for example, shows that one can find a path
 of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
 Exact shortest path algorithms, like Dijkstra's algorithm requires at
-least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-cube, our proof
+least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-grid, our proof
 gives an algorithm that finds a short path in $O(kd^4)$ time, while a
 shortest path agorithm would require $\Omega(d(k+1)^d)$ time.
 
@@ -1389,7 +1389,7 @@ Next we note that, when using the second option for a vertex $v$, it is because 
 \end{proof}
 
 \section{A Lemma on the Sum of Two Exponentials}
-\seclabel{lucs-lemma}
+\applabel{lucs-lemma}
 
 Consider the random variables $Q_1,\ldots,Q_\delta$ where each
 $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$ and $Y_i\sim\exponential(d)$
@@ -1397,7 +1397,7 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
 
 \begin{lem}\lemlabel{luc}
    For $\delta\ge d \ge 5$, 
-   \[  \E[M] \le \frac{\sqrt{8\pi} + 1}{\sqrt{d\delta}} \enspace . \]
+   \[  \E[M] \le \frac{\sqrt{2\pi} + 1}{\sqrt{d\delta}} \enspace . \]
 \end{lem}
 
 \begin{proof}
@@ -1422,7 +1422,7 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
           & \quad + \int_b^\infty \left(\frac{d}{d-1}\left(e^{-x}-\frac{e^{-xd}}{d}\right)\right)^\delta \,\mathrm{d}x \enspace , \eqlabel{integral-b}
    \end{align}
    if $b\le a$.  We will select such $a$ and $b$ and show that 
-   \[  \eqref{integral-a} \le \sqrt{\frac{8\pi}{d\delta}} \enspace , \enspace
+   \[  \eqref{integral-a} \le \sqrt{\frac{2\pi}{d\delta}} \enspace , \enspace
        \eqref{integral-b} \le \frac{1}{\delta} \le \frac{1}{\sqrt{d\delta}} \enspace .
    \]
    For this, we choose 
@@ -1440,7 +1440,7 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
        \left(
          1-\frac{1}{d}+\frac{x^2}{2}-\frac{x^2d}{2}+\frac{x^3d^3}{6}
        \right) \left(\frac{d}{d-1}\right) \notag \\
-       & = 1-\frac{dx^2}{2}+\frac{x^3d^2}{6(d-1)}  \eqlabel{sweet}
+       & = 1-\frac{dx^2}{2}+\frac{x^3d^3}{6(d-1)}  \eqlabel{sweet}
    \end{align}
    Note that
    \[
