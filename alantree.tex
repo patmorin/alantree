@@ -211,7 +211,7 @@ If $Y_1,\ldots,Y_d$ are $\erlang(2,1)$ random variables, then
 \begin{equation}
     \E[\min\{Y_1,\ldots,Y_d\}] = \left(\frac{2\pi+o_d(1)}{d}\right)^{1/2}  \enspace . \eqlabel{erlang-two}
 \end{equation}
-(TODO: Add short justification here. It's not really a special case of the one
+(\textbf{TODO:} Add short justification here. It's not really a special case of the one
  below.)
 If $Z_1,\ldots,Z_d$ are $\erlang(3,1)$ random variables, then
 \begin{equation}
@@ -507,7 +507,7 @@ O(\sqrt{\Delta}(D+\log n))$ with high probability.
 $g$, $h(T)\in O(g^{1/4}\Delta^{1/2}(D+\log n))$.  Here we show that
 the dependence on the genus $g$ can be reduced when the diameter, $D$,
 is large compared to the genus.  We begin with a upper-bound on path
-counts that is better (for graphs for graphs of small genus) than 
+counts that is better (for graphs of small genus) than 
 \lemref{few-walks}.
 
 \begin{lem}\lemlabel{few-paths-genus}
@@ -1142,7 +1142,9 @@ International Research Station, November 6--11, 2016.  More of this
 research took place at the Rio Workshop on Geometry and Graphs, at IMPA,
 February 12--18, 2017.  In both cases, we are grateful to the workshop
 organizers and other participants for providing stimulating working
-environments.
+environments.  We are especially grateful to G\'abor~Lugosi for helpful
+discussions on many aspects of these results and to Tasos~Sidiropoulos
+for asking us about planar graphs.
 
 \bibliographystyle{plain}
 \bibliography{alantree}
@@ -1152,16 +1154,23 @@ environments.
 
 In this appendix, we prove (in some cases reprove) some results on
 first-passage percolation time on the $(d,k)$-grid that hold for
-all values of $d$ and $k$.  Before doing so, though, we note that
-these results already follow from the $O(1)$ bound on first-passage
-percolation time on the hypercube.  To see why, observe that the
-crux of the problem involves studying the weight of the lightest path
-from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can find a
-path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$ for
-$i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
-result for the $d$-grid shows that one can get from $v_i$ to $v_{i+1}$
-with a path whose expected weight is $O(1)$.  Thus, one can get from $s$
-to $t$ with a path whose expected weight is $O(k)$.
+all values of $d$ and $k$.  Specifically, we show that the first-passage
+percolation time is $O(k)$ with high probability.
+
+Before doing this, though, we note that this result already follows from
+the $O(1)$ bound on first-passage percolation time on the hypercube
+\cite{fill.pemantle:percolation, martinsson:unoriented}.  To see why,
+observe that the crux of the problem involves studying the weight of
+the lightest path from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can
+find a path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$
+for $i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
+result for the $d$-cube shows that one can get from $v_i$ to $v_{i+1}$
+with a path whose expected weight is $O(1)$ and that never leaves the
+$d$-cube induced by $\{i,i+1\}^d$.  Thus there is a path from $s$ to $t$
+whose weight is the sum of $k$ i.i.d.\ random variables $Q_1,\ldots,Q_k$
+each having expectation $O(1)$. All that remains is to show that the
+distribution of $Q_i$ is well-behaved enough to obtain a sufficiently
+strong concentration result on the sum $\sum_{i=1}^k Q_i$.
 
 Nevertheless, we provide an alternate proof here.  One reason for this
 is to make our results self-contained.  Another, however, is that
@@ -1170,16 +1179,17 @@ our arguments differ significantly from those of Fill and Pemantle
 In particular, our proofs use greedy algorithms to find light paths.
 Our proof for the hypercube, for example, shows that one can find a path
 of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
-Exact shortest path algorithms, like Dijkstra's algorithm requires at
+Exact shortest path algorithms, like Dijkstra's algorithm, require at
 least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-grid, our proof
 gives an algorithm that finds a short path in $O(kd^4)$ time, while a
 shortest path agorithm would require $\Omega(d(k+1)^d)$ time.
 
-These results are all for grid graphs.  The \emph{$(d,k)$-grid} with
+These results are all for grid graphs.  The \emph{$(d,k)$-grid} is a graph
+with
 vertex set $\{0,\ldots,k\}^d$ and an edge between two vertices if
 and only if the (Euclidean or $\ell_1$) distance between them is 1.
 For two grid vertices $u=(u_1,\ldots,u_d)$ and $w=(w_1,\ldots,w_d)$
-we define the \emph{$\ell_1$ distance} between them as
+we define the \emph{$\ell_1$-distance} between them as
 \[
    \|uw\|_1 = \sum_{i=1}^d |u_i-w_i|
 \]
@@ -1338,10 +1348,14 @@ any dimension and any side-length.  This includes the hypercube and
 \end{thm}
 
 \begin{proof}
-Let $s=(0,\ldots,0)$ and $t=(k,\ldots,k)$. We will describe an algorithm
-for finding a path from $s$ to $t$ and analyze its expected running time.
-If the algorithm has already constructed a path from $s$ to some vertex $v$,
-then it does one of the following, based on $\|vt\|_H$:
+Let $s=(0,\ldots,0)$ and $t=(k,\ldots,k)$.  As is the case with the
+$d$-cube, the crux of the problem is to find a path from $s$ to $t$
+whose weight has expectation $O(k)$ and that can be expressed as a few
+sums of independent random variables. We will only describe the path and
+analyze its expected weight.
+
+If path-finding algorithm has already constructed a path from $s$ to
+some vertex $v$, then it does one of the following, based on $\|vt\|_H$:
 \begin{enumerate}
 
   \item If $\|vt\|_H \ge d/2$, then the algorithm chooses the lightest 
@@ -1362,30 +1376,26 @@ then it does one of the following, based on $\|vt\|_H$:
              & \ge \|vs\|_H(\|vt\|_H-1)^2
     \end{align*}
     The weight of each of these paths is a
-    $\erlang(3,1)$ random variable, so the expected weight of the path
-    chosen in this step is at most $Cr(v)^{-1/3}$
+    $\erlang(3,1)$ random variable so, by \eqref{erlang-three}, the expected weight of the path
+    chosen in this step is at most $Cr(v)^{-1/3}$ for some constant $C$.
     %\|vs\|_H^{-1/3}\|vt\|_H^{-2/3}$.
 \end{enumerate}
-Let $P$ be the path that results from this algorithm.  Let $S$ be the
-set of path vertices at which the algorithm used the first option above
-and let $T$ be the set of path vertices at which the algorithm used the
-second option above.  Then
+Let $P$ be the path that results from this algorithm and note that the
+length of $P$ is at least $dk$ and at most $3dk$.  Let $Q$ be the set of
+path vertices at which the algorithm used the first option above and let
+$R$ be the set of path vertices at which the algorithm used the second
+option above.  Then
 \begin{align*}
-    \E[W(P)] & \le |S|/d + C\sum_{v\in T}r(v)^{-1/3} \\
-             & = |S|/d + C\sum_{i=1}^{dk}\sum_{v\in T\cap L_i}r(v)^{-1/3} \\
-             & = |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}r(v)^{-1/3} \\
-             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}\|vs\|_H^{-1/3}(\|vt\|_H-1)^{-2/3} \\
-             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}(\|vs\|_1/k)^{-1/3}(\|vt\|_1/k-1)^{-2/3} \\
-             & \le |S|/d + C/d + C\sum_{i=2}^{dk}\sum_{v\in T\cap L_i}(\|vs\|_1/k)^{-1/3}(\|vt\|_1/k-1)^{-2/3} \\
+    \E[W(P)] & \le 2|Q|/d + C\sum_{v\in R}r(v)^{-1/3} \\
+             & = O(k) + C\sum_{i=1}^{dk}\sum_{v\in T\cap L_i}r(v)^{-1/3} \\
+             & = O(k) + C\sum_{i=2}^{dk}\sum_{v\in R\cap L_i}r(v)^{-1/3} \\
+             & \le O(k) + C\sum_{i=2}^{dk}\sum_{v\in R\cap L_i}(\|vs\|_H)^{-1/3}(\|vt\|_H-1)^{-2/3} \\
+             & \le O(k) + C(d/2)^{-1/3}\sum_{i=2}^{dk}\sum_{v\in R\cap L_i}(\|vt\|_H-1)^{-2/3} \\
+             & \le O(k) +  C(d/2)^{-1/3}\sum_{i=2}^{dk}(i/k-1)^{-2/3} \\
+             & \le O(k) +  C(d/2)^{-1/3}\sum_{i=1}^{dk}(i/k)^{-2/3} \\
+             & \le O(k) +  C(d/2)^{-1/3}k^{2/3}\sum_{i=1}^{dk}i^{-2/3} \\
+             & \le O(k) \enspace . \qedhere
 \end{align*}
-
-
-Before we can analyze
-$W(P)$, we need a few preliminary observations relating Hamming distance and $\ell_1$ distance.  First, we note that
-\begin{equation}
-   d-\|vs\|_H \ge \|vs\|_1/k \enspace .
-\end{equation}
-Next we note that, when using the second option for a vertex $v$, it is because $\|vt\|_H < d/2$, which implies that $\|vs\|_1 \ge dk/2$.
 \end{proof}
 
 \section{A Lemma on the Sum of Two Exponentials}
