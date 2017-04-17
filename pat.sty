@@ -100,3 +100,15 @@
 \newcommand{\E}{\mathrm{E}}
 
 
+% Use this to add note/comments
+\usepackage[xcolor]{mdframed}
+\mdfdefinestyle{todostyle}{%
+  linecolor=red!50,
+  linewidth=3pt,
+  backgroundcolor=yellow!20,
+  frametitle={TODO},
+  roundcorner=10pt,
+}
+\newenvironment{todo} {\begin{mdframed}[style=todostyle]} {\end{mdframed}}
+
+
