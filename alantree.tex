@@ -1586,40 +1586,95 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
 
 \section{Tree Lemmas}
 
-Recall the simple Chernoff Bound: For a $\binomial(n,p)$ random variable $B$,
-\begin{equation}
-   \Pr\{B \le np/2\} \le \exp(-np/8) \enspace . \eqlabel{chernoff-a}
-\end{equation}
-\begin{lem}\lemlabel{easy-key}
-Let $\delta \ge d > 0$ be integers, and $0 < c \le \sqrt{\delta d}$, and let $T$ be a tree of height 2 whose root has $\delta$
-children and whose level 1 nodes each have $d$ children and whose edges
-are each assigned independent $\exponential(1)$ weights.  Then the
-probability that $T$ has no root-to-leaf path of weight less than
-$(c+1)/\sqrt{\delta d}$ is at most $e^{-c/4e} + e^{-2c/e}$.
+%Recall the simple Chernoff Bound: For a $\binomial(n,p)$ random variable $B$,
+%\begin{equation}
+%   \Pr\{B \le np/2\} \le e^{-np/8} \enspace . \eqlabel{chernoff-a}
+%\end{equation}
+%\begin{lem}\lemlabel{easy-key}
+%Let $\delta \ge d > 0$ be integers, and $0 < c \le \sqrt{\delta d}$, and let $T$ be a tree of height 2 whose root has $\delta$
+%children and whose level 1 nodes each have $d$ children and whose edges
+%are each assigned independent $\exponential(1)$ weights.  Then the
+%probability that $T$ has no root-to-leaf path of weight less than
+%$(c+1)/\sqrt{\delta d}$ is at most $e^{-c/4e} + e^{-2c/e}$.
+%\end{lem}
+%
+%\begin{proof}
+%   Let $X_1$ be the number of edges incident to the root that have weight at most $c/\sqrt{\delta d}$.  Then $X_1$ is a $\binomial(\delta, p)$ random variable with 
+%\[
+%    p=1-e^{-c/\sqrt{\delta d}} \ge \frac{2c}{e\sqrt{\delta d}} \enspace ,
+%\]
+%where the inequality uses the assumption that $c/\sqrt{\delta d} \le 1$.
+%In particular from \eqref{chernoff-a},
+%\[
+%   \Pr\{X_1 < \delta p / 2 \} \le \exp\left(-\frac{\delta p}{8}\right) 
+%   \le \exp\left(-\frac{c\sqrt{\delta}}{4e\sqrt{d}}\right) 
+%   \le e^{-\frac{c}{4e}} \enspace .
+%\]
+%
+%   Let $X_2$ denote the number of root-to-leaf paths in $T$ whose first
+%   edge has weight at most $c/\sqrt{\delta d}$ and whose second edge has
+%   weight at most $1/\sqrt{\delta d}$.  Then, conditional on $X_1$, $X_2$
+%   is a $\binomial(d X_1, 1-e^{-1/\sqrt{\delta d}})$ random variable. Now we have
+%\[
+%   \Pr\{X_2 = 0\mid X_1 \ge \delta p/2\} \le
+%   \left(e^{-\frac{1}{\sqrt{\delta d}}}\right)^{d\delta p/2}
+%   \le e^{-2c/e} \enspace . \qedhere
+%\]
+%\end{proof}
+
+Let $\alpha \ge \beta \ge \gamma > 0$ be integers and consider the
+tree $T_{\alpha,\beta,\gamma}$ of height three whose root has $\alpha$
+children, each of which has $\beta$ children, each of which has $\gamma$
+children.  Assign independent $\exponential(1)$ weights to the edges
+of $T_{\alpha,\beta,\gamma}$.
+
+\begin{lem}
+   Let $X$ be the weight of lightest path from the root of
+   $T_{\alpha,\beta,\gamma}$ to some leaf.  Then, for any $0<c<(\alpha\beta\gamma)^{1/3}$,  $\Pr\{X \ge (c+2)(\alpha\beta\gamma)^{-1/3} \} \le e^{-\Omega(c)}$.
 \end{lem}
 
 \begin{proof}
-   Let $X_1$ be the number of edges incident to the root that have weight at most $c/\sqrt{\delta d}$.  Then $X_1$ is a $\binomial(\delta, p)$ random variable with 
-\[
-    p=1-e^{-c/\sqrt{\delta d}} \ge \frac{2c}{e\sqrt{\delta d}} \enspace ,
-\]
-where the inequality uses the assumption that $c/\sqrt{\delta d} \le 1$.
-In particular from \eqref{chernoff-a},
-\[
-   \Pr\{X_1 < \delta p / 2 \} \le \exp\left(-\frac{\delta p}{8}\right) 
-   \le \exp\left(-\frac{c\sqrt{\delta}}{4e\sqrt{d}}\right) 
-   \le e^{-\frac{c}{4e}} \enspace .
-\]
+   Let $q=(\alpha\beta\gamma)^{-1/3}$
+   For each $i\in\{1,2,3\}$, we say that a node $v$ at depth $i$
+   \emph{survives} if there is a path from the root to $v$ whose
+   first edge has weight at most $cq$
+   and whose (at most two) subsequent edges each have weight at
+   most $q$.  We let $X_i$ be the number of
+   surviving nodes at level $i$.  It suffices to show that $\Pr\{X_3 =
+   0\} \le e^{-\Omega(c)}$.
 
-   Let $X_2$ denote the number of root-to-leaf paths in $T$ whose first
-   edge has weight at most $c/\sqrt{\delta d}$ and whose second edge has
-   weight at most $1/\sqrt{\delta d}$.  Then, conditional on $X_1$, $X_2$
-   is a $\binomial(d X_1, 1-e^{-1/\sqrt{\delta d}})$ random variable. Now we have
-\[
-   \Pr\{X_2 = 0\mid X_1 \ge \delta p/2\} \le
-   \left(e^{-\frac{1}{\sqrt{\delta d}}}\right)^{d\delta p/2}
-   \le e^{-2c/e} \enspace . \qedhere
-\]
+   First, note that $X_1$ is a $\binomial(\alpha, 1-e^{-cq})$ random variable.
+   The expected value of $X_1$ is at most
+   \[
+       \E[X_1] = \alpha(1-e^{-cq}) \ge 2\alpha cq/e \enspace ,
+   \]
+   where the second inequality, with the constant $2/e$, is valid because
+   $cq\le 1$.
+   By Chernoff's Bounds,
+   \begin{align*}
+     \Pr\{X_1 < \alpha cq/e\} 
+       & \le \Pr\{X_1 < \alpha(1-e^{-cq})/2\} \\
+       & \le \exp\left(-\alpha(1-e^{-cq})/8\right) & \text{(by Chernoff's Bound)}\\
+       & \le \exp\left(-\alpha cq/(4e)\right) & \text{}\\
+       & = \exp\left(-\alpha^{2/3}c/\left(4e(\beta\gamma)^{1/3}\right)\right) \\
+       & \le \exp\left(-c/(4e)\right) = e^{-\Omega(c)} & \text{(Because $\alpha \ge \beta,\gamma$)}
+   \end{align*}
+
+   Now note that, conditioned on $X_1$, $X_2$ is a
+   $\binomial(\beta X_1,1-e^{-q})$ random variable.  So
+   \begin{align*}
+     \Pr\{X_2 \le \alpha\beta cq/(2e) \mid X_1 \ge \alpha cq/e\}
+       & \le \exp\left(\alpha\beta (1-e^{-q}) cq/(8e)\right) \\
+       & \le \exp\left(\alpha\beta cq^2/(4e^2)\right) \\
+       & = \exp\left((\alpha\beta)^{1/3} c/(4e^2\gamma^{2/3})\right) \\
+       & \le \exp\left(c/(4e^2)\right) = e^{-\Omega(c)}
+   \end{align*}
+ 
+it is joined to the
+   root by an edge of weight at most $c(\alpha\beta\gamma)^{-1/3}$.
+   I  
+
+
 \end{proof}
 
 %From \lemref{easy-key}, we can easily obtain an upper bound on the expected
