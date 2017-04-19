@@ -1452,7 +1452,7 @@ some vertex $v$, then it does one of the following, based on $\|vt\|_H$:
     \begin{align*}
         r(v) & = (d-\|vt\|_H)\|vt\|_H^2 
                + (\|vs\|_H-d+\|vt\|_H)(\|vt\|_H-1)^2 \\
-             & \ge \|vs\|_H(\|vt\|_H-1)^2
+             & \ge \|vs\|_H(\|vt\|_H-1)^2 \enspace .
     \end{align*}
     Again, the result in \appref{easy-tree} shows that the expected
     weight of the path chosen in this step is at most $Cr(v)^{-1/3}$
@@ -1573,14 +1573,15 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
    The left hand side of this last equation is non-negative for all $d\ge 3$.
 \end{proof}
 
-\section{Tree Lemmas}
+\section{A Lemma on Trees of Height Three}
+\applabel{easy-tree}
 
-\lemref{luc}, in \appref{lucs-lemma}, shows that if one has a
-tree $T_{\delta,d}$ of height two whose root has $\delta$ children each
-of which has $d$ children and this tree has exponential edge weights,
-then the lightest root-to-leaf path in $T_{\delta,d}$ has expected
-weight $O((\delta d)^{-1/2})$.  In this appendix, we extend this result
-to trees of height three.
+\lemref{luc}, in \appref{lucs-lemma}, shows that if one has a tree
+$T_{\delta,d}$ of height two whose root has $\delta$ children each of
+which has $d$ children and this tree has exponential edge weights, then
+the lightest root-to-leaf path in $T_{\delta,d}$ has expected weight
+$O((\delta d)^{-1/2})$.  In this appendix, we extend this result to
+trees of height three.
 
 Let $\alpha \ge \beta \ge \gamma > 0$ be integers and consider the
 tree $T_{\alpha,\beta,\gamma}$ of height three whose root has $\alpha$
