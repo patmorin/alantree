@@ -1369,23 +1369,13 @@ This result is not new, though the proof is.
     set of vertices of $G$ whose distance to $t$ is $i$.  The algorithm
     considers the $r=(d-\ell)\ell^2$ paths $vxyz$ that go from $v$ to
     a vertex in $x\in L_{\ell+1}$, $y\in L_{\ell}\setminus v$, and then
-    to $z\in L_{\ell-1}$.  Each such path has a weight, $Y_i$, that is
-    the sum of three $\exponential(1)$ random variables and is therefore
-    a $\erlang(3,1)$ random variable.  No two such paths share an edge,
-    so these random variables are independent and, by \eqref{erlang-three}
-    their minimum has expected value $C/r^{-1/3}$.
-\begin{todo}
-  Alan points out that this last statement is false. There are only
-  $d-\ell$ choices for the first edge on the path $vxyz$, so if there
-  are more than $d-\ell$ paths, then some of them have the first edge
-  in common.
+    to $z\in L_{\ell-1}$.  
 
-  The correct thing to study is the following: We have a tree with
-  independent $\exponential(1)$ edge weights on the edges.  The tree
-  has height $3$ and all non-leaves have $\ell$ children except the root,
-  which has $d-\ell$ children.  What is the weight of the lightest root-to-leaf
-  path in this tree?
-\end{todo}
+    The weight of the length 3 path found in such a step is the subject
+    of \appref{easy-tree}, where we show that the expected weight of this
+    path is at most $Cr^{-1/3}$ for some constant $C$. (In the notation
+    of \appref{easy-tree}, the weight of this path is modelled by the
+    lightest root-to-leaf path in the tree $T_{d-\ell,\ell,\ell}$.)
   \end{enumerate}
   Notice that after each step of the algorithm, the distance to $t$ is
   reduced by 1, so the algorithm performs exactly $d$ steps.  The weight
@@ -1443,7 +1433,7 @@ whose weight has expectation $O(k)$ and that can be expressed as a few
 sums of independent random variables. We will only describe the path and
 analyze its expected weight.
 
-If path-finding algorithm has already constructed a path from $s$ to
+If the path-finding algorithm has already constructed a path from $s$ to
 some vertex $v$, then it does one of the following, based on $\|vt\|_H$:
 \begin{enumerate}
 
@@ -1464,10 +1454,9 @@ some vertex $v$, then it does one of the following, based on $\|vt\|_H$:
                + (\|vs\|_H-d+\|vt\|_H)(\|vt\|_H-1)^2 \\
              & \ge \|vs\|_H(\|vt\|_H-1)^2
     \end{align*}
-    The weight of each of these paths is a
-    $\erlang(3,1)$ random variable so, by \eqref{erlang-three}, the expected weight of the path
-    chosen in this step is at most $Cr(v)^{-1/3}$ for some constant $C$.
-    %\|vs\|_H^{-1/3}\|vt\|_H^{-2/3}$.
+    Again, the result in \appref{easy-tree} shows that the expected
+    weight of the path chosen in this step is at most $Cr(v)^{-1/3}$
+    for some constant $C$.
 \end{enumerate}
 Let $P$ be the path that results from this algorithm and note that the
 length of $P$ is at least $dk$ and at most $3dk$.  Let $Q$ be the set of
@@ -1586,41 +1575,12 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
 
 \section{Tree Lemmas}
 
-%Recall the simple Chernoff Bound: For a $\binomial(n,p)$ random variable $B$,
-%\begin{equation}
-%   \Pr\{B \le np/2\} \le e^{-np/8} \enspace . \eqlabel{chernoff-a}
-%\end{equation}
-%\begin{lem}\lemlabel{easy-key}
-%Let $\delta \ge d > 0$ be integers, and $0 < c \le \sqrt{\delta d}$, and let $T$ be a tree of height 2 whose root has $\delta$
-%children and whose level 1 nodes each have $d$ children and whose edges
-%are each assigned independent $\exponential(1)$ weights.  Then the
-%probability that $T$ has no root-to-leaf path of weight less than
-%$(c+1)/\sqrt{\delta d}$ is at most $e^{-c/4e} + e^{-2c/e}$.
-%\end{lem}
-%
-%\begin{proof}
-%   Let $X_1$ be the number of edges incident to the root that have weight at most $c/\sqrt{\delta d}$.  Then $X_1$ is a $\binomial(\delta, p)$ random variable with 
-%\[
-%    p=1-e^{-c/\sqrt{\delta d}} \ge \frac{2c}{e\sqrt{\delta d}} \enspace ,
-%\]
-%where the inequality uses the assumption that $c/\sqrt{\delta d} \le 1$.
-%In particular from \eqref{chernoff-a},
-%\[
-%   \Pr\{X_1 < \delta p / 2 \} \le \exp\left(-\frac{\delta p}{8}\right) 
-%   \le \exp\left(-\frac{c\sqrt{\delta}}{4e\sqrt{d}}\right) 
-%   \le e^{-\frac{c}{4e}} \enspace .
-%\]
-%
-%   Let $X_2$ denote the number of root-to-leaf paths in $T$ whose first
-%   edge has weight at most $c/\sqrt{\delta d}$ and whose second edge has
-%   weight at most $1/\sqrt{\delta d}$.  Then, conditional on $X_1$, $X_2$
-%   is a $\binomial(d X_1, 1-e^{-1/\sqrt{\delta d}})$ random variable. Now we have
-%\[
-%   \Pr\{X_2 = 0\mid X_1 \ge \delta p/2\} \le
-%   \left(e^{-\frac{1}{\sqrt{\delta d}}}\right)^{d\delta p/2}
-%   \le e^{-2c/e} \enspace . \qedhere
-%\]
-%\end{proof}
+\lemref{luc}, in \appref{lucs-lemma}, shows that if one has a
+tree $T_{\delta,d}$ of height two whose root has $\delta$ children each
+of which has $d$ children and this tree has exponential edge weights,
+then the lightest root-to-leaf path in $T_{\delta,d}$ has expected
+weight $O((\delta d)^{-1/2})$.  In this appendix, we extend this result
+to trees of height three.
 
 Let $\alpha \ge \beta \ge \gamma > 0$ be integers and consider the
 tree $T_{\alpha,\beta,\gamma}$ of height three whose root has $\alpha$
@@ -1628,7 +1588,7 @@ children, each of which has $\beta$ children, each of which has $\gamma$
 children.  Assign independent $\exponential(1)$ weights to the edges
 of $T_{\alpha,\beta,\gamma}$.
 
-\begin{lem}\lemlabel{tree-easy}
+\begin{lem}\lemlabel{easy-tree}
    Let $X$ be the weight of lightest path from the root of
    $T_{\alpha,\beta,\gamma}$ to some leaf.  Then, 
    for any $0<c<(\alpha\beta\gamma)^{1/3}$,  $\Pr\{X
@@ -1691,7 +1651,10 @@ of $T_{\alpha,\beta,\gamma}$.
    \end{align*}
 \end{proof}
 
-From \lemref{tree-easy}, we can obtain an upper bound on the expected weight, $X$, of the lightest root-to-leaf path of in $T_\alpha,\beta,\gamma$. of the shortest path.  Indeed, setting $x=(c+2)q$, \lemref{tree-easy} implies that, for $0<x<1+2/q$,
+From \lemref{easy-tree}, we can obtain an upper bound of
+$O((\alpha\beta\gamma)^{-1/3})$ on the expected weight, $X$, of the
+lightest root-to-leaf path of in $T_{\alpha,\beta,\gamma}$.  Setting
+$x=(c+2)q$, \lemref{easy-tree} states that, for $0<x<1+2/q$,
 \[
    \Pr\{X > x\} \le 3e^{-\left(\frac{x}{q}-2\right)/(4e^2)} \enspace .
 \]
@@ -1699,7 +1662,7 @@ Therefore,
 \begin{align*}
    \E[X] & = \int_0^{\infty} \Pr\{X > x\} \\
          & = \int_0^{1} \Pr\{X > x\}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & \le \int_0^{1} 3e^{-\left(\frac{x}{q}-2\right)/(4e^2)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
+         & \le \int_0^{1} 3e^{-\left(\frac{x}{q}-2\right)/(4e^2)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x  & \text{(by \lemref{easy-tree})}\\
          & = 3e^{2/(4e^2)}\int_0^{1} e^{-x/(4e^2q)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
          & < 3e^{2/(4e^2)}\int_0^{\infty} e^{-x/(4e^2q)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
          & = 12e^{2/(4e^2)+2}q + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
@@ -1713,28 +1676,18 @@ $\erlang(3,1)$ random variables.  The minimum of $\alpha$ independent
 $\erlang(3,1)$ random variables tends in distribution to a random variable
 $M$: $\Pr\{M>x\} = \exp(-x^3\alpha/6)$.  Thus, the second integral above is handled by:
 \begin{align*}
-   \E[X] & = \int_1^{\infty} \Pr\{X > x\} \\
-         & \le \int_1^{\infty} \Pr\{M > x\} \\
-         & \le \int_1^{\infty} \Pr\{M > x\} \\
-
-
-
-
-         & = \int_0^{1} \Pr\{X > x\}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & \le \int_0^{1} 3e^{-\left(\frac{x}{q}-2\right)/(4e^2)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & = 3e^{2/(4e^2)}\int_0^{1} e^{-x/(4e^2q)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & < 3e^{2/(4e^2)}\int_0^{\infty} e^{-x/(4e^2q)}\,\mathrm{d}x + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & = 12e^{2/(4e^2)+2}q + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x \\
-         & = 12e^{2/(4e^2)+2}(\alpha\beta\gamma)^{-1/3} + \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x
+   \int_1^{\infty} \Pr\{X > x\}\,\mathrm{d}x 
+         & \le \int_1^{\infty} \Pr\{M > x\}\,\mathrm{d}x \\
+         & =  \int_1^{\infty} \exp(-x^3\alpha/6)\,\mathrm{d}x \\
+         & = \frac{6^{1/3}\Gamma(1/3,\alpha/6)}{3\alpha^{1/3}} \\
+         & = \frac{6^{1/3}\int_{\alpha/6}^\infty t^{-2/3}e^{-t}\,\mathrm{d}t}{3\alpha^{1/3}} \\
+         & < \frac{6^{1/3}\int_{\alpha/6}^\infty (\alpha/6)^{-2/3}e^{-t}\,\mathrm{d}t}{3\alpha^{1/3}} & \text{(for $\alpha \ge 6$)} \\
+         & = \frac{6\int_{\alpha/6}^\infty e^{-t}\,\mathrm{d}t}{3\alpha} \\
+         & = \frac{2}{\alpha} 
+         \le \frac{2}{(\alpha\beta\gamma)^{1/3}} &\text{(since $\alpha \ge \beta,\gamma$}) & \enspace .
 \end{align*}
+Therefore, $\E[X] \le (12e^{2/(4e^2)+2}+2)(\alpha\beta\gamma)^{-1/3}$ for $\alpha \ge 6$.
 
-
-
-
-
-
-, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
-\mathrm{d}z = 6^{1/3}\Gamma (1/3) / 3$. 
 
 
 
