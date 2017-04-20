@@ -268,7 +268,7 @@ $Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
 Finally, in one special case we will have random variables
 $Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
 and $Y_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
-\eqref{erlang-two}, which holds for all $\delta \ge d \ge 5$:
+\eqref{erlang-two}, which holds for all $\delta \ge d \ge 3$:
 \begin{equation}
    \E[\min\{Q_1,\ldots,Q_\delta\}] \le \frac{\sqrt{2\pi}+1}{\sqrt{\delta d}}
      \enspace \enspace ,
@@ -1484,7 +1484,7 @@ $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$ and $Y_i\sim\exponential(d)$
 with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
 
 \begin{lem}\lemlabel{luc}
-   For $\delta\ge d \ge 5$, 
+   For $\delta\ge d \ge 3$, 
    \[  \E[M] \le \frac{\sqrt{2\pi} + 1}{\sqrt{d\delta}} \enspace . \]
 \end{lem}
 
@@ -1536,7 +1536,8 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
       = \frac{3}{8}dx^2 
       \enspace ,
    \] 
-   since $d/(d-1) \le 5/4$. And so,
+   %since $d/(d-1) \le 5/4$. 
+   And so,
    \[
       \eqref{sweet} \le 1-\frac{1}{8}\cdot dx^2 \enspace , \enspace x \le a \enspace .
    \]
@@ -1545,7 +1546,7 @@ with all $X_i$ and $Y_i$ independent.  Let $M=\min\{Q_1,\ldots,Q_\delta\}$.
       \eqref{integral-a} 
         & \le \int_0^a\left(1-\frac{1}{8}dx^2\right)^\delta \, \mathrm{d}x \\
         & \le \int_0^a e^{-\frac{d\delta}{8}x^2} \mathrm{d}x \\
-        & = \frac{1}{2}+\sqrt{2\pi}\times\sqrt{\frac{4}{d\delta}} \\
+        & \le \frac{1}{2}\sqrt{2\pi}\times\sqrt{\frac{4}{d\delta}} \\
         & = \sqrt{\frac{2\pi}{d\delta}} \enspace .
    \end{align*}
    Next we prove the bound on \eqref{integral-b}.  We use the trivial bound:
