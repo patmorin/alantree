@@ -38,7 +38,11 @@
 \DeclareMathOperator{\erlang}{Erlang}
 
 
-\title{\MakeUppercase{Notes on Growing a Tree in a Graph}}
+\title{\MakeUppercase{Notes on Growing a Tree in a Graph}\thanks{%
+Some of this work was carried out while Vida Dujmovic, Pat Morin, and
+Bruce Reed were visiting IMPA in Rio de Janeiro. They  thank the Institute
+for its hospitality.
+}}
 \author{
 %   Louigi Addario-Berry
    Luc~Devroye,
@@ -105,7 +109,7 @@ path tree rooted at $s$.  We call this latter process \emph{Process~FP}
 Process~A can be seen by adding vertices to the shortest path tree rooted
 at $s$ in increasing order of the weight of their lightest path to $s$.
 At each step in this process, the memoryless property ensures that each
-edge adjacent ot exactly one vertex of $T$ is equally likely to be the
+edge adjacent to exactly one vertex of $T$ is equally likely to be the
 next edge added to $T$.
 
 Since these processes produce the same distribution of spanning trees,
@@ -113,11 +117,11 @@ in the remainder, $T$ will refer to a spanning tree produced by Process~A,
 Process~B, Process~E, or Process~FP, whichever is convenient.  Since our
 Process~A refers to an unweighted graph and Process~FP refers to weighted
 graph, we will use the convention that the \emph{length} of a path $P$ is
-the number of edges in the path and the \emph{weight}, $W(P)$ of a path
-is the sum of the weights on the edges in the path. The \emph{height},
+the number of edges in the path and the \emph{weight}, $W(P)$ 
+is the sum of the weights on the edges in $P$. The \emph{height},
 $h(T)$, of $T$ is the length of the longest root-to-leaf path in $T$.
 The weight of the heaviest root-to-leaf path in $T$ is called the
-\emph{first-passage percolation time} and will play an important role
+\emph{first-passage percolation time} and plays an important role
 in our results.
 
 We use the following notational conventions: $\log x$ denotes the binary
@@ -195,14 +199,14 @@ This is exactly the \emph{random recursive tree} model of random trees.
 Devroye \cite{devroye:branching} and Pittel \cite{pittel:note} have
 shown that the expected height of an $n$-node random recursive tree is
 $(e+o_n(1))\ln n$.  More precisely, they show that $\lim_{n\to\infty}
-h(T)/\ln n = e$ with probability 1.
+h(T)/\ln n = e$ with probability 1. Our results on graphs with high
+edge-expansion can be viewed as a generalization of this result.
 
-The remainder of this paper is organized as follows:
-\Secref{inequalities} presents some basic facts about sums of
-independent exponential random variables that we use throughout.
-\Secref{upper-bounds} presents our upper bounds on $h(T)$.
-\Secref{lower-bounds} presents families of graphs where $h(T)$ matches our upper
-bounds.
+The remainder of this paper is organized as follows: \Secref{inequalities}
+presents some basic facts about sums of independent exponential random
+variables that we use throughout.  \Secref{upper-bounds} presents our
+upper bounds on $h(T)$.  \Secref{lower-bounds} presents families of
+graphs where $h(T)$ matches our upper bounds.
 
 \section{Inequalities for Sums of Exponentials}
 \seclabel{inequalities}
@@ -252,30 +256,29 @@ If $Y_1,\ldots,Y_\delta$ are $\erlang(2,1)$ random variables, then
     \E[\min\{Y_1,\ldots,Y_\delta\}] = \left(\frac{2\pi+o_\delta(1)}{\delta}\right)^{1/2}  \enspace . \eqlabel{erlang-two}
 \end{equation}
 \begin{todo}
-Add short justification here. It's not really a special case of the one
-below.
+Add short justification here. 
 \end{todo}
 
-If $Z_1,\ldots,Z_\delta$ are $\erlang(3,1)$ random variables, then
-\begin{equation}
-    \E[\min\{Z_1,\ldots,Z_\delta\}] = \left(\frac{C_\delta}{\delta}\right)^{1/3}  \eqlabel{erlang-three} \enspace ,
-\end{equation}
-where $C_\delta =  6^{1/3}\Gamma (1/3) / 3 + o_\delta(1)$.  The following is a brief justifcation of \eqref{erlang-three}: If $M$ is the minimum of $\delta$ independent $\erlang(3,1)$ random 
-variables, then $M\delta^{1/3}$ tends in distribution to a random variable 
-$Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
-\mathrm{d}z = 6^{1/3}\Gamma (1/3) / 3$. 
-
-Finally, in one special case we will have random variables
-$Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
-and $Y_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
-\eqref{erlang-two}, which holds for all $\delta \ge d \ge 3$:
-\begin{equation}
-   \E[\min\{Q_1,\ldots,Q_\delta\}] \le \frac{\sqrt{2\pi}+1}{\sqrt{\delta d}}
-     \enspace \enspace ,
-     \eqlabel{non-uniform-erlang}
-\end{equation}
-The proof of this is found in \appref{lucs-lemma}.
-
+%If $Z_1,\ldots,Z_\delta$ are $\erlang(3,1)$ random variables, then
+%\begin{equation}
+%    \E[\min\{Z_1,\ldots,Z_\delta\}] = \left(\frac{C_\delta}{\delta}\right)^{1/3}  \eqlabel{erlang-three} \enspace ,
+%\end{equation}
+%where $C_\delta =  6^{1/3}\Gamma (1/3) / 3 + o_\delta(1)$.  The following is a brief justifcation of \eqref{erlang-three}: If $M$ is the minimum of $\delta$ independent $\erlang(3,1)$ random 
+%variables, then $M\delta^{1/3}$ tends in distribution to a random variable 
+%$Z$: $\Pr\{Z>z\} = \exp(-z^3/6)$, and $\E[Z]= \int_0^\infty \exp(-z^3/6)\,
+%\mathrm{d}z = 6^{1/3}\Gamma (1/3) / 3$. 
+%
+%Finally, in one special case we will have random variables
+%$Q_1,\ldots,Q_\delta$ where each $Q_i=X_i+Y_i$ with $X_i\sim\exponential(1)$
+%and $Y_i\sim\exponential(d)$ with all $X_i$ and $Y_i$ independent.  We will need the following generalization of
+%\eqref{erlang-two}, which holds for all $\delta \ge d \ge 3$:
+%\begin{equation}
+%   \E[\min\{Q_1,\ldots,Q_\delta\}] \le \frac{\sqrt{2\pi}+1}{\sqrt{\delta d}}
+%     \enspace \enspace ,
+%     \eqlabel{non-uniform-erlang}
+%\end{equation}
+%The proof of this is found in \appref{lucs-lemma}.
+%
 
 
 \section{Upper Bounds}
@@ -501,7 +504,7 @@ walks of length $L$.
 
 Note that \thmref{alantree-upper-bound-degenerate} actually implies
 \thmref{alantree-upper-bound}, since all graphs of maximum degree $\Delta$
-are $\Delta$-degenerate so $\sqrt{d\Delta}\le \Delta$ in all cases.
+are $\Delta$-degenerate, so $\sqrt{d\Delta}\le \Delta$ in all cases.
 However, \thmref{alantree-upper-bound-degenerate} covers many special
 graph classes:
 
@@ -556,11 +559,11 @@ is better (for graphs of small genus) than \lemref{few-walks}.
 \end{lem}
 
 \begin{proof}
-   The following proof makes use some basic notions related to graphs
-   on surfaces; see Mohar and Thomassen \cite{mohar.thomassen:graphs} for basic
-   definitions and results.
-   Since $G$ has Euler genus $g$, it has a 2-cell embedding in a surface
-   of Euler genus $g$.  Euler's formula then states that 
+   The following proof makes use of some basic notions related to graphs
+   on surfaces; see Mohar and Thomassen \cite{mohar.thomassen:graphs} for
+   basic definitions and results.  Since $G$ has Euler genus $g$, it has
+   a 2-cell embedding in a surface of Euler genus $g$.  Euler's formula
+   then states that
    \begin{equation}
       m = n+f-2+g \enspace ,  \eqlabel{euler}
    \end{equation}
@@ -677,7 +680,7 @@ We also define
 \]
 and the \emph{edge expansion} of $G$ is
 \[
-    \Phi(G) = \min_{k=1}^{\lfloor n/2\rfloor}\Phi_k(G)
+    \Phi(G) = \min\left\{\Phi_k(G): k\in\{1,\ldots,\lfloor n/2\rfloor\}\right\}
 \]
 We will express the height of $T$ in terms of the \emph{total inverse
 perimeter size} $\Psi$, which is closely related to the edge expansion:
@@ -717,7 +720,7 @@ of Devroye and Pittel for the height of the random recursive tree
 \begin{todo}
 Luc suggested there might already exist first-passage
 percolation results for graphs with large Cheeger constants.  If so,
-then we may be able to replace this proof with an application
+then we may be able to replace this proof with an application of
 \lemref{meta-theorem}.
 \end{todo}
 
@@ -1192,7 +1195,7 @@ all values of $d$ and $\Delta$.
   $Y_i\sim\exponential(d)$ and all variables independent.
 
   An upper bound on the expectation of this random variable is given
-  in \eqref{non-uniform-erlang}:
+  by \lemref{luc} in \appref{lucs-lemma}:
   \[ 
       \E[\min\{Z_i:i\in\{1,\ldots,\delta\}\}] = O(1/\sqrt{d\delta}) \enspace .
   \]
