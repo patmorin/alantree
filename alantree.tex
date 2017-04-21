@@ -1585,7 +1585,10 @@ $T_{\delta,d}$ of height two whose root has $\delta$ children each of
 which has $d$ children and this tree has exponential edge weights, then
 the lightest root-to-leaf path in $T_{\delta,d}$ has expected weight
 $O((\delta d)^{-1/2})$.  In this appendix, we extend this result to
-trees of height three.
+trees of height three.  But first, we recall the following simple Chernoff Bound on the head of a $\binomial(n,p)$ random variable, $B$,
+\begin{equation}
+    \Pr\{B \le np/2\} \le e^{-np/8} \enspace . \eqlabel{chernoff-binomial}
+\end{equation}
 
 Let $\alpha \ge \beta \ge \gamma > 0$ be integers and consider the
 tree $T_{\alpha,\beta,\gamma}$ of height three whose root has $\alpha$
@@ -1594,7 +1597,7 @@ children.  Assign independent $\exponential(1)$ weights to the edges
 of $T_{\alpha,\beta,\gamma}$.
 
 \begin{lem}\lemlabel{easy-tree}
-   Let $X$ be the weight of lightest path from the root of
+   Let $X$ be the weight of the lightest path from the root of
    $T_{\alpha,\beta,\gamma}$ to some leaf.  Then, 
    for any $0<c<(\alpha\beta\gamma)^{1/3}$,  $\Pr\{X
    \ge (c+2)(\alpha\beta\gamma)^{-1/3} \} \le 3e^{-c/(4e^2)}$.
@@ -1622,7 +1625,7 @@ of $T_{\alpha,\beta,\gamma}$.
    \begin{align*}
      \Pr\{X_1 < \alpha cq/e\} 
        & \le \Pr\{X_1 < \alpha(1-e^{-cq})/2\} \\
-       & \le \exp\left(-\alpha(1-e^{-cq})/8\right) & \text{(by Chernoff's Bound)}\\
+       & \le \exp\left(-\alpha(1-e^{-cq})/8\right) & \text{(by \eqref{chernoff-binomial})}\\
        & \le \exp\left(-\alpha cq/(4e)\right) & \text{}\\
        & = \exp\left(-\alpha^{2/3}c/\left(4e(\beta\gamma)^{1/3}\right)\right) \\
        & \le \exp\left(-c/(4e)\right) & \text{(Because $\alpha \ge \beta,\gamma$)}
