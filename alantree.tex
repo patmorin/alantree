@@ -7,6 +7,21 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
 
+\usepackage{marvosym}
+\makeatletter
+\renewcommand*{\@fnsymbol}[1]{\ensuremath{\ifcase#1 %
+   \or \text{\Sun}
+   \or \text{\Mercury}
+   \or \text{\Venus}
+   \or \text{\Earth}
+   \or \text{\Mars}
+   \or \text{\Jupiter}
+   \or \text{\Saturn}
+   \or \text{\Uranus}
+   \or \text{\Neptune}
+   \or \text{\Pluto}
+  \else\@ctrerr\fi}}
+\makeatother
 
 \usepackage[mathlines]{lineno}
 \setlength{\linenumbersep}{2.5cm}
@@ -47,19 +62,21 @@ Bruce Reed were visiting IMPA in Rio de Janeiro. They thank the Institute
 for its hospitality. }}
 \author{
 %   Louigi Addario-Berry
-   Luc~Devroye
-   Vida~Dujmovi\'c,
-   Alan~Frieze,
+   Luc~Devroye,\thanks{School of Computer Science, McGill University, Montr\'eal, Canada}\,\,
+   Vida~Dujmovi\'c,\thanks{Department of Computer Science and Electrical Engineering, University of Ottawa, Ottawa, Canada}\,\,
+   Alan~Frieze,\thanks{Department of Mathematical Sciences, Carnegie Mellon University, Pittsburgh, USA}\,\,
 %   G\'abor~Lugosi,
-   Abbas~Mehrabian\thanks{Department of Computer Science, University of British Columbia, Vancouver, Canada. 
+   Abbas~Mehrabian,\thanks{Department of Computer Science, University of British Columbia, Vancouver, Canada. 
    This author was
        supported by an NSERC Postdoctoral Fellowship and a Simons-Berkeley
        Research Fellowship. Part of this work was done while he was
        visiting the Simons Institute for the Theory of Computing at UC
-       Berkeley. Email: AbbasMehrabian@gmail.com.},
+       Berkeley.}\,\,
+       %Email: AbbasMehrabian@gmail.com.},
 %   Colin McDiarmid
-   Pat~Morin, and
-   Bruce~Reed
+   Pat~Morin,\thanks{School of Computer Science, Carleton University, Ottawa, Canada}\,\, and
+   Bruce~Reed\thanks{CNRS, Projet COATI, I3S (CNRS and UNS) UMR7271 and INRIA, Sophia Antipolis, France. Instituto Nacional de Matem\'atica Pura e Aplicada (IMPA), Brasil. Visiting
+Research Professor, ERATO Kawarabayashi Large Graph Project, Japan.}
 %   and Anastasios~Sidiropoulos 
 }
 
@@ -135,7 +152,7 @@ that $f(k)\to 0$ as $k\to\infty$.)
 For $D\in \Omega(\log \Delta)$ and planar graphs (which are 5-degenerate) this is tight:
   in~\thmref{planartight} we show 
   for any $\Delta>2$ and $D>10^6\ln \Delta$
-  there exist a planar graph $G$ and vertex $s$ with
+  there exists a planar graph $G$ and vertex $s$ with
   $h(\tcal(G,s))\in
       \Omega(\sqrt{\Delta}(D+\log n))$.
   
@@ -172,11 +189,12 @@ $h(\tcal(G,s))\in
   graph has $\Phi\in \Omega(\Delta)$, see~\cite{bollobas:isoperimetric}).
 \end{enumerate}
 
-Our main tool for proving upper bounds, \lemref{meta-theorem}, bounds $h(\tcal(G,s))$ in terms of the first-passage percolation cover time and the number of paths of  a given length starting at $s$.
-To prove our results using this tool, we prove several new bounds
-on first-passage percolation cover times  as well
-as number of simple paths in various families of graphs,
-which are of independent interest.
+Our main tool for proving upper bounds, \lemref{meta-theorem}, bounds
+$h(\tcal(G,s))$ in terms of the first-passage percolation cover time and
+the number of paths of  a given length starting at $s$.  To prove our
+results using this tool, we prove several new bounds on first-passage
+percolation cover times  as well as the number of simple paths in various
+families of graphs, which are of independent interest.
 
 \subparagraph{Our results on first-passage percolation cover time.}
 Suppose independent exponential(1) random variables $\{\tau_e\}$ are assigned to edges of $G$.
@@ -296,7 +314,7 @@ Let $X_1,\dots,X_m$ be i.i.d.\ distributed as $Y_{a,b}$ for some $a,b$.
 Then we have
 $\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
 \[
-\Pr\{\sum X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \}
+\Pr\left\{\sum_{i=1}^m X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \right\}
 \leq
 \exp(-m/9)\:.
 \]
@@ -327,15 +345,15 @@ version of Bernstein's inequality (see Theorem~2.10 and Corollary~2.11 in~\cite{
 \begin{thm}[Bernstein's inequality]
 \label{thm:bernstein}
 Let $X_1,\dots,X_m$ be non-negative independent random variables for which there exist $v,c$ satisfying
-\[\sum \E [X_i^p] \leq v p!  c^{p-2}/2\]
+\[\sum_{i=1}^m \E [X_i^p] \leq v p!  c^{p-2}/2\]
 for all positive integers $p\geq2$.
 Then for any $t>0$ we have
 \[
-\Pr \left\{ \sum (X_i - \E X_i) \geq ct + \sqrt{2vt}\right\}\leq e^{-t} \:,
+\Pr \left\{ \sum_{i=1}^m (X_i - \E X_i) \geq ct + \sqrt{2vt}\right\}\leq e^{-t} \:,
 \]
 and
 \[
-\Pr \left\{ \sum (X_i - \E X_i) \geq t
+\Pr \left\{ \sum_{i=1}^m (X_i - \E X_i) \geq t
 \right\}\leq \exp\left(-\frac{t^2}{2v+2ct}\right) \:,
 \]
 \end{thm}
@@ -460,10 +478,13 @@ Therefore, the tree along which the disease spreads has the same distribution as
 This viewpoint induces weights on the edges:
 to each edge $e$ we  assign weight $\tau(e)$, which is the ringing time for the timer on this edge.
 Note that the weights are i.i.d.\ exponential (1) random variables.
-The weight a path $P$, denoted $\tau(P)$, is simply the sum of weights of its edges.
+The weight of a path $P$, denoted $\tau(P)$, is simply the sum of weights of its edges.  The \emph{first-passage percolation hitting time} (or simply, the \emph{hitting time}) for $v$ is the weight of the lightest path from $s$ to $v$:
+\[
+    \tau(G,s,v) = \min_{\gamma\in\Gamma(s,v)} \tau(\gamma) \enspace .
+\]
 The \emph{first-passage percolation cover time} (or simply, the \emph{cover time}) is the first time that all vertices are infected, which can be written as
 \[
-	\tau(G,s) = \max_{v\in V(G)} \min_{\gamma\in\Gamma(s,v)} \tau(\gamma) \:.
+	\tau(G,s) = \max_{v\in V(G)} \tau(G,s,v)  \enspace .
 \]
 Note that this is also the maximum \emph{weight} of a root-to-leaf path in the infection tree $\tcal(G,s)$, 
 which we will use to bound the {height} of $\tcal(G,s)$,
@@ -1193,7 +1214,7 @@ For the rest of this section, $G$ is a fixed $(d,k)$-grid.
 \begin{proof}
 We identify the vertices of the graph with points in $\mathbb{Z}^d$, and without loss of generality, we may assume that $s$ is the origin.
 For a grid vertex $u=(u_1,\ldots,u_d)$,
-its $\ell_1$ norm $\|u\|_1$, or $\ell_1$ distance to the origin, is defined as $\sum u_i$,
+its $\ell_1$ norm $\|u\|_1$, or $\ell_1$ distance to the origin, is defined as $\sum_{i=1}^d u_i$,
 and its Hamming norm $\|u\|_H$, or Hamming distance from the origin, is its number of non-zero entries.
 
 We give an algorithm to find a path from $v$ to the origin.
@@ -1223,7 +1244,8 @@ The algorithm does one of the following, depending on the value of $h$:
     so $Z_{\ell}$ is stochastically dominated by
     a $Y_{d/2,\max\{\ell/2k,1\},\max\{\ell/2k,1\}}$ random variable.
  \end{enumerate}
-The weight of the generated path is stochastically dominated by
+The weight of the path generated by $L$ steps of the preceding algorithm 
+is stochastically dominated by
 \[
 \mathcal S \coloneqq 
 \sum_{\ell=1}^{L} X_{\ell} +
@@ -2198,7 +2220,7 @@ Hence, using~\eqref{simpleerlang} and since $t\geq4$,
 \[
 \Pr\{Y_{a,b}>t\}
 \leq
-\left(\erlang(2,1)>t\right)^a
+\Pr\{\erlang(2,1)>t\}^a
 \leq
 (\exp(1-t/2))^a
 \leq
@@ -2244,7 +2266,7 @@ Let $X_1,\dots,X_m$ be i.i.d.\ distributed as $Y_{a,b}$ for some $a,b$.
 Then we want to prove
 $\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
 \[
-\Pr\{\sum X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \}
+\Pr\left\{\sum_{i=1}^m X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \right\}
 \leq
 \exp(-m/9)\:.
 \]
@@ -2276,7 +2298,7 @@ In particular, setting $p=1$ gives $\E X_1 \leq 64/a+1024/\sqrt{ab}\eqqcolon c$.
 Let $v=4c^2m$.
 For $p\geq 2$, we have
 \begin{align*}
-\sum \E [X_i^p] 
+\sum_{i=1}^m \E [X_i^p] 
 \leq
 mpd_1^{-p}\Gamma(p)
 + mpd_2^{-p/2}\Gamma(p/2)/2
@@ -2287,9 +2309,9 @@ m p! d_1^{-p}
 \end{align*}
 Bernstein's inequality (Theorem~\ref{thm:bernstein}) gives that for all $t$,
 \[
-\Pr \{\sum X_i \geq 
+\Pr\left\{\sum_{i=1}^m X_i \geq 
 m \left(64/a+1024/\sqrt{ab}\right)
-+ ct + 3c\sqrt {mt} \} \leq e^{-t}\:,
++ ct + 3c\sqrt {mt} \right\} \leq e^{-t}\:,
 \]
 and choosing $t=m/9$ completes the proof of the lemma.
 
@@ -2318,7 +2340,7 @@ Hence, using~\eqref{simpleerlang} and since $t\geq6$,
 \[
 \Pr\{Y_{a,b,c}>t\}
 \leq
-\left(\erlang(3,1)>t\right)^a
+\Pr\{\erlang(3,1)>t\}^a
 \leq
 (\exp(1-t/3))^a
 \leq
