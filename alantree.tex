@@ -1072,26 +1072,39 @@ first-passage percolation time.
 \end{thm}
 
 \begin{proof}
-  Fill and Pemantle \cite{fill.pemantle:percolation} showed that the  first-passage percolation cover
-  time for the $d$-cube is at most 14.05 with probability $1-o_n(1)$.
-  Every vertex of the hypercube has degree $d$, so the number of paths
-  of length $L$ starting at $s$ is less than $d^L$.  The result then follows
-  by applying \lemref{meta-theorem} with $p=o_n(1)$, $c=2$, $K=14.05$,
-  and $a=d$.
+  Fill and Pemantle \cite{fill.pemantle:percolation} showed that the
+  first-passage percolation cover time for the $d$-cube is at most 14.05
+  with probability $1-o_n(1)$.  Every vertex of the hypercube has degree
+  $d$, so the number of paths of length $L$ starting at $s$ is less
+  than $d^L$.  The result then follows by applying \lemref{meta-theorem}
+  with $p=o_n(1)$, $c=2$, $K=14.05$, and $a=d$.
 \end{proof}
 
-A natural generalization of the $d$-cube graph is 
-the \emph{$(d,k)$-grid}, which has
-vertex set $\{0,\ldots,k\}^d$ and has an edge between two vertices if
-and only if the (Euclidean or $\ell_1$) distance between them is 1.
-Note that the case $k=2$ is the $d$-cube.
+A natural generalization of the $d$-cube graph is the \emph{$(d,k)$-grid},
+which has vertex set $\{0,\ldots,k\}^d$ and has an edge between two
+vertices if and only if the (Euclidean or $\ell_1$) distance between
+them is 1.  Note that the case $k=2$ is the $d$-cube.
 
 We prove a result about the first-passage-percolation cover time of grids,
 which gives a bound on the height of $\tcal(G,s)$.
 
-\begin{thm}\thmlabel{bestgrid}
-Let $G$ be the $(d,k)$-grid.
-There exists a constant $C$ such that for any vertex $s$ we have
+\begin{thm}\thmlabel{bestgrid-universal}
+Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  Then, for any vertex $s\in
+V(G)$, we have that $\tau(G,s)= O(k)$ with probability $1-o_n(1)$.
+\end{thm}
+
+Since the maximum degree of the $(d,k)$-grid is $2d$ and its diameter is $dk$, applying \lemref{meta-theorem} gives the following corollary.
+
+\begin{cor}\corlabel{bestgrid}
+Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  For any vertex $s\in V(G)$
+we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$
+\end{cor}
+
+The proof of \thmref{bestgrid-universal} is broken into two parts. The first is a lemma that handles a limited range of $d$ and $k$.
+
+\begin{lem}\lemlabel{bestgrid}
+Let $G$ be the $(d,k)$-grid.  There exists a constant $C$ such that for
+any vertex $s\in V(G)$ we have
 \[
 \Pr \{ \tau(G,s) \geq (4+C)k + Cd^{2/3}\ln(k+1) \} 
 \leq
@@ -1100,29 +1113,18 @@ There exists a constant $C$ such that for any vertex $s$ we have
 in particular, if $k/\ln(k+1) \geq d^{2/3}$,
 then with probability $1-O(1/n)$ we have
 $\tau(G,s)=O(k)$.
-\end{thm}
+\end{lem}
 
 %\abas{Note that this theorem has been updated. We no longer claims that $\tau(G,s)=O(k)$ for all $k$ and $d$. I think the previous proof had a gap, in going from expectation to with-high-probability.}
 
-\begin{todo}
-Look a bit more carefully at the gap here.
-\end{todo}
-
-Since the maximum degree of the $(d,k)$-grid is $2d$ and its diameter is $dk$, applying \lemref{meta-theorem} gives the following corollary.
-
-\begin{cor}\corlabel{bestgrid}
-Let $G$ be the $(d,k)$-grid.
-For any vertex $s$ we have that with probability $1-O(1/n)$,
-$ h(\tcal(G,s)) = O( dk + d^{5/3}\ln(k+1))$;
-in particular, if $k/\ln(k+1) =\Omega(d^{2/3})$,
-then with probability $1-O(1/n)$ we have
-$h(\tcal(G,s))=\Theta(dk)$.
-\end{cor}
-
-We conjecture that, for all values of $k$ and $d$ we have $\tau(G,s)=O(k)$
-with probability $1-o_n(1)$, which implies that for all $d$ and $k$,
-with probability $1-o_n(1)$ we have $h(\tcal(G,s))=\Theta(dk)$.
-
+%\begin{todo}
+%Look a bit more carefully at the gap here.
+%\end{todo}
+%
+%We conjecture that, for all values of $k$ and $d$ we have $\tau(G,s)=O(k)$
+%with probability $1-o_n(1)$, which implies that for all $d$ and $k$,
+%with probability $1-o_n(1)$ we have $h(\tcal(G,s))=\Theta(dk)$.
+%
 
 %\thmref{dk-grid-foxtrot}, in \appref{dk-grid-foxtrot}, shows that
 %the first-passage percolation time in the $(d,k)$-grid is $O(k)$ with
@@ -1146,48 +1148,48 @@ with probability $1-o_n(1)$ we have $h(\tcal(G,s))=\Theta(dk)$.
 %all values of $d$ and $k$.  Specifically, we show that the first-passage
 %percolation time is $O(k)$ with high probability.
 
-
-\begin{todo}
-Abbas says: I'm not sure about the following two paragraphs... they remain from an older version, but perhaps can be updated/removed!?
-
-\noindent
-Pat says: I included this in the old version because it seems like an obvious approach that probably also works. The kind of thing a referee would ask about. It's also the reason I originally put these results in an appendix.
-\end{todo}
-
-Before doing this, though, we note that this result can already be
-obtained from the $O(1)$ bound on first-passage percolation time on the
-$d$-cube \cite{fill.pemantle:percolation, martinsson:unoriented}.  To see
-why, observe that the crux of the problem involves studying the weight
-of the lightest path from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can
-find a path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$
-for $i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
-result for the $d$-cube shows that one can get from $v_i$ to $v_{i+1}$
-with a path whose expected weight is $O(1)$ and that never leaves the
-$d$-cube induced by $\{i,i+1\}^d$.  Thus there is a path from $s$ to $t$
-whose weight is the sum of $k$ i.i.d.\ random variables $Q_1,\ldots,Q_k$
-each having expectation $O(1)$. The only detail that remains is to
-show that the distribution of $Q_i$ is well-behaved enough to obtain a
-sufficiently strong concentration result on this sum.
-
-Nevertheless, we provide an alternate proof here.  One reason for
-this is to make our results self-contained.  Another, however, is
-that our arguments differ significantly from previous results on
-thd $d$-cube \cite{fill.pemantle:percolation, martinsson:unoriented,
-bollobas.kohayakawa:on} and may be of independent algorithmic interest.
-In particular, our proofs use greedy algorithms to find light paths.
-Our proof for the hypercube, for example, shows that one can find a path
-of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
-Exact shortest path algorithms, like Dijkstra's algorithm, require at
-least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-grid, our proof
-gives an algorithm that finds a short path in $O(kd^4)$ time, while a
-shortest path agorithm would require $\Omega(d(k+1)^d)$ time.
+%
+%\begin{todo}
+%Abbas says: I'm not sure about the following two paragraphs... they remain from an older version, but perhaps can be updated/removed!?
+%
+%\noindent
+%Pat says: I included this in the old version because it seems like an obvious approach that probably also works. The kind of thing a referee would ask about. It's also the reason I originally put these results in an appendix.
+%\end{todo}
+%
+%Before doing this, though, we note that this result can already be
+%obtained from the $O(1)$ bound on first-passage percolation time on the
+%$d$-cube \cite{fill.pemantle:percolation, martinsson:unoriented}.  To see
+%why, observe that the crux of the problem involves studying the weight
+%of the lightest path from $s=(0,\ldots,0)$ to $t=(k,\ldots,k)$. One can
+%find a path from $s$ to $t$ that passes through each $v_i=(i,\ldots,i)$
+%for $i\in\{0,\ldots,k\}$, in order.  The first-passage percolation
+%result for the $d$-cube shows that one can get from $v_i$ to $v_{i+1}$
+%with a path whose expected weight is $O(1)$ and that never leaves the
+%$d$-cube induced by $\{i,i+1\}^d$.  Thus there is a path from $s$ to $t$
+%whose weight is the sum of $k$ i.i.d.\ random variables $Q_1,\ldots,Q_k$
+%each having expectation $O(1)$. The only detail that remains is to
+%show that the distribution of $Q_i$ is well-behaved enough to obtain a
+%sufficiently strong concentration result on this sum.
+%
+%Nevertheless, we provide an alternate proof here.  One reason for
+%this is to make our results self-contained.  Another, however, is
+%that our arguments differ significantly from previous results on
+%thd $d$-cube \cite{fill.pemantle:percolation, martinsson:unoriented,
+%bollobas.kohayakawa:on} and may be of independent algorithmic interest.
+%In particular, our proofs use greedy algorithms to find light paths.
+%Our proof for the hypercube, for example, shows that one can find a path
+%of expected weight $O(1)$ between any pair of vertices in $O(d^4)$ time.
+%Exact shortest path algorithms, like Dijkstra's algorithm, require at
+%least $\Omega(2^d)$ time.  Similarly, on the $(d,k)$-grid, our proof
+%gives an algorithm that finds a short path in $O(kd^4)$ time, while a
+%shortest path agorithm would require $\Omega(d(k+1)^d)$ time.
 
 For the rest of this section, $G$ is a fixed $(d,k)$-grid.
-\thmref{bestgrid} follows from the following theorem by choosing $\Delta =
+\lemref{bestgrid} follows from the following lemma by choosing $\Delta =
 4k+ Cd^{2/3}\ln(k+1)$.
 
-\begin{thm}
-  \thmlabel{thm:hypercube}
+\begin{lem}
+  \lemlabel{hypercube}
   There exists an absolute positive constant $C$ such that for any two
   vertices $s$  and $v$ and any $\Delta\geq 4k$ we have
   \begin{equation}
@@ -1195,7 +1197,7 @@ For the rest of this section, $G$ is a fixed $(d,k)$-grid.
         \leq 3 \exp\left(-{\Delta d^{1/3}}/C\right)
   \label{hypercube:formula}
   \end{equation}
-\end{thm}
+\end{lem}
 
 %Applying~\thmref{thm:hypercube} with  gives the following corollary.
 %\begin{cor}\corlabel{bestgrid}
@@ -1435,6 +1437,35 @@ Finally, we have
 \:,
 \end{align*}
 and choosing $t = \Delta/3k$ gives (\ref{hypercube:formula}).
+\end{proof}
+
+We can now finish the proof of \thmref{bestgrid-universal}.
+
+\begin{proof}[Proof of \thmref{bestgrid-universal}]
+By (the second part of) \lemref{bestgrid}, we need only consider the
+case where $k/\ln(k+1) < d^{2/3}$.
+
+Consider some vertex $u=(u_1,\ldots,u_d)$ with $u_i\in\{0,\ldots,k-1\}$
+for each $i\in\{1,\ldots,d\}$.  Associate with this vertex the subgraph
+$Q_u=G[V_u]$ of $G$ induced by the vertex set
+\[
+    V_u = \{(u_1+x_1,\ldots,u_d+x_d) :\text{$x\in\{0,1\}$ for each $i\in\{1,\ldots,d\}$}\} \enspace .
+\]
+Now, $Q_u$ is a $(1,d)$-grid, i.e, a hypercube.  An unpublished
+result of Bollob\'as \etal \cite{X} shows that with probability
+at least $1-e^{-cd^2}$, $Q_u$ has weighted diameter $O(1)$, i.e.,
+$\tau(Q_u,a,b)=O(1)$ for every pair of vertices $a,b\in V(Q_u)$.  By the
+union bound over all $k^d$ choices of $u$ \emph{every} $Q_u$ has weighted
+diameter $O(1)$ with probability at least $1-(ke^{-cd})^d=1-o_n(1)$
+for $k=o(e^{cd})$, which is certainly true for sufficiently large $n$
+and $k/\ln(k+1) < d^{2/3}$.
+
+Now, for any vertex $v\in G$, there is a sequence $v_1,v_2,\ldots,v_r$
+of vertices in $G$ with $r\le k$ such that $s\in Q_{v_1}$, $v\in Q_{v_r}$
+and, for each $i\in\{1,\ldots,r-1\}$, $Q_{v_{i}}$ and $Q_{v_{i+1}}$ have
+at least one vertex in common.  Therefore, with probability $1-o_n(1)$,
+ there is a path from $s$ to every vertex $v\in V(G)$ of weight at most
+ $O(r)\subseteq O(k)$.
 \end{proof}
 
 %We now solve the grid graph problem.
