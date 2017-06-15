@@ -1096,65 +1096,65 @@ Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  Then, for any vertex $s\in
 V(G)$, we have that $\tau(G,s)= O(k)$ with probability $1-o_n(1)$.
 \end{thm}
 
-Applying \lemref{meta-theorem} gives the following corollary of \thmref{bestgrid-universal}.
+Applying \lemref{meta-theorem} gives the following corollary of
+\thmref{bestgrid-universal}.
 
 \begin{cor}\corlabel{bestgrid}
 Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  For any vertex $s\in V(G)$
 we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$
 \end{cor}
 
-To prove \thmref{bestgrid-universal} we will make use of the following lemma
-about the weighted diameter of the $d$-cube:
+To prove \thmref{bestgrid-universal} we will make use of a concentration
+result about the diameter of the $d$-cube.  For a graph $G$, define
+\[
+    \diam(G) = \max\{\tau(G,s) : s\in V(G)\} \enspace .
+\]
 
 \begin{lem}\lemlabel{cubediameter}
-   Let $Q$ be the $d$-cube with independent $\exponential(1)$
-   edge weights.  There exists constants $c$ and $x_0$ such that,
-   for all $x\ge x_0$, $Q$ has weighted diameter at most $x$
-   with probability at least $1-e^{-cxd}$, i.e., 
+   Let $G$ be the $d$-cube.  Then there exists universal constants
+   $c$ and $x_0$ such that,
    \[ 
-       \Pr\{\max\{\tau(G,s): s\in V(Q) \} > x\} \le e^{-cxd}
-       \enspace .
+     \Pr\{\diam(G) > x\} \le e^{-cxd} \enspace ,
    \]
+   for all $0 \le x \le 10d^3$.
 \end{lem}
 
 \begin{proof}
-   I hope this is true....
-%   We assume that $d$ is greater than some sufficienty large constant,
-%   $d_0$.  Otherwise the result follows trivially from the union bound:
-%   With probability at least $1-d2^{d-1} e^{-x/d}$, every edge of the
-%   $d$-cube has weight at most $x/d$.  For $d \le d_0$, this satisifies
-%   the statement of the lemma with $x_0=3d_0\ln d_0$ and $c=1/(3d_0^2)$.
-%
-%   Fix some vertex $s$ and, for each $i\in\{0,1,\ldots,d\}$, let
-%   $L_i$ denote the subset of vertices whose distance to $s$ is $i$.
-%   Balister \etal\ \cite[Proof of Lemma~4]{balister.bollobas.ea:first}
-%   show that there is a constant $c>0$ such that, if we sample each edge
-%   of $Q$ independently with probability $p=a/d\ge 6/d$ then, with probability
-%   at least $1-e^{-cad^2}$, there is a path of length $d-4$ consisting
-%   entirely of sampled edges and having one endpoint in $L_2$ and one
-%   endpoint in $L_{d-2}$.
-%
-%   In our setting, this means that, if we only consider edges of weight
-%   at most $\ln(d/(d-x)) = O(1/d)$, then, with probability at least
-%   $1-e^{-d^2/800}$, there is a path of weight at most $d\ln(d/(d-6))$
-%   joining a vertex $u$ in $L_2$ to a vertex $w$ in $L_{d-2}$.
-%
-%   Now, there are $d$ paths of length $2$ joining $s$ to $u$ and with
-%   probability at least $1-2e^{-x d/6}$ at least one of these paths
-%   has weight no more than $x/3$.  Similarly, with probability at least
-%   $1-2e^{-xd/6}$ there is a path of length 2 of and weight at most $x/3$
-%   joining $w$ to the unique vertex $\bar{s}$ in $L_d$.
-%
-%   Therefore, with probability at least
-%   \[
-%      1-4e^{-xd/6}-e^{-d^2/800}
-%   \]
-%   there is a path of weight at most
-%   \[
-%          2x/3 + d\ln(d/(d-6))  \le x
-%   \]
-%   provided that $x \ge 3d\ln(d/(d-6))$.
-%   
+   We assume that $d$ is greater than some sufficienty large constant,
+   $d_0$.  Otherwise the result follows trivially from the union bound:
+   With probability at least $1-d2^{d-1} e^{-x/d}$, every edge of the
+   $d$-cube has weight at most $x/d$.  For $d \le d_0$, this satisifies
+   the statement of the lemma with $x_0=3d_0\ln d_0$ and $c=1/(3d_0^2)$.
+
+   Fix some vertex $s$ and, for each $i\in\{0,1,\ldots,d\}$, let
+   $L_i$ denote the subset of vertices whose distance to $s$ is $i$.
+   Balister \etal\ \cite[Proof of Lemma~4]{balister.bollobas.ea:first}
+   show that there are constants $a,c>0$ such that, if we sample each edge
+   of $Q$ independently with probability $a/d$ then, with probability
+   at least $1-e^{-cd^3}$, there is a path of length $d-6$ consisting
+   entirely of sampled edges and having one endpoint in $L_3$ and one
+   endpoint in $L_{d-3}$.
+
+   In our setting, this means that, if we only consider edges of weight
+   at most $\ln(d/(d-a)) = O(1/d)$, then, with probability at least
+   $1-e^{-cd^3}$, there is a path of weight at most $d\ln(d/(d-a))=O(1)$
+   joining a vertex $u$ in $L_3$ to a vertex $w$ in $L_{d-3}$.
+
+   Now, there are $d$ edge-disjoint paths of length $3$ joining $s$ to $u$
+   and with probability at least $1-3e^{-x d/9}$ at least one of these
+   paths has weight no more than $x/3$.  Similarly, with probability
+   at least $1-3e^{-xd/9}$ there is a path of length 3 of and weight at
+   most $x/3$ joining $w$ to the unique vertex $\bar{s}$ in $L_d$.
+
+   Therefore, with probability at least
+   \[
+      1-6e^{-xd/6}-e^{-cd^3}
+   \]
+   there is a path of weight at most
+   \[
+          2x/3 + d\ln(d/(d-a))  \le x
+   \]
+   provided that $x \ge 3d\ln(d/(d-a))$.
 \end{proof}
 
 We can now finish the proof of \thmref{bestgrid-universal}.
@@ -1173,9 +1173,20 @@ $Q_u=G[V_u]$ of $G$ induced by the vertex set
     V_u = \{(u_1+x_1,\ldots,u_d+x_d) :\text{$x_i\in\{0,1\}$ for each $i\in\{1,\ldots,d\}$}\} \enspace .
 \]
 
-Each $Q_u$ is a $(d,1)$-grid, i.e, a $d$-cube.  For any vertex $v\in
-G$, there is a sequence $v_1,v_2,\ldots,v_{k'}$ of vertices in $G$
-with $k'\le k$ such that
+Each $Q_u$ is a $(d,1)$-grid, i.e, a $d$-cube.  We wish to apply
+\lemref{cubediameter} to these $d$-cubes, but \lemref{cubediameter} has
+a limited range of applicability, so we first rule out an unusual case.
+Let $\mathcal{E}$ denote the event that some edge of $G$ is assigned a
+weight greater than $10d^2$.  Then, by the union bound,
+\[
+    \Pr\{\mathcal{E}\} \le d(k+1)^de^{-10d^2} = e^{\ln d + d\ln(k+1) - 10d^2}
+\]
+For any graph $Q$, define $\diam'(Q) = \min\{10d^3, \diam(Q)\}$
+and observe that if the event $\mathcal{E}$ does not occur then
+$\diam'(Q_u)=\diam(Q_u)$ for all $u\in V(G)$.
+
+For any vertex $v\in G$, there is a sequence $v_1,v_2,\ldots,v_{k'}$
+of vertices in $G$ with $k'\le k$ such that
 \begin{enumerate}
   \item $s\in Q_{v_1}$ and $v\in Q_{v_{k'}}$; 
   \item for each $i\in\{1,\ldots,k'-1\}$, $Q_{v_{i}}$ and $Q_{v_{i+1}}$ have at least one
@@ -1191,17 +1202,20 @@ the distance from $v_{i-1}'$ to $v$.
 Observe that $\tau(G,s,v)$ does not exceed the sum of the weighted diameters of
 $Q_{v_1},\ldots,Q_{v_k'}$:
 \[
-   \tau(G,s,v) \le \sum_{i=1}^{k'} \diam(Q_{v_i}) \enspace .
+   \tau(G,s,v) \le \sum_{i=1}^{k'} \diam(Q_{v_i}) 
+               = \sum_{i=1}^{k'} \diam'(Q_{v_i}) \enspace ,
 \]
+where the second equality holds provided that $\mathcal{E}$ does not occur.
 Point 3, above ensures that the random variables
 $\diam(Q_{v_1}),\ldots,\diam(Q_{v_{k'}})$ can be partitioned into two
-sets of size $\lfloor k'/2\rfloor$ and $\lceil k/2\rceil$
-where the variables within a set are independent.
+sets of size $\lfloor k'/2\rfloor$ and $\lceil k'/2\rceil$
+where the variables within each set are independent.
 
 Let $X_1,\ldots,X_k$ and $Y_1,\ldots,Y_k$ be random variables each
-distributed like the weighted diameter of the $d$-cube and such that
+distributed like $\diam'(Q_s)$ and such that
 $X_1,\ldots,X_k$ are independent and $Y_1,\ldots,Y_k$ are independent.
-It follows from the preceding discussion that $\tau(G,s,v)$ is
+It follows from the preceding discussion that 
+$\sum_{i=1}^{k'}\diam'(Q_{v_i})$ is
 stochastically dominated by $\sum_{i=1}^k (X_i+Y_i)$.  We now use
 Chernoff's bounding technique to bound the two sums $X=\sum_{i=1}^k X_i$
 and $Y=\sum_{i=1}^k Y_i$.
@@ -1214,50 +1228,60 @@ For any $t>0$,
       = \prod_{i=1}^k\E\left[e^{tX_i}\right]
       = \E\left[e^{tX_1}\right]^k \enspace .
 \]
-Now, taking $x_1=\max\{1,x_0\}$, where $x_0$ appears in \lemref{cubediameter}, 
-we have
+Now, 
 \begin{align*}
    \E\left[e^{tX_1}\right]
      & = \int_0^\infty \Pr\left\{e^{tX_1} > x\right\}\,\mathrm{d}x \\
      & = \int_0^\infty \Pr\left\{X_1 > \ln x/t\right\}\,\mathrm{d}x \\
-     & \le x_1 + \int_{x_1}^\infty \Pr\{X_1 > \ln x/t\}\,\mathrm{d}x \\
-     & \le x_1 + \int_{x_1}^\infty e^{-c\ln x d/t}\,\mathrm{d}x & \text{(by \lemref{cubediameter})} \\
-     & =  x_1 + \int_{x_1}^\infty x^{-cd/t}\,\mathrm{d}x \\
-     & \le  x_1 + \int_{1}^\infty x^{-cd/t}\,\mathrm{d}x \\
-     & = x_1 + \frac{t}{cd(1-t/cd)} \\
-     & = x_1 + 1 & \text{(for $t=cd/2$)} \enspace .
+     & \le e^{tx_0} + \int_{e^{tx_0}}^\infty \Pr\{X_1 > \ln x/t\}\,\mathrm{d}x \\
+     & = e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} \Pr\{X_1 > \ln x/t\}\,\mathrm{d}x 
+       & \mbox{since $X_1\le 10d^2$} \\
+     & \le e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} e^{-c\ln x d/t}\,\mathrm{d}x
+     & \text{(by \lemref{cubediameter})} \\
+     & =  e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} x^{-cd/t}\,\mathrm{d}x \\
+     & \le  e^{tx_0} + \int_{1}^{\infty} x^{-cd/t}\,\mathrm{d}x \\
+     & = e^{tx_0} + \frac{t}{cd(1-t/cd)} \\
+     & = e^{tx_0} + 1 & \text{(for $t=cd/2$)} \\
+     & \le e^{tx_0+1}  \enspace .
 \end{align*}
 Now we finish by applying Markov's Inequality.  For any $a>0$
 \begin{align*}
    \Pr\{X > ak \} 
     &= \Pr\{ e^{tX} > e^{atk}\} \\
     &\le \frac{\E[e^{tX}]}{e^{atk}} \\
-    &\le \frac{(x_1+1)^k}{e^{atk}} \\
-    &= e^{k\ln(x_1+1) - atk} \\
-    &= e^{k\ln(x_1+1) - acdk/2} &\text{(recalling that $t=cd/2$)} \enspace .
+    &\le \frac{(e^{tx_0+1})^k}{e^{atk}} \\
+    &= e^{(tx_0+1)k - atk} \\
+    &= e^{(cdx_0/2+1)k - acdk/2} &\text{(recalling that $t=cd/2$)} \enspace .
 \end{align*}
-We now have
+Letting $\tau'(G,s,v)=\max\{10kd^3, \tau(G,s,v)\}$
+and 
+$\tau'(G,s)=\max\{\tau(G,s,v):v\in V(G)\}$
+ we now have
 \[
-   \Pr\{ \tau(G,s,v) > ak\} \le \Pr\{X > ak\} + \Pr\{Y>ak\}
-          \le 2 e^{k\ln(x_1+1) - acdk/2} \enspace .
+   \Pr\{ \tau'(G,s,v) > ak\} \le \Pr\{X > ak\} + \Pr\{Y>ak\}
+          \le 2 e^{(cdx_0/2+1)k - acdk/2} \enspace .
 \]
-Applying the union bound over all $(k+1)^d$ vertices of the $(d,k)$-cube
-completes the proof:
+Applying the union bound over all $(k+1)^d$ choices of $v$ completes the proof:
 \begin{align*}
-   \Pr\{\tau(G,s) > ak\} 
-     & \le \sum_{v\in V(G)} \Pr\{ \tau(G,s,v) > ak\}  \\
-     & \le 2(k+1)^d e^{k\ln(x_1+1) - acdk/2} \\
-     & = e^{d\ln(2(k+1))+k\ln(x_1+1) - acdk/2} \\
+   \Pr\{\tau'(G,s) > ak\} 
+     & \le \sum_{v\in V(G)} \Pr\{\tau'(G,s,v) > ak\}  \\
+     & \le 2(k+1)^d e^{(cdx_0/2+1)k - acdk/2} \\
+     & = e^{d\ln(2(k+1))+(cdx_0/2+1)k - acdk/2} \\
      & = o_n(1) \enspace ,
 \end{align*}
 for
 \[
-   a > \frac{2(d\ln(2(k+1)+k\ln(x_1+1))}{cdk} \enspace .
-\qedhere 
+   a > \frac{2(d\ln(2(k+1)+(cdx_0/2+1)k)}{cdk} \enspace .
 \]
-
-
-
+To summarize, there is a constant C such that 
+\begin{align*}
+   \Pr\{\tau(G,s) > Ck\} 
+     & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\tau'(G,s)\neq \tau(G,s)\} \\
+     & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\mathcal{E}\} \\
+     & \le o_n(1) + e^{\ln d + d\ln(k+1) - 10d^2} \\
+     & \le o_n(1)
+\end{align*}
+for $\ln(k+1) \le 9d$.
 %An unpublished
 %result of Bollob\'as \etal \cite{X} shows that with probability
 %at least $1-e^{-cd^2}$, $Q_u$ has weighted diameter $O(1)$, i.e.,
