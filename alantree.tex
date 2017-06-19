@@ -1009,52 +1009,6 @@ $2n2^{L}(d\Delta)^{L/2}$ for the number of paths of length $L$, given by \lemref
     which is smaller than $1/n$ for $L\geq 8e^3 \Psi \sqrt{d\Delta}+\ln n$, as required.
 \end{proof}
 
-%\begin{todo}
-%I removed any mention of bounded genus here, since genus
-%$g$ graphs have edge-expansion at most $\sqrt{g\Delta n}/n$.
-%\url{https://doi.org/10.1016/0304-3975(93)90031-N}
-%\end{todo}
-
-%\begin{cor}
-%  Let $G$ be an $n$-vertex Euler-genus $g$ graph with diameter $D$,
-%  maximum degree $\Delta$, total inverse perimeter size $\Psi$, and let
-%  $T$ be the tree obtained by running Process~FP starting at any vertex
-%  $s\in V(G)$.  There exists a constant $C$ such that, if $g\ln\Delta \le
-%  C\sqrt{\Delta}D$ then, with probability at least $1-o_n(1)$, $h(T)\in
-%  O(\Psi\sqrt{\Delta}(D+\log n))$.
-%\end{cor}
-%It is natural to ask if one can eliminate or reduce the dependence on
-%$\Delta$ in the results of the previous section.  Intuitively, high degree
-%should produce spanning trees of lower height.  However, the example
-%of a sequence of $D/2$ $(\Delta-1)$-cliques joined in sequence (see
-%\figref{clique-path}) shows that Process~A may produce spanning trees
-%of diameter $\Omega(D\ln\Delta)$.  Therefore the dependence on $\Delta$
-%can not be eliminated entirely; there is at least a logarithmic dependence
-%on $\Delta$.
-%
-%\begin{figure}
-%  \begin{center}
-%    \includegraphics{figs/clique-path}
-%  \end{center}
-%  \caption{A sequence of $D/2$ $(\Delta-1)$-cliques gives a graph $G$
-%   with diameter $D$ and maximum degree $\Delta$ for which Process~A
-%   produces a spannning tree of height $\Omega(D\log\Delta)$.}
-%  \figlabel{clique-path}
-%\end{figure}
-%
-%Next we show that, in fact, a linear dependence on $\Delta$ is necessary
-%for general graphs: For any $\Delta$ and any $D\in\Omega(\log\Delta)$,
-%we can construct a graph $G=G_{D,\Delta}$ of diameter $D$ and
-%maximum degree $\Delta$ for which Process~A produces a spanning
-%tree of diameter $\Omega(\Delta D)$.  Thus, the upper-bound of
-%\thmref{alantree-upper-bound} is asymptotically tight.
-%We construct
-%We also construct examples of graphs of thickness
-%$\Theta(d)$ and graphs of treewidth $\Theta(d)$ for which the tree
-%$T$ has height $\Omega(\sqrt{\Delta d}D)$, thereby showing that the
-%upper bound in \thmref{alantree-upper-bound-degenerate} for $d$-degenerate
-%graphs is tight for these families of graphs.
-
 \section{Upper bounds for high dimensional grids and hypercubes}
 \seclabel{grids}
 The \emph{$d$-cube} is the graph having vertex set $\{0,1\}^d$ in
@@ -1086,7 +1040,7 @@ The $(d,k)$-grid has diameter $D=dk$ and maximum degree $\Delta=2d$.
 Note that in the case $k=1$, the $(d,1)$-grid is the $d$-cube, for which
 \thmref{alantree-upper-bound-hypercube} gives the optimal bound and this
 bound can be extended to $k\in O(1)$.   \thmref{alantree-upper-bound}
-gives an upper bound $O(d^2k)$ on $h(\tcal(G,s))$, which is optimal
+gives an upper bound of $O(d^2k)$ on $h(\tcal(G,s))$, which is optimal
 for $d\in O(1)$.  The rest of this section is devoted to proving the
 following result on the first-passage-percolation cover time of grids,
 which gives a bound on the height of $\tcal(G,s)$.
@@ -1104,6 +1058,274 @@ Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  For any vertex $s\in V(G)$
 we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$
 \end{cor}
 
+
+The proof of \thmlabel{bestgrid-universal} is broken up into two parts,
+one which holds when $k$ is large with respect to $d$ and one which
+holds when $k$ is not too large.  Together these two results cover all ranges of $k$ and $d$.
+
+\subsection{Large side length}
+
+The following lemma allows us to prove \thmref{bestgrid-universal}
+for the case whe $k$ is relatively large.
+
+
+\begin{lem}\lemlabel{bestgrid}
+Let $G$ be the $(d,k)$-grid.  There exists a constant $C$ such that for
+any vertex $s\in V(G)$ we have
+\[
+\Pr \{ \tau(G,s) \geq (4+C)k + Cd^{2/3}\ln(k+1) \} 
+\leq
+3 \exp (-d\ln(k+1)) =3/n \:;
+\]
+in particular, if $k/\ln(k+1) \geq d^{2/3}$,
+then with probability $1-O(1/n)$ we have
+$\tau(G,s)=O(k)$.
+\end{lem}
+
+For the rest of this section, $G$ is a fixed $(d,k)$-grid.
+\lemref{bestgrid} follows from the following lemma by choosing $\Delta =
+4k+ Cd^{2/3}\ln(k+1)$.
+
+\begin{lem}
+  \lemlabel{hypercube}
+  There exists an absolute positive constant $C$ such that for any two
+  vertices $s$  and $v$ and any $\Delta\geq 4k$ we have
+  \begin{equation}
+  \Pr \{ \tau(G,s,v) > Ck + \Delta\} 
+        \leq 3 \exp\left(-{\Delta d^{1/3}}/C\right)
+  \label{hypercube:formula}
+  \end{equation}
+\end{lem}
+
+
+\begin{proof}
+We identify the vertices of the graph with points in $\mathbb{Z}^d$, and without loss of generality, we may assume that $s$ is the origin.
+For a grid vertex $u=(u_1,\ldots,u_d)$,
+its $\ell_1$ norm $\|u\|_1$, or $\ell_1$ distance to the origin, is defined as $\sum_{i=1}^d u_i$,
+and its Hamming norm $\|u\|_H$, or Hamming distance from the origin, is its number of non-zero entries.
+
+We give an algorithm to find a path from $v$ to the origin.
+This is an iterative algorithm, starting from $v$,
+in each step gets closer (in $\ell_1$ distance) to the origin.
+%and at the end we analyze the weight of the generate path.
+Suppose the algorithm has find a path from $v$ to $u$ so far, and then wants to find the next part of the path.
+Suppose $h=\|u\|_H$ and $\ell = \|u\|_{1}$.
+The algorithm does one of the following, depending on the value of $h$:
+\begin{enumerate}
+  \item If $h > d/2$, then the algorithm chooses the lightest 
+    edge that brings it to a vertex closer to the origin. 
+    Let $X_{\ell}$ denotes the weight of this edge. Note that $X_{\ell}$ is an $\exponential(h)$ random variable and is stochastically dominated by an $\exponential(d/2)$ random variable.
+
+  \item Otherwise, we have $h\leq d/2$.
+  Define $L_i \coloneqq \{x\in V(G): \|x\|_1=i\}$.
+%  Define $L_i \coloneqq \{x\in V(G): \|x\|_1=i\}$. and let
+%    $\ell=\|su\|_1$ (note the use of $\ell_1$ distance, and not Hamming
+%    distance here).  
+    The algorithm chooses the lightest path $uxyz$ among
+    all paths with $x\in L_{\ell+1}$,  $y\in L_{\ell}\setminus\{u\}$,
+    and $z\in L_{\ell-1}$.
+    Note that $z$ is one step closer to the origin (in $\ell_1$ distance).
+    Let $Z_{\ell}$ denote the weight of the chosen path $uxyz$.
+    Then observe that $Z_{\ell}$ is a $Y_{a,b,c}$ random variable for some $a\geq d-h\geq d/2$, $b\geq \max\{h-1,1\}$ and $c\geq \max\{h-1,1\}$.
+    Also note that we have $h \geq \ell/k$,
+    so $Z_{\ell}$ is stochastically dominated by
+    a $Y_{d/2,\max\{\ell/2k,1\},\max\{\ell/2k,1\}}$ random variable.
+ \end{enumerate}
+The weight of the path generated by $L$ steps of the preceding algorithm 
+is stochastically dominated by
+\[
+\mathcal S \coloneqq 
+\sum_{\ell=1}^{L} X_{\ell} +
+\sum_{\ell=1}^{L} Z_{\ell} \:,
+\]
+where $X_{\ell}$ is an exponential($d/2$) random variable,
+and $Z_{\ell}$ is a $Y_{d/2,\max\{\ell/2k,1\},\max\{\ell/2k,1\}}$
+random variable.
+Moreover, since $Z_{\ell}$ only depends on edges 
+between $L_{\ell-1}$, $L_{\ell}$ and $L_{\ell+1}$,
+each of the families
+$\{X_{\ell}\}$,
+$\{Z_{2i-1}\}$,
+and 
+$\{Z_{2i}\}$
+is mutually independent.
+
+We first bound the expected value of $\mathcal S$, and then use Bernstein's inequality to prove with high probability it does not exceed its expected value by much.
+By~\lemref{yabcmoments}, for some absolute constant $C$  we have
+\begin{align*}
+\E \mathcal S
+& \leq 2L/d + C \sum_{\ell=1}^{L} 
+\left(1/d + 
+\sqrt{k/d\ell}
++ \sqrt[3]{k^2/d\ell^2}\right) \\
+& \leq
+(C+2)L/d
++
+C\sqrt{k/d}\int_{0}^{L}x^{-1/2}dx
++
+C\sqrt[3]{k^2/d}\int_0^{L}x^{-2/3}dx\\
+&=
+(C+2)L/d
++
+2C\sqrt{kL/d}
++3C\sqrt[3]{Lk^2/d}
+\leq
+(6C+2)k\:,
+\end{align*}
+where in the last line we used $L\leq kd$.
+
+For any integer $p>1$, we have $p\Gamma(p/2)/2\leq p!$ and $p\Gamma(p/3)/3\leq p!$, so
+\lemref{yabcmoments} gives that for some absolute constant $C$  we have
+\begin{align*}
+\E Z_{\ell}^p & \leq
+ p (d/C)^{-p}\Gamma(p)
++ p(d\max\{\ell/k,1\}/C)^{-p/2}\Gamma(p/2)/2
++ p(d\max\{\ell/k,1\}^2/C)^{-p/3}\Gamma(p/3)/3\\
+&\leq
+ p! (C/d)^{p}
++ p!(C/d\max\{\ell/k,1\})^{p/2}
++ p!(C/d\max\{\ell/k,1\}^2)^{p/3}
+\end{align*}
+Hence, we have
+\begin{align*}
+\sum_{\ell=1}^{L} \E Z_{\ell}^p / p!
+& \leq
+L (C/d)^{p}
++
+\sum_{\ell=1}^{k}
+\left( (C/d)^{p/2}
++ (C/d)^{p/3} \right)
++
+\sum_{\ell=k+1}^{L}
+\left( (kC/d\ell)^{p/2}
++ (k^2C/d\ell^2)^{p/3} \right)\\
+&
+\leq L (C/d)^{p}
++
+k (C/d)^{p/2}
++ k(C/d)^{p/3} 
++
+(kC/d)^{p/2}
+\sum_{\ell=k+1}^{L}
+\ell^{-p/2}
++
+ (k^2C/d)^{p/3}
+\sum_{\ell=k+1}^{L}
+\ell^{-2p/3}
+%&\left(
+%p (C/d)^p \Gamma(p)
+%+
+%p (kC/d\ell)^{p/2} \Gamma(p/2)\right)
+%+
+%\sum_{\ell=k+1}^{L}
+%p(k^2C/d\ell^2)^{p/3}\Gamma(p/3)
+%+
+%\sum_{\ell=1}^{k} p(C/d)^{p/3}\Gamma(p/3)
+%\\
+%& =
+%L p! (C/d)^p
+%+
+%p (kC/d)^{p/2} \Gamma(p/2)
+%\sum_{\ell=1}^{L}\ell^{-p/2}
+%+ p(k^2C/d)^{p/3}\Gamma(p/3)
+%\sum_{\ell=k+1}^{L}\ell^{-2p/3} 
+%+
+%k p(C/d)^{p/3}\Gamma(p/3)
+%\\
+%&\leq
+%L p! (C/d)^p
+%+
+%2(\ln L) p! (kC/d)^{p/2} 
+%+ 2 k p!(C/d)^{p/3} + 2 p! k (C/d)^{p/3} \leq  v p!  c^{p-2}/2
+\end{align*}
+Note that 
+\[k^{p/2}\sum_{\ell=k+1}^{L}\ell^{-p/2} \leq 
+k^{p/2}\int_{\ell=k}^{L}\ell^{-p/2} 
+\leq \begin{cases}
+ k \ln (L/k) \leq 2 k \ln d & \mathrm{if\ } p=2 \\
+ 2k \leq 2 k \ln d &  \mathrm{if\ }  p>2
+\end{cases}
+\]
+ and 
+$\sum_{\ell=k+1}^{L}\ell^{-2p/3} \leq 
+\int_{k}^{\infty} x^{-2p/3} dx \leq
+k^{1-2p/3}$, so
+\begin{align*}
+\sum_{\ell=1}^{L} \E Z_{\ell}^p / p!
+&
+\leq L (C/d)^{p}
++
+k (C/d)^{p/2}
++ k(C/d)^{p/3} 
++
+2k(C/d)^{p/2} \ln d
++
+ k(C/d)^{p/3} \leq v c^{p-2}/2\:,
+\end{align*}
+for $v = C' k d^{-2/3}/2$ and
+$c = C' d^{-1/3}/2$,
+for a suitably large constant $C'$.
+Since $\{Z_{2i-1}\}$ are independent, using Bernstein's inequality we have, for any $t>1$,
+\begin{align*}
+\Pr \left\{ \sum_{i=1}^{\ell/2} (Z_{2i-1} - \E Z_{2i-1}) 
+\geq tk
+\right\}&
+\leq \exp\left(-\frac{t^2k^2}{C'kd^{-2/3} + C'tkd^{-1/3}}\right)
+\leq
+\exp\left(-\frac{t^2k^2}{2C'tkd^{-1/3}}\right)
+\end{align*}
+similarly,
+\[
+\Pr \left\{ \sum_{i=1}^{\ell/2} (Z_{2i} - \E Z_{2i}) 
+\geq t k
+\right\}\leq \exp\left(-\frac{t^2k^2}{ 2C'tkd^{-1/3}}\right)
+\:.
+\]
+
+For the variables $X_{\ell}$, using~\eqref{tail-bound} we have
+%\[
+%\E X_1^p = \int_{0}^{\infty}\exp(-dy^{1/p}/2)\mathrm{d}y
+%=p\Gamma(p)(2/d)^p\leq vp!c^{p-2}/2
+%\]
+%for $v=2L(2/d)^2\leq 8 k/d$ and $c=2/d$,
+%so by Bernstein's inequality\abas{replace with better known bounds for exponentials?},
+\[
+\Pr \left\{ \sum_{i=1}^{\ell} (X_{i} - \E X_{i}) 
+\geq tk
+\right\}\leq
+\exp(L/2-dtk/2)\leq
+\exp(kd(1-t)/2)\:.
+\]
+Finally, we have
+\begin{align*}
+&\Pr\{\mathcal S > (6C+2)k+3tk \}
+ \leq
+\Pr\{\mathcal S > \E S + 3tk\} \\
+& \leq
+\Pr \left\{ \sum_{i=1}^{\ell/2} (Z_{2i-1} - \E Z_{2i-1}) 
+\geq tk
+\right\}
++
+\Pr \left\{ \sum_{i=1}^{\ell/2} (Z_{2i} - \E Z_{2i}) 
+\geq tk
+\right\}
++
+\Pr \left\{ \sum_{i=1}^{\ell} (X_{i} - \E X_{i}) 
+\geq tk
+\right\}\\
+& \leq
+2 \exp\left(-\frac{t^2k^2}{2C'tkd^{-1/3}}\right)+
+\exp(kd(1-t)/2)
+=
+2 \exp\left(-\frac{tkd^{1/3}}{2C'}\right)+
+\exp(kd(1-t)/2)
+\:,
+\end{align*}
+and choosing $t = \Delta/3k$ gives (\ref{hypercube:formula}).
+\end{proof}
+
+\subsection{Large dimension}
+
 To prove \thmref{bestgrid-universal} we will make use of a concentration
 result about the diameter of the $d$-cube.  For a graph $G$, define
 \[
@@ -1116,7 +1338,7 @@ result about the diameter of the $d$-cube.  For a graph $G$, define
    \[ 
      \Pr\{\diam(G) > x\} \le e^{-cxd} \enspace ,
    \]
-   for all $0 \le x \le 10d^3$.
+   for all $0 \le x \le 10d^2$.
 \end{lem}
 
 \begin{proof}
@@ -1128,27 +1350,27 @@ result about the diameter of the $d$-cube.  For a graph $G$, define
 
    Fix some vertex $s$ and, for each $i\in\{0,1,\ldots,d\}$, let
    $L_i$ denote the subset of vertices whose distance to $s$ is $i$.
-   Balister \etal\ \cite[Proof of Lemma~4]{balister.bollobas.ea:first}
+   Balister \etal\ \cite[Lemma~4]{balister.bollobas.ea:first}
    show that there are constants $a,c>0$ such that, if we sample each edge
    of $Q$ independently with probability $a/d$ then, with probability
-   at least $1-e^{-cd^3}$, there is a path of length $d-6$ consisting
-   entirely of sampled edges and having one endpoint in $L_3$ and one
-   endpoint in $L_{d-3}$.
+   at least $1-e^{-cd^2}$, there is a path of length $d-4$ consisting
+   entirely of sampled edges and having one endpoint in $L_2$ and one
+   endpoint in $L_{d-2}$.
 
    In our setting, this means that, if we only consider edges of weight
    at most $\ln(d/(d-a)) = O(1/d)$, then, with probability at least
-   $1-e^{-cd^3}$, there is a path of weight at most $d\ln(d/(d-a))=O(1)$
-   joining a vertex $u$ in $L_3$ to a vertex $w$ in $L_{d-3}$.
+   $1-e^{-cd^2}$, there is a path of weight at most $d\ln(d/(d-a))=O(1)$
+   joining a vertex $u$ in $L_2$ to a vertex $w$ in $L_{d-2}$.
 
-   Now, there are $d$ edge-disjoint paths of length $3$ joining $s$ to $u$
-   and with probability at least $1-3e^{-x d/9}$ at least one of these
+   Now, there are $d$ edge-disjoint paths of length $2$ joining $s$ to $u$
+   and with probability at least $1-2e^{-x d/6}$ at least one of these
    paths has weight no more than $x/3$.  Similarly, with probability
-   at least $1-3e^{-xd/9}$ there is a path of length 3 of and weight at
+   at least $1-2e^{-xd/6}$ there is a path of length 2 and weight at
    most $x/3$ joining $w$ to the unique vertex $\bar{s}$ in $L_d$.
 
    Therefore, with probability at least
    \[
-      1-6e^{-xd/6}-e^{-cd^3}
+      1-4e^{-xd/6}-e^{-cd^2}
    \]
    there is a path of weight at most
    \[
@@ -1176,12 +1398,15 @@ $Q_u=G[V_u]$ of $G$ induced by the vertex set
 Each $Q_u$ is a $(d,1)$-grid, i.e, a $d$-cube.  We wish to apply
 \lemref{cubediameter} to these $d$-cubes, but \lemref{cubediameter} has
 a limited range of applicability, so we first rule out an unusual case.
-Let $\mathcal{E}$ denote the event that some edge of $G$ is assigned a
-weight greater than $10d^2$.  Then, by the union bound,
+For some $\alpha > 0$, let $\mathcal{E}$ denote the event
 \[
-    \Pr\{\mathcal{E}\} \le d(k+1)^de^{-10d^2} = e^{\ln d + d\ln(k+1) - 10d^2}
+    \max\{\diam(Q_u : u\in \{0,\ldots,k-1\}^d \} > \alpha d^2 \enspace .
 \]
-For any graph $Q$, define $\diam'(Q) = \min\{10d^3, \diam(Q)\}$
+By \lemref{cubediameter} and the union bound,
+\[
+    \Pr\{\mathcal{E}\} \le k^de^{-10cd^2} = e^{d\ln k - \alpha cd^2}
+\]
+For any graph $Q$, define $\diam'(Q) = \min\{\alpha cd^2, \diam(Q)\}$
 and observe that if the event $\mathcal{E}$ does not occur then
 $\diam'(Q_u)=\diam(Q_u)$ for all $u\in V(G)$.
 
@@ -1211,12 +1436,11 @@ $\diam(Q_{v_1}),\ldots,\diam(Q_{v_{k'}})$ can be partitioned into two
 sets of size $\lfloor k'/2\rfloor$ and $\lceil k'/2\rceil$
 where the variables within each set are independent.
 
-Let $X_1,\ldots,X_k$ and $Y_1,\ldots,Y_k$ be random variables each
-distributed like $\diam'(Q_s)$ and such that
-$X_1,\ldots,X_k$ are independent and $Y_1,\ldots,Y_k$ are independent.
-It follows from the preceding discussion that 
-$\sum_{i=1}^{k'}\diam'(Q_{v_i})$ is
-stochastically dominated by $\sum_{i=1}^k (X_i+Y_i)$.  We now use
+Let $X_1,\ldots,X_k$ and $Y_1,\ldots,Y_k$ be random variables
+each distributed like $\diam'(Q_s)$ and such that $X_1,\ldots,X_k$
+are independent and $Y_1,\ldots,Y_k$ are independent.  It follows
+from the preceding discussion that $\sum_{i=1}^{k'}\diam'(Q_{v_i})$
+is stochastically dominated by $\sum_{i=1}^k (X_i+Y_i)$.  We now use
 Chernoff's bounding technique to bound the two sums $X=\sum_{i=1}^k X_i$
 and $Y=\sum_{i=1}^k Y_i$.
 
@@ -1235,7 +1459,7 @@ Now,
      & = \int_0^\infty \Pr\left\{X_1 > \ln x/t\right\}\,\mathrm{d}x \\
      & \le e^{tx_0} + \int_{e^{tx_0}}^\infty \Pr\{X_1 > \ln x/t\}\,\mathrm{d}x \\
      & = e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} \Pr\{X_1 > \ln x/t\}\,\mathrm{d}x 
-       & \mbox{since $X_1\le 10d^2$} \\
+       & \mbox{(since $X_1\le 10d^2$)} \\
      & \le e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} e^{-c\ln x d/t}\,\mathrm{d}x
      & \text{(by \lemref{cubediameter})} \\
      & =  e^{tx_0} + \int_{e^{tx_0}}^{e^{10td^2}} x^{-cd/t}\,\mathrm{d}x \\
@@ -1253,7 +1477,7 @@ Now we finish by applying Markov's Inequality.  For any $a>0$
     &= e^{(tx_0+1)k - atk} \\
     &= e^{(cdx_0/2+1)k - acdk/2} &\text{(recalling that $t=cd/2$)} \enspace .
 \end{align*}
-Letting $\tau'(G,s,v)=\max\{10kd^3, \tau(G,s,v)\}$
+Letting $\tau'(G,s,v)=\max\{\alpha kd^2, \tau(G,s,v)\}$
 and 
 $\tau'(G,s)=\max\{\tau(G,s,v):v\in V(G)\}$
  we now have
@@ -1278,24 +1502,10 @@ To summarize, there is a constant C such that
    \Pr\{\tau(G,s) > Ck\} 
      & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\tau'(G,s)\neq \tau(G,s)\} \\
      & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\mathcal{E}\} \\
-     & \le o_n(1) + e^{\ln d + d\ln(k+1) - 10d^2} \\
+     & \le o_n(1) + e^{\ln d + d\ln(k+1) - \alpha d^2} \\
      & \le o_n(1)
 \end{align*}
-for $\ln(k+1) \le 9d$.
-%An unpublished
-%result of Bollob\'as \etal \cite{X} shows that with probability
-%at least $1-e^{-cd^2}$, $Q_u$ has weighted diameter $O(1)$, i.e.,
-%$\tau(Q_u,a,b)=O(1)$ for every pair of vertices $a,b\in V(Q_u)$.  By the
-%union bound over all $k^d$ choices of $u$ \emph{every} $Q_u$ has weighted
-%diameter $O(1)$ with probability at least $1-(ke^{-cd})^d=1-o_n(1)$
-%for $k=o(e^{cd})$, which is certainly true for sufficiently large $n$
-%and $k/\ln(k+1) < d^{2/3}$.
-%Now, for any vertex $v\in G$, there is a sequence $v_1,v_2,\ldots,v_r$
-%of vertices in $G$ with $r\le k$ such that $s\in Q_{v_1}$, $v\in Q_{v_r}$
-%and, for each $i\in\{1,\ldots,r-1\}$, $Q_{v_{i}}$ and $Q_{v_{i+1}}$ have
-%at least one vertex in common.  Therefore, with probability $1-o_n(1)$,
-% there is a path from $s$ to every vertex $v\in V(G)$ of weight at most
-% $O(r)\subseteq O(k)$.
+for $\ln(k+1) < \alpha d/2$.   
 \end{proof}
 
 %We now solve the grid graph problem.
