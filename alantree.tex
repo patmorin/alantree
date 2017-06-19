@@ -1326,8 +1326,14 @@ and choosing $t = \Delta/3k$ gives (\ref{hypercube:formula}).
 
 \subsection{Large dimension}
 
-To prove \thmref{bestgrid-universal} we will make use of a concentration
-result about the diameter of the $d$-cube.  For a graph $G$, define
+Thus far, we have established \thmref{bestgrid-universal} for the case
+where the side-length $k$ is not too small compared to the dimension $d$.
+In particular, we are done if $k/\ln(k+1) \geq d^{2/3}$.
+
+To finish the proof of \thmref{bestgrid-universal} for the case where
+the dimension is large, we will make use of a concentration result
+about the diameter of the $d$-cube whose strength increases with $d$.
+For a graph $G$, define
 \[
     \diam(G) = \max\{\tau(G,s) : s\in V(G)\} \enspace .
 \]
@@ -1505,7 +1511,8 @@ To summarize, there is a constant C such that
      & \le o_n(1) + e^{\ln d + d\ln(k+1) - \alpha d^2} \\
      & \le o_n(1)
 \end{align*}
-for $\ln(k+1) < \alpha d/2$.   
+for $\ln(k+1) < \alpha d/2$.  This last condition is certainly true
+if $k/\ln(k+1) < d^{2/3}$.  
 \end{proof}
 
 %We now solve the grid graph problem.
