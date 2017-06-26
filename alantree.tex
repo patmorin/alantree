@@ -1059,7 +1059,7 @@ we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$
 \end{cor}
 
 
-The proof of \thmlabel{bestgrid-universal} is broken up into two parts,
+The proof of \thmref{bestgrid-universal} is broken up into two parts,
 one which holds when $k$ is large with respect to $d$ and one which
 holds when $k$ is not too large.  Together these two results cover all ranges of $k$ and $d$.
 
@@ -1328,27 +1328,25 @@ and choosing $t = \Delta/3k$ gives (\ref{hypercube:formula}).
 
 Thus far, we have established \thmref{bestgrid-universal} for the case
 where the side-length $k$ is not too small compared to the dimension $d$.
-In particular, we are done if $k/\ln(k+1) \geq d^{2/3}$.
-
-To finish the proof of \thmref{bestgrid-universal} for the case where
-the dimension is large, we will make use of a concentration result
-about the diameter of the $d$-cube whose strength increases with $d$.
-For a graph $G$, define
+In particular, we are done if $k/\ln(k+1) \geq d^{2/3}$.  To finish the
+proof of \thmref{bestgrid-universal}, we will make use of a concentration
+result about the diameter of the $d$-cube whose strength increases
+with $d$.  For a graph $G$, define
 \[
     \diam(G) = \max\{\tau(G,s) : s\in V(G)\} \enspace .
 \]
 
 \begin{lem}\lemlabel{cubediameter}
    Let $G$ be the $d$-cube.  Then there exists universal constants
-   $c$ and $x_0$ such that,
+   $c>0$ and $x_0>0$ such that,
    \[ 
      \Pr\{\diam(G) > x\} \le e^{-cxd} \enspace ,
    \]
-   for all $0 \le x \le 10d^2$.
+   for all $x_0 \le x \le 10d^2$.
 \end{lem}
 
 \begin{proof}
-   We assume that $d$ is greater than some sufficienty large constant,
+   We assume that $d$ is greater than some sufficiently large constant,
    $d_0$.  Otherwise the result follows trivially from the union bound:
    With probability at least $1-d2^{d-1} e^{-x/d}$, every edge of the
    $d$-cube has weight at most $x/d$.  For $d \le d_0$, this satisifies
@@ -1404,15 +1402,15 @@ $Q_u=G[V_u]$ of $G$ induced by the vertex set
 Each $Q_u$ is a $(d,1)$-grid, i.e, a $d$-cube.  We wish to apply
 \lemref{cubediameter} to these $d$-cubes, but \lemref{cubediameter} has
 a limited range of applicability, so we first rule out an unusual case.
-For some $\alpha > 0$, let $\mathcal{E}$ denote the event
+Let $\mathcal{E}$ denote the event
 \[
-    \max\{\diam(Q_u : u\in \{0,\ldots,k-1\}^d \} > \alpha d^2 \enspace .
+    \max\{\diam(Q_u) : u\in \{0,\ldots,k-1\}^d \} > 10d^2 \enspace .
 \]
 By \lemref{cubediameter} and the union bound,
 \[
-    \Pr\{\mathcal{E}\} \le k^de^{-10cd^2} = e^{d\ln k - \alpha cd^2}
+    \Pr\{\mathcal{E}\} \le k^de^{-10cd^2} = e^{d\ln k - 10cd^2}
 \]
-For any graph $Q$, define $\diam'(Q) = \min\{\alpha cd^2, \diam(Q)\}$
+For any graph $Q$, define $\diam'(Q) = \min\{10cd^2, \diam(Q)\}$
 and observe that if the event $\mathcal{E}$ does not occur then
 $\diam'(Q_u)=\diam(Q_u)$ for all $u\in V(G)$.
 
@@ -1428,7 +1426,9 @@ The sequence $v_1,\ldots,v_{k'}$ can be found with a greedy algorithm:
 Define $v_0'=s$.  Now, if $v_{i-1}'$ and $v$ differ in $r$ coordinates,
 then there is some vertex $v_i$ such that $Q_{v_i}$ contains $v_{i-1}'$
 as well as some vertex $v_i'$ whose distance to $v$ is $r$ less than
-the distance from $v_{i-1}'$ to $v$.
+the distance from $v_{i-1}'$ to $v$. It is straightforward to verify
+that the resulting sequence of vertices $v_1,\ldots,v_{k'}$ satisfies
+the three properties described above.
 
 Observe that $\tau(G,s,v)$ does not exceed the sum of the weighted diameters of
 $Q_{v_1},\ldots,Q_{v_k'}$:
@@ -1437,18 +1437,18 @@ $Q_{v_1},\ldots,Q_{v_k'}$:
                = \sum_{i=1}^{k'} \diam'(Q_{v_i}) \enspace ,
 \]
 where the second equality holds provided that $\mathcal{E}$ does not occur.
-Point 3, above ensures that the random variables
+Point 3, above, ensures that the random variables
 $\diam(Q_{v_1}),\ldots,\diam(Q_{v_{k'}})$ can be partitioned into two
 sets of size $\lfloor k'/2\rfloor$ and $\lceil k'/2\rceil$
 where the variables within each set are independent.
 
-Let $X_1,\ldots,X_k$ and $Y_1,\ldots,Y_k$ be random variables
-each distributed like $\diam'(Q_s)$ and such that $X_1,\ldots,X_k$
-are independent and $Y_1,\ldots,Y_k$ are independent.  It follows
-from the preceding discussion that $\sum_{i=1}^{k'}\diam'(Q_{v_i})$
-is stochastically dominated by $\sum_{i=1}^k (X_i+Y_i)$.  We now use
-Chernoff's bounding technique to bound the two sums $X=\sum_{i=1}^k X_i$
-and $Y=\sum_{i=1}^k Y_i$.
+Let $X_1,\ldots,X_k$ and $Y_1,\ldots,Y_k$ be random variables each
+distributed like $\diam'(Q_s)$ and such that $X_1,\ldots,X_k$ are
+independent and $Y_1,\ldots,Y_k$ are independent.  It follows from
+the preceding discussion that $\sum_{i=1}^{k'}\diam'(Q_{v_i})$ is
+stochastically dominated by $\sum_{i=1}^k (X_i+Y_i)$.  We now use
+Chernoff's bounding technique to bound the tails of the two sums
+$X=\sum_{i=1}^k X_i$ and $Y=\sum_{i=1}^k Y_i$.
 
 For any $t>0$,
 \[
@@ -1483,7 +1483,7 @@ Now we finish by applying Markov's Inequality.  For any $a>0$
     &= e^{(tx_0+1)k - atk} \\
     &= e^{(cdx_0/2+1)k - acdk/2} &\text{(recalling that $t=cd/2$)} \enspace .
 \end{align*}
-Letting $\tau'(G,s,v)=\max\{\alpha kd^2, \tau(G,s,v)\}$
+Letting $\tau'(G,s,v)=\max\{10kd^2, \tau(G,s,v)\}$
 and 
 $\tau'(G,s)=\max\{\tau(G,s,v):v\in V(G)\}$
  we now have
@@ -1508,10 +1508,10 @@ To summarize, there is a constant C such that
    \Pr\{\tau(G,s) > Ck\} 
      & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\tau'(G,s)\neq \tau(G,s)\} \\
      & \le \Pr\{\tau'(G,s) > ak\} + \Pr\{\mathcal{E}\} \\
-     & \le o_n(1) + e^{\ln d + d\ln(k+1) - \alpha d^2} \\
+     & \le o_n(1) + e^{\ln d + d\ln(k+1) - 10cd^2} \\
      & \le o_n(1)
 \end{align*}
-for $\ln(k+1) < \alpha d/2$.  This last condition is certainly true
+for $\ln(k+1) < 5d$.  This last condition is certainly true
 if $k/\ln(k+1) < d^{2/3}$.  
 \end{proof}
 
