@@ -294,23 +294,26 @@ random variables is called an $\erlang(k,\lambda)$ random variable.
 %Add short justification here. 
 %\end{todo}
 
-For positive integers $a$, $b$ and $c$, we define two random variables $Y_{a,b}$  and $Y_{a,b,c}$ as follows.
-Consider a tree in which the root has $a$ children,
- each of the root's children have $b$ children,
-and each of root's grandchildren have $c$ children.
-This is a tree of height 3 with
-$1 + a + ab + abc$ nodes. 
-Put an independent exponential(1) weight on each edge.
-Then $Y_{a,b}$ is defined as the minimum weight of a path from the root to a node at level 2,
-and $Y_{a,b,c}$ is defined as the minimum weight of a root-to-leaf path.
-
-The following auxiliary lemmas are proved in the appendix.
+For positive integers $a$ and $b$, we define the random variable $Y_{a,b}$
+as follows: Consider a tree in which the root has $a$ children,
+ and each of the root's children have $b$ children.
+Put an independent exponential(1) weight on each edge.  Then $Y_{a,b}$
+is defined as the minimum weight of a path from the root to a leaf.
+%and each of root's grandchildren have $c$ children.
+%This is a tree of height 3 with
+%$1 + a + ab + abc$ nodes. 
+%Put an independent exponential(1) weight on each edge.
+%Then $Y_{a,b}$ is defined as the minimum weight of a path from the root to a node at level 2,
+%and $Y_{a,b,c}$ is defined as the minimum weight of a root-to-leaf path.
+%
+The following auxiliary lemma is proved in \appref{yab}.
 
 \begin{lem}
 \lemlabel{sqrtab}
 Let $X_1,\dots,X_m$ be i.i.d.\ distributed as $Y_{a,b}$ for some $a,b$.
-Then we have
-$\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
+Then 
+\[ \E[X_1] =O(1/a+1/\sqrt{ab}) \]
+and moreover,
 \[
 \Pr\left\{\sum_{i=1}^m X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \right\}
 \leq
@@ -318,23 +321,23 @@ $\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
 \]
 \end{lem}
 
-Let 
-$\Gamma(t) \coloneqq \int_0^\infty x^{t-1} {\rm e}^{-x} \mathrm{d} x$.
-If $t$ is a positive integer, then it is well known that $\Gamma(t)=(t-1)!$.
-
-\begin{lem}
-\lemlabel{yabcmoments}
-For any positive integer $p$ we have
-\[
-\E Y_{a,b,c}^p \leq
- p (a/64)^{-p}\Gamma(p)
-+ p(ab/1024)^{-p/2}\Gamma(p/2)/2
-+ p(abc/16384)^{-p/3}\Gamma(p/3)/3
-\]
-and, in particular,
-$\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$.
-\end{lem}
-
+%Let 
+%$\Gamma(t) \coloneqq \int_0^\infty x^{t-1} {\rm e}^{-x} \mathrm{d} x$.
+%If $t$ is a positive integer, then it is well known that $\Gamma(t)=(t-1)!$.
+%
+%\begin{lem}
+%\lemlabel{yabcmoments}
+%For any positive integer $p$ we have
+%\[
+%\E Y_{a,b,c}^p \leq
+% p (a/64)^{-p}\Gamma(p)
+%+ p(ab/1024)^{-p/2}\Gamma(p/2)/2
+%+ p(abc/16384)^{-p/3}\Gamma(p/3)/3
+%\]
+%and, in particular,
+%$\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$.
+%\end{lem}
+%
 
 %If $Z_1,\ldots,Z_\delta$ are $\erlang(3,1)$ random variables, then
 %\begin{equation}
@@ -1035,7 +1038,7 @@ gives the following corollary of \thmref{bestgrid-universal}.
 
 \begin{cor}\corlabel{bestgrid}
 Let $G$ be the $(d,k)$-grid and $n=(k+1)^d$.  For any vertex $s\in V(G)$
-we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$
+we have that with probability $1-o_n(1)$, $ h(\tcal(G,s)) = \Theta(dk)$.
 \end{cor}
 
 To prove \thmref{bestgrid-universal}, we will make use of a concentration
@@ -1143,9 +1146,9 @@ of $s$ or $\bar{s}$. (This argument is also used by Balister \etal\
 %   for all $x\ge x_0$.
 %\end{cor}
 
-\corref{cube-radius} says that the tail of $\tau(G,s,v)$
+\corref{cube-radius} says that the tail of $\tau(Q,s,v)$
 is dominated by an $\exponential(cd)$ random variable.  The next lemma
-shows that sums of independent copies of $\diam(G)$ also behave (roughly)
+shows that sums of independent copies of $\tau(Q,s,v)$ also behave (roughly)
 like sums of independent $\exponential(cd)$ random variables.
 
 \begin{lem}\lemlabel{cube-diameter-sum}
@@ -1446,7 +1449,7 @@ with some vertex in $V_i$.  See \figref{g}.
   \begin{center}
     \includegraphics{figs/g}
   \end{center}
-  \caption{The lower bound graph $G$. Dotted segments denote subdivided edges (paths of length $\lceil aL/\delta\rceil$).}
+  \caption{The lower bound graph $G$. Dashed segments denote subdivided edges (paths of length $\lceil aL/\delta\rceil$).}
   \figlabel{g}
 \end{figure}
 
@@ -1659,7 +1662,7 @@ To complete the proof via the union bound, we need only show that each of $\math
 We start with  $\mathcal A$.
   In $H$, one can go from the vertex in-between $V_i$ and $V_{i+1}$ to the vertex in-between
   $V_{i+1}$ and $V_{i+2}$ by taking a path whose weight is 
-  distributed as a $Y_{\delta,1}$ random variable (recall the definition of a $Y_{a,b}$ random variable  from Section~\ref{sec:prelim}).
+  distributed as a $Y_{\delta,1}$ random variable (recall the definition of a $Y_{a,b}$ random variable  from \secref{prelim}).
 Therefore, we have 
 \[
 \tau(H,s,t) = X_1+X_2 + \sum_{i=1}^{L-2}Z_i \:,
@@ -1976,6 +1979,7 @@ for asking us about planar graphs.
 \appendix
 
 \section{Proof of~\lemref{sqrtab}}
+\applabel{yab}
 
 We will use the following inequality, which holds for any positive integer $k$ and any real number $\lambda$
 (see \cite[Theorem~5.1(ii)]{janson}):
@@ -1985,12 +1989,35 @@ We will use the following inequality, which holds for any positive integer $k$ a
 \leq\exp(1-\lambda) \:.
 \end{equation}
 
-We will also use the following inequality, which holds for any binomial random variable $X$, and any $M\leq\E X$ (see \cite[Theorem~2.3(c)]{McDiarmid1998}):
+We will also use the following inequality, which holds for any binomial random variable $X$, and any $M\leq\E[X]$ (see \cite[Theorem~2.3(c)]{McDiarmid1998}):
 \begin{equation}
 \eqlabel{binomialhalf}
 \Pr\{X < M/2\} \leq \exp(-M/8)\:.
 \end{equation}
 
+We will use the following version of
+Bernstein's inequality (see Theorem~2.10 and Corollary~2.11
+in~\cite{boucheron2013concentration}).
+
+%\abas{The fact that lemmas and theorems have separate counters makes it very difficult for the reader to find them!}
+
+\begin{thm}[Bernstein's inequality]
+\label{thm:bernstein}
+Let $X_1,\dots,X_m$ be non-negative independent random variables for which there exist $v,c$ satisfying
+\[\sum_{i=1}^m \E [X_i^p] \leq v p!  c^{p-2}/2\]
+for all positive integers $p\geq2$.
+Then for any $t>0$ we have
+\[
+\Pr \left\{ \sum_{i=1}^m (X_i - \E[X_i]) \geq ct + \sqrt{2vt}\right\}\leq e^{-t} \:,
+\]
+and
+\[
+\Pr \left\{ \sum_{i=1}^m (X_i - \E[X_i]) \geq t
+\right\}\leq \exp\left(-\frac{t^2}{2v+2ct}\right) \:,
+\]
+\end{thm}
+
+We begin with a helper lemma.
 
 \begin{lem}
 \label{lem:yabconc}
@@ -2026,9 +2053,9 @@ From~\eqref{binomialhalf} we have
 \[
 \Pr\{S_1 < at/16\}
 \leq
-\Pr\{S_1 < \E S_1 / 2\}
+\Pr\{S_1 < \E[S_1] / 2\}
 \leq
-\exp(-\E S_1/8)
+\exp(-\E[S_1]/8)
 \leq 
 \exp(-at/64)\:.
 \]
@@ -2050,7 +2077,7 @@ We are now ready to prove
 \lemref{sqrtab}.
 Let $X_1,\dots,X_m$ be i.i.d.\ distributed as $Y_{a,b}$ for some $a,b$.
 Then we want to prove
-$\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
+$\E[X_1] =O(1/a+1/\sqrt{ab})$ and moreover,
 \[
 \Pr\left\{\sum_{i=1}^m X_i \geq 3 m (64/a + 1024/\sqrt{ab}) \right\}
 \leq
@@ -2060,7 +2087,7 @@ $\E X_1 =O(1/a+1/\sqrt{ab})$ and moreover,
 Let $d_1 = a/64$ and $d_2=ab/1024$.
 For any positive integer $p$, by Lemma~\ref{lem:yabconc} we have
 \[
-\E X_1^p = \int_0^{\infty} \Pr \{X_1>t^{1/p}\}dt
+\E[X_1^p] = \int_0^{\infty} \Pr \{X_1>t^{1/p}\}dt
 \leq
 \int_0^{\infty} \exp(-d_1 t^{1/p}) + \int_0^{\infty} \exp(-d_2 t^{2/p})
 \]
@@ -2077,10 +2104,10 @@ e^{-x}x^{1/\alpha-1}
 \end{align}
 whence,
 \[
-\E X_1^p \leq pd_1^{-p}\Gamma(p)
+\E[X_1^p] \leq pd_1^{-p}\Gamma(p)
 + pd_2^{-p/2}\Gamma(p/2)/2
 \]
-In particular, setting $p=1$ gives $\E X_1 \leq 64/a+1024/\sqrt{ab}\eqqcolon c$.
+In particular, setting $p=1$ gives $\E[X_1]\leq 64/a+1024/\sqrt{ab}\eqqcolon c$.
 Let $v=4c^2m$.
 For $p\geq 2$, we have
 \begin{align*}
@@ -2102,86 +2129,86 @@ m \left(64/a+1024/\sqrt{ab}\right)
 and choosing $t=m/9$ completes the proof of the lemma.
 
 
-\section{Proof of~\lemref{yabcmoments}}
-In this section, we prove that for any positive integer $p$ we have
-\[
-\E Y_{a,b,c}^p \leq
- p (a/64)^{-p}\Gamma(p)
-+ p(ab/1024)^{-p/2}\Gamma(p/2)/2
-+ p(abc/16384)^{-p/3}\Gamma(p/3)/3
-\]
-and, in particular,
-$\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$.
-
-
-We will first show, using an argument similar to the proof of Lemma~\ref{lem:yabconc}, that
-for any $t$ we have
-\begin{equation}
-\eqlabel{tailyabc}
-\Pr\{Y_{a,b,c}>t\} \leq \exp(-at/64)+\exp(-abt^2/1024)+\exp(-abct^3/16384) \:.
-\end{equation}
-First, consider the case $t\geq6$.
-Note that there exist $a$ independent root-to-leaf paths, the weight of each is $\erlang(3,1)$.
-Hence, using~\eqref{simpleerlang} and since $t\geq6$,
-\[
-\Pr\{Y_{a,b,c}>t\}
-\leq
-\Pr\{\erlang(3,1)>t\}^a
-\leq
-(\exp(1-t/3))^a
-\leq
-(\exp(-t/6))^a
-=\exp(-at/6) \leq\exp(-at/64)
-\]
-
-The case $t\leq 0$ is trivial, so we consider the case $0< t< 6$.
-Note that for such $t$ we have $1-\exp(-t/3)\geq t/8$.
-We say a node in the tree \emph{survives} if each of the edges on its path to the root
-have weight at most $t/3$.
-Note that $Y_{a,b,c}>t$ implies no node at level 3 survives.
-The probability that a node at level 1 (children of the root) survives is $1-\exp(-t/3)$,
-so the number of surviving nodes at level 1, $S_1$, is a binomial random variable with mean $a(1-\exp(-t/3))\geq at/8$.
-From~\eqref{binomialhalf} we have
-\[
-\Pr\{S_1 < at/16\}
-\leq \exp(-at/64)\:.
-\]
-Conditioned on $S_1\geq at/16$, 
-the number of surviving nodes at level 2, $S_2$, is a binomial random variable with mean
-$S_1b(1-\exp(-t/3))\geq abt^2/128$, so using\eqref{binomialhalf} again we have
-\begin{align*}
-\Pr\{S_2<abt^2/256 | S_1\geq at/16\} \leq
-\exp(-abt^2/1024)\:.
-\end{align*}
-Finally, conditioned on $S_2\geq abt^2/256$,
-the number of surviving nodes at level 3, $S_3$, is a binomial random variable with mean
-$S_2c(1-\exp(-t/3))\geq abct^3/2048$, so using\eqref{binomialhalf} again we have
-\begin{align*}
-\Pr\{Y_{a,b,c}>t | S_2\geq abt^2/256\}
-& \leq
-\Pr\{S_3=0 | S_2\geq abt^2/256\}
-\leq
-\Pr\{S_3<abct^3/4096 | S_2\geq abt^2/256\} \\
-& \leq
-\exp(-abct^3/16384)\:,
-\end{align*}
-completing the proof of~\eqref{tailyabc}.
-
-Now let $d_1 = a/64$, $d_2=ab/1024$, and $d_3=abc/16384$.
-For any positive integer $p$ we have,
-using~\eqref{tailyabc} and~\eqref{expintegral},
-\begin{align*}
-\E Y_{a,b,c}^p & = \int_0^{\infty} \Pr \{Y_{a,b,c}>t^{1/p}\}dt
-\leq
-\int_0^{\infty} \exp(-d_1 t^{1/p}) + \int_0^{\infty} \exp(-d_2 t^{2/p})
-+ \int_0^{\infty} \exp(-d_3 t^{3/p}) \\
-& 
-= pd_1^{-p}\Gamma(p)
-+ pd_2^{-p/2}\Gamma(p/2)/2
-+ pd_3^{-p/3}\Gamma(p/3)/3
-\end{align*}
-In particular, setting $p=1$ gives $\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$, completing the proof of the lemma.
-
+%\section{Proof of~\lemref{yabcmoments}}
+%In this section, we prove that for any positive integer $p$ we have
+%\[
+%\E Y_{a,b,c}^p \leq
+% p (a/64)^{-p}\Gamma(p)
+%+ p(ab/1024)^{-p/2}\Gamma(p/2)/2
+%+ p(abc/16384)^{-p/3}\Gamma(p/3)/3
+%\]
+%and, in particular,
+%$\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$.
+%
+%
+%We will first show, using an argument similar to the proof of Lemma~\ref{lem:yabconc}, that
+%for any $t$ we have
+%\begin{equation}
+%\eqlabel{tailyabc}
+%\Pr\{Y_{a,b,c}>t\} \leq \exp(-at/64)+\exp(-abt^2/1024)+\exp(-abct^3/16384) \:.
+%\end{equation}
+%First, consider the case $t\geq6$.
+%Note that there exist $a$ independent root-to-leaf paths, the weight of each is $\erlang(3,1)$.
+%Hence, using~\eqref{simpleerlang} and since $t\geq6$,
+%\[
+%\Pr\{Y_{a,b,c}>t\}
+%\leq
+%\Pr\{\erlang(3,1)>t\}^a
+%\leq
+%(\exp(1-t/3))^a
+%\leq
+%(\exp(-t/6))^a
+%=\exp(-at/6) \leq\exp(-at/64)
+%\]
+%
+%The case $t\leq 0$ is trivial, so we consider the case $0< t< 6$.
+%Note that for such $t$ we have $1-\exp(-t/3)\geq t/8$.
+%We say a node in the tree \emph{survives} if each of the edges on its path to the root
+%have weight at most $t/3$.
+%Note that $Y_{a,b,c}>t$ implies no node at level 3 survives.
+%The probability that a node at level 1 (children of the root) survives is $1-\exp(-t/3)$,
+%so the number of surviving nodes at level 1, $S_1$, is a binomial random variable with mean $a(1-\exp(-t/3))\geq at/8$.
+%From~\eqref{binomialhalf} we have
+%\[
+%\Pr\{S_1 < at/16\}
+%\leq \exp(-at/64)\:.
+%\]
+%Conditioned on $S_1\geq at/16$, 
+%the number of surviving nodes at level 2, $S_2$, is a binomial random variable with mean
+%$S_1b(1-\exp(-t/3))\geq abt^2/128$, so using\eqref{binomialhalf} again we have
+%\begin{align*}
+%\Pr\{S_2<abt^2/256 | S_1\geq at/16\} \leq
+%\exp(-abt^2/1024)\:.
+%\end{align*}
+%Finally, conditioned on $S_2\geq abt^2/256$,
+%the number of surviving nodes at level 3, $S_3$, is a binomial random variable with mean
+%$S_2c(1-\exp(-t/3))\geq abct^3/2048$, so using\eqref{binomialhalf} again we have
+%\begin{align*}
+%\Pr\{Y_{a,b,c}>t | S_2\geq abt^2/256\}
+%& \leq
+%\Pr\{S_3=0 | S_2\geq abt^2/256\}
+%\leq
+%\Pr\{S_3<abct^3/4096 | S_2\geq abt^2/256\} \\
+%& \leq
+%\exp(-abct^3/16384)\:,
+%\end{align*}
+%completing the proof of~\eqref{tailyabc}.
+%
+%Now let $d_1 = a/64$, $d_2=ab/1024$, and $d_3=abc/16384$.
+%For any positive integer $p$ we have,
+%using~\eqref{tailyabc} and~\eqref{expintegral},
+%\begin{align*}
+%\E Y_{a,b,c}^p & = \int_0^{\infty} \Pr \{Y_{a,b,c}>t^{1/p}\}dt
+%\leq
+%\int_0^{\infty} \exp(-d_1 t^{1/p}) + \int_0^{\infty} \exp(-d_2 t^{2/p})
+%+ \int_0^{\infty} \exp(-d_3 t^{3/p}) \\
+%& 
+%= pd_1^{-p}\Gamma(p)
+%+ pd_2^{-p/2}\Gamma(p/2)/2
+%+ pd_3^{-p/3}\Gamma(p/3)/3
+%\end{align*}
+%In particular, setting $p=1$ gives $\E Y_{a,b,c} \leq 64/a+1024/\sqrt{ab} + 16384/\sqrt[3]{abc}$, completing the proof of the lemma.
+%
 %\begin{lem}
 %\[
 %\E Y_{a,b} \leq C \max \{1/a,1/\sqrt{ab}\}
