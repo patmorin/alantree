@@ -2,6 +2,7 @@
 \usepackage{pat}
 \usepackage{graphicx}
 \usepackage{datetime}
+\listfiles
 %\usepackage{url}
 
 \usepackage{hyperref}
@@ -705,17 +706,17 @@ However, \thmref{alantree-upper-bound-degenerate} provides sharper bounds for  m
 
   \item The \emph{Euler genus} of a graph is the minimum Euler genus of
     a surface on which the graph can be drawn without crossing edges.
-    Graphs of Euler genus $g$ are $O(\sqrt{g})$-degenerate.\footnote{This
-    follows from the facts in every $n$-vertex Euler-genus $g$ graph,
-    $n\in \Omega(\sqrt{g})$ and there exists a vertex of degree at most
-    $6+O(g/n)$. (See, e.g., \cite[Lemma~7 and Theorem~2]{wolle.koster.ea:note}.)}
+    Graphs of Euler genus $g$ are $O(\sqrt{g})$-degenerate.\footnote{In
+    every $n$-vertex Euler-genus $g$ graph, $n\in \Omega(\sqrt{g})$
+    and there exists a vertex of degree at most $6+O(g/n)$. (See, e.g.,
+    \cite[Lemma~7 and Theorem~2]{wolle.koster.ea:note}.)}
 
   \item A \emph{tree decomposition} of a graph $G$ is a tree $T'$ whose
   vertex set $B$ is a collection of subsets of $V(G)$ called \emph{bags}
   with the following properties:
   \begin{enumerate}
     \item For each edge $vw$ of $G$, there is at least one bag $b\in B$
-      with $\{v,w\}\subseteq B$.
+      with $\{v,w\}\subseteq b$.
     \item For each a vertex $v$ of $G$, the subgraph of $T'$ induced by
       the set of bags that contain $v$ is connected.
   \end{enumerate}
@@ -765,7 +766,7 @@ is better (for graphs of small genus) than \lemref{few-walks}.
        m\le 3n-6+3g \enspace .
    \]
    Therefore, the average degree of an $n$-vertex Euler genus $g$ graph
-   is at most $6+(6g-12)/n$.  In particular, if $n \ge 6g$, then $g$
+   is at most $6+(6g-12)/n$.  In particular, if $n \ge 6g$, then $G$
    has average degree less than 7, so $G$ contains a vertex of degree
    at most $6$.
   
@@ -778,13 +779,13 @@ is better (for graphs of small genus) than \lemref{few-walks}.
 
    Let $P=v_{i_0},\ldots,v_{i_L}$ be a path of length $L$ in $G$.
    For each $i\in\{1,\ldots,L\}$, the edge $v_{i_{\ell-1}}v_{i_{\ell}}$
-   is called \emph{bad} if it is annoying or if $i_{\ell-1}>i_{\ell}$; otherwise it is called good. 
-   Let $k$ denote the number of good edges in $P$.
-   Say $P$ is good if $k \geq L/2-3g$.
-   Note that the number of annoying edges of $P$ is bounded by $6g-1$, 
-hence at least one of $P$ and its reverse is good.
-We bound the number of good $L$-paths; the total number of $L$-paths is at most twice this bound.
-We encode a good $L$-path $P$ as follows:
+   is called \emph{bad} if it is annoying or if $i_{\ell-1}>i_{\ell}$;
+   otherwise it is called good.  Let $k$ denote the number of good edges
+   in $P$.  Say $P$ is good if $k \geq L/2-3g$.  Note that the number
+   of annoying edges of $P$ is bounded by $6g-1$, hence at least one of
+   $P$ and its reverse is good.  We bound the number of good $L$-paths;
+   the total number of $L$-paths is at most twice this bound.  We encode
+   a good $L$-path $P$ as follows:
    \begin{enumerate}
      \item We first specify the starting vertex $v_{i_0}$.  There are $n$
        ways to do this.
@@ -797,87 +798,45 @@ We encode a good $L$-path $P$ as follows:
       \[   6^k\Delta^{L-k} \le 6^{L/2-3g}\Delta^{L/2+3g}  \enspace ,\]
       since $k\ge L/2-3g$ and $\Delta\ge 6$.
    \end{enumerate}
-   Therefore, the  number of good $L$-paths 
+   Therefore, the  number of good $L$-paths
     is at most $n2^L6^{L/2-3g}\Delta^{L/2+3g}$, as required.
-%    .  Any simple
-%   path uses most $6g$ annoying edges.  Therefore, for any simple path
-%   $P$ of length $L$, either $P$ or its reverse has $k\ge L/2-3g$.
-%   Thus, the total number of simple paths of length $L$ is at most
-%   $2n2^L6^{L/2-3g}\Delta^{L/2+3g}$ as required.  
-%
-%
-%   For the second part of the theorem, it is sufficient to choose $c=96\alpha=\alpha\times 4\times4\times 6$, where $\alpha > 4^{1/\log n}$.  Since $L>D\log \Delta \ge \log n$, we get
-%   \[
-%       (96\alpha\Delta)^{L/2+3g} 
-%        \ge \alpha^{L/2} 4^{L/2}4^{L/2} 6^{L/2} \Delta^{L/2+3g}
-%        \ge 2 n 2^{L} 6^{L/2-3g} \Delta^{L/2+3g} \enspace . \qedhere
-%   \]
 \end{proof}
 
 
 \begin{thm}\thmlabel{alantree-upper-bound-genus}
   Let $G$ be an $n$-vertex Euler-genus $g$ graph with diameter $D$,
   maximum degree $\Delta$ and let $s\in V(G)$ be an arbitrary vertex.
-  If $g\ln\Delta \le 36\sqrt{\Delta}(D+\ln n)$ then,
-  with probability at least $1-O(1/n)$,
-  $h(\tcal(G,s))\le 107\sqrt{\Delta}(2D+4\ln n)$.
+  If $g\ln\Delta \le 36\sqrt{\Delta}(D+\ln n)$ then, with probability
+  at least $1-O(1/n)$, $h(\tcal(G,s))\le 107\sqrt{\Delta}(2D+4\ln n)$.
 \end{thm}
 
 \begin{proof}
-The conclusion follows from \thmref{alantree-upper-bound} for $\Delta\leq6$, so we will assume $\Delta>6$.
-Let $c=2$, $K=4\ln n + 2D$, $p=1/n$, $a=8\sqrt{6\Delta}$, and $L=\lceil cea K\rceil > 8 \ln n$. 
-%Observe that
-%\[
-%\Delta^{3g} 
-%\leq
-%\exp\left( 108 \sqrt{\Delta}(D+\ln n)\right)
-%<
-%2^L
-%\:.
-%\]
-\lemref{percolation} guarantees
-$\tau(G,s) \leq 4 \ln n + 2 D$ with probability at least
-$1-1/n$,
-and \lemref{few-walks} guarantees
-\[
-\Pi(G,s,L) \leq 2n \times 2^{L} \times (6\Delta)^{L/2} \times \Delta^{3g} \leq 
-(2 \times 2 \times \sqrt{6\Delta})^L
-\exp\left( 108 \sqrt{\Delta}(D+\ln n)\right)
-\leq
-(2 \times 2 \times \sqrt{6\Delta}\times 2)^L=a^L
-\:.\]
-Applying \lemref{meta-theorem} completes the proof.
+  The conclusion follows from \thmref{alantree-upper-bound} for $\Delta\leq6$, so we will assume $\Delta>6$.
+  Let $c=2$, $K=4\ln n + 2D$, $p=1/n$, $a=8\sqrt{6\Delta}$, and $L=\lceil cea K\rceil > 8 \ln n$. 
+  \lemref{percolation} guarantees
+  $\tau(G,s) \leq 4 \ln n + 2 D$ with probability at least
+  $1-1/n$,
+  and \lemref{few-walks} guarantees
+  \[
+  \Pi(G,s,L) \leq 2n \times 2^{L} \times (6\Delta)^{L/2} \times \Delta^{3g} \leq 
+  (2 \times 2 \times \sqrt{6\Delta})^L
+  \exp\left( 108 \sqrt{\Delta}(D+\ln n)\right)
+  \leq
+  (2 \times 2 \times \sqrt{6\Delta}\times 2)^L=a^L
+  \:.\]
+  Applying \lemref{meta-theorem} completes the proof.
 \end{proof}
-%
-%  The proof is an application of \lemref{meta-theorem}.  Notice that,
-%  for $L\ge 3g\ln\Delta$, the number of simple paths in $G$ of length
-%  $L$ is at most
-%  \[
-%     (c\Delta)^{L/2+3g} 
-%        = \left((c\Delta)^{1/2+3g/L}\right)^L
-%        \le \left((c\Delta)^{1/2+1/\ln\Delta}\right)^L
-%        \le \left((e\Delta)^{1/2}\right)^L
-%        = (ce\Delta)^{L/2} \enspace .
-%  \]
-%  Therefore, we apply \lemref{meta-theorem} with $a=(ce\Delta)^{1/2}$,
-%  $p=1/n$, $K\in O(D+\log n)$, and $c=2$.  Then,
-%  \[
-%      L=\ceil{2eaK} \in \Omega(\Delta^{1/2}D) \enspace .
-%  \]
-%  Therefore, with a sufficiently large $C$, the condition $g\ln\Delta \le C\Delta^{1/2}D$ implies that $L\ge 3\ln\Delta$, which justifies the choice of $a$.
-%\end{proof}
-
 
 
 \section{An upper bound for edge expanders}
 \seclabel{edge-expanders}
 
 All of the preceding upper bounds on $h(T)$ have a (linear or rootish)
-dependence on $\Delta$, the maximum degree of a vertex in $G$.
-This seems somewhat counterintuitive, since high degree vertices in $G$
-should produce high degree vertices in $T$ and therefore decrease $h(T)$.
-In this section we show that indeed large edge expansion (also called isoperimetric number
-or Cheeger constant) results in low-height trees.
+dependence on $\Delta$, the maximum degree of a vertex in $G$.  This seems
+somewhat counterintuitive, since high degree vertices in $G$ should
+produce high degree vertices in $T$ and therefore decrease $h(T)$.
+In this section we show that indeed large edge expansion (also called
+isoperimetric number or Cheeger constant) results in low-height trees.
 
 For an $n$-vertex graph $G$ and a subset $A\subseteq V(G)$,
 define $e(A)=|\{vw\in E(G): v\in A,\, w\not\in A\}|$, and for any
@@ -956,7 +915,6 @@ of Devroye and Pittel for the height of the random recursive tree
        \le \frac{(2\Psi)^L}{L!} 
    \end{align*}
    Finally, since $G$ contains at most $\Delta^L$ paths of length $L$,
-   
    \[
         \Pr\{h(\tcal(G,s)) \ge L\} \le \Delta^L \times \frac{(2\Psi)^L}{L!}  \leq \left(\frac{2e\Psi\Delta}{L}\right)^L
          \le \left(\frac{1}{2}\right)^L \enspace ,
@@ -968,7 +926,8 @@ Observe that the last step in the proof of
 \thmref{alantree-upper-bound-cheeger} is to use the union bound over all
 paths of length $L$.  If we have a better upper-bound than $\Delta^L$ on
 the number of such paths, then we obtain a better upper bound on $h(T)$.
-\lemref{few-walks} gives a better upper bound for $d$-degenerate graphs, using which we immediately obtain the following corollary.
+\lemref{few-walks} gives a better upper bound for $d$-degenerate graphs,
+using which we immediately obtain the following corollary.
 
 \begin{cor}
   Let $G$ be an $n$-vertex $d$-degenerate graph with diameter $D$
@@ -1097,23 +1056,32 @@ result about the first-passage percolation time on the $d$-cube.
    $d\ln(d/(d-\alpha))=O(1)$ joining a vertex $u$ in $L_2$ to a vertex
    $w$ in $L_{d-2}$.
 
-   Now, there are $d$ edge-disjoint paths of length $2$ joining $s$
-   to $u$.  Consider one such path, $P$.  If $P$ has weight greater than
-   $x/3$ then at least one of $P$'s edges has weight greater than $x/6$,
-   which occurs with probability at most $2e^{-x/6}$.  Therefore,
-   the probability that all $d$ paths have weight greater than $x/3$
-   is at most $(2e^{-x/6})^d \le e^{-adx}$ for $0<a<1/6-\ln 2/x$.
-   Similarly, with probability at least $1-e^{-adx}$, there is a path of
-   length 2 and weight at most $x/3$ joining $w$ to $\bar{s}$.
+   Now, there are $d$ edge-disjoint paths of length at most $4$ joining
+   $s$ to $u$ (see \figref{manypaths}).  Consider one such path, $P$.  If $P$
+   has weight greater than $x/3$ then at least one of $P$'s edges has
+   weight greater than $x/12$, which occurs with probability at most
+   $4e^{-x/12}$.  Therefore, the probability that all $d$ paths have
+   weight greater than $x/3$ is at most $(4e^{-x/12})^d \le e^{-adx}$ for
+   $0<a<\ln 4/x - 1/12$.  Similarly, with probability at least $1-e^{-adx}$,
+   there is a path of length at most 4 and weight at most $x/3$ joining
+   $w$ to $\bar{s}$.
+   \begin{figure}
+      \begin{center}
+         \includegraphics{figs/manypaths}
+      \end{center}
+      \caption{The $d$-cube contains $d$ edge disjoint paths of length
+        at most 4 going from $s\in L_0$ to $u\in L_2$.}
+      \figlabel{manypaths}
+   \end{figure}
 
    Therefore, 
    \[
       \Pr\{\tau(Q,s,\bar{s}) > 2x/3 + d\ln(d/(d-a))\} 
-        \le \Pr\{\tau(G,s,\bar{s}) > x\}  
+        \le \Pr\{\tau(Q,s,\bar{s}) > x\}  
            \le 2e^{-axd}+e^{-\gamma d^2}
    \]
-   provided that $x \ge\max\{3d\ln(d/(d-a)),\ln 2/(1/6-a)\}$. This holds, 
-   for example, when $x\ge x_0 = 12\ln 2$, $a=1/12$, and $d\ge 1$.
+   provided that $x \ge\max\{3d\ln(d/(d-a)),\ln 4/(1/12-a)\}$. This holds, 
+   for example, when $x\ge x_0 = 24\ln 4$, $a=1/24$, and $d\ge 1$.
 \end{proof}
 
 \lemref{cube-diametrical} extends from $\tau(Q,s,\bar{s})$ to
@@ -1769,13 +1737,13 @@ with probability $1-o_n(1)$ we have $h(\tcal(G,s))>c\sqrt{d\Delta}(D+\ln n)$.
 
 \begin{proof}
 Let $C =10^5$, $a=e^2C$, 
-$\delta=\Delta/2$, and 
+$\delta=\Delta/2$, 
 $L=D\sqrt{d\Delta}/8a$, and 
-Let $H$ be the graph shown in \figref{degenerate-h},
+let $H$ be the graph shown in \figref{degenerate-h},
 where each $V_i$ has $\delta$ vertices
   and each $V_i'$ has $d$ vertices,
   and each of the pairs
-  $(V_1,V'_1)$, $(V'_1,V_2)$, $(V_2,V'_2)$, etc.\ form a complete bipartite graph.
+  $(V_1,V'_1)$, $(V'_1,V_2)$, $(V_2,V'_2)$, etc.\ forms a complete bipartite graph.
 Let $I$ be the perfect binary tree with $L$ leaves,
 with each leaf-incident edge subdivided $aL/\sqrt{d\delta}-1$ times.
 Consider the leaves of
@@ -1784,7 +1752,7 @@ with some vertex in $V_i$.
 Let $G$ be the resulting graph.
 Note that $G$ has maximum degree $2\delta=\Delta$,
 diameter $\leq 2(1+aL/\sqrt{d\delta}+\log_2 L)\leq D$,
-and $n=(\delta+D)L+2L-1+L(aL/d\delta-1)=O(\Delta L + L^2/d\Delta)$ vertices.
+and $n=(\delta+d)L+2L-1+L(aL/d\delta-1)=O(\Delta L + L^2/d\Delta)$ vertices.
  
   \begin{figure}
     \begin{center}
