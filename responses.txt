@@ -1,0 +1,78 @@
+
+
+Referee: Page 1, line 2 in the subsection with the heading “our results”: This
+referee suggests to insert the word “rooted” in the phrase “the height
+1of a tree T .” That is, this referee suggests to write “and let us denote
+the height of a tree T rooted at s by h(T, s).” The height does not
+have a meaning, unless there is a reference point (the root).
+
+Response: We have added the word "rooted" before tree in this sentence. We are relunctant to use $h(T,s)$ for this notation since that will lead to the awkward $h((T(G,s),s)$ throughout the rest of the paper.  This should be sufficient, since T(G,s)$ has already been defined as a random spanning tree rooted at s.
+
+Referee: The itemized list of results on Page 1 has the factors ∆ and D. At a
+first glance, the results looked strange. Upon taking a second look, one
+realizes that ∆ and D can be growing with n. For example, ∆ = ∆(n)
+in a star is n − 1. So, this referee suggests to mention, at least once at
+the beginning, that ∆ = ∆(n), and D = D(n) are functions of n. Once
+the link to n is established, the notation can be relaxed by dropping n
+in all subsequent presentations.
+
+Reponse: We have added the following sentence, just before the list of results:
+
+"In all of these results, the reader should keep in mind that the diameter, $D$,
+the maximum-degree, $\Delta$, the degeneracy, $d$, and the edge-expansion
+factor, $\Phi$, may be increasing functions of $n$, the number of vertices
+in $G$."
+
+
+Referee:  In item (3) of the list of results, please insert a space in “treewidth” to become “tree width.”
+
+Response:  We would prefer to stick with the single word treewidth, as that seems to have become the standard terminology in graph theory. See, for example: https://en.wikipedia.org/wiki/Treewidth#References
+
+Referee: Page 3, seven lines above the title of Section 2: Period (not comma)
+before “In Section 3.” The referee also suggests a comma after “In
+Section 3,” and after similar grammatical constructs.
+
+Response: Corrected.
+
+Referee: Page 4, right before Display (1): The referee suggests adding “we have.”
+Without this phrase, the sentence has no verb. One could interpret the
+sign ≤ as “is less than” providing the verb. But, it is a better practice
+to take a display like (1) as a black box, not to be opened to take
+grammar from within. Think of the difference between Then x = y
+(then blah), versus, then we see that x = y (then we see blah).
+
+Response: We are reluctant to make this change since we don't agree that a display (or inline) formula is a black box. Rather, it does contain grammar.  Indeed, we consider all of the following to be grammatically correct:
+
+1) If $a<b$ then $b>a$.
+2) If $a<b$ then 
+\[
+   b > a .
+\]
+3) If $a<b$ then $b$ is greater than $a$.
+
+
+
+Referee: Page 3, Display (1): In this display, and many similar ones, it may be
+better to use the more modern symbol P for orobability. You can get it
+using \mathbb. Also, you can type d 1 . One might be inclined to typeset
+1/d to save space, but the right-hand side is building up a fraction in
+two lines, anyway. The typesetting d 1 will be gentler on the eyes.
+
+Response: We have changed to using $\mathbb{P}$ for probability and used \frac{1}{d} here, as suggested.
+
+Referee: Page 4, Lemma 2: Can you please add a verbal argument in the proof
+to justify items 1 and 2?
+
+Response: We have added text here to make it clearer why one of these two conditions must occur. (If the tree contains a long path then it contains a heavy path or it contains a long light path.)
+
+Referee: Page 6, list of bulleted items: In the first bullet, isn’t this Kuratowski’s theorem? It may be a good idea here to give a reference to Euler genus formula.
+
+Response: Actually, this is Euler's formula:  $m = n + f - 2$, where m is the number of edges, n is the number of vertices, and f is the number of faces.  Since each 
+
+
+
+
+
+
+
+

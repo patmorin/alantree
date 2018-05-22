@@ -54,6 +54,8 @@
 \DeclareMathOperator{\binomial}{binomial}
 \DeclareMathOperator{\erlang}{Erlang}
 \DeclareMathOperator{\diam}{diam}
+\let\Pr=\relax
+\DeclareMathOperator{\Pr}{\mathbb{P}}
 
 \newcommand{\abas}[1]{\textcolor{orange}{\big[Abbas: #1\big]}}
 \newcommand{\tcal}{\mathcal{T}}
@@ -103,7 +105,7 @@ this edge to $T$.
 \pagenumbering{arabic}
 \section{Introduction}
 Let $s$ be a vertex of a simple connected graph $G$ on $n$ vertices.
-We build a sequence $T_1,T_2,\dots,T_n$ of random subtrees of $G$ as follows.
+We build a sequence $T_1,T_2,\dots,T_n$ of random subtrees of $G$ as follows:
 The tree $T_1$ has a single vertex, $s$.
 For each $1<i\leq n$, tree $T_i$ is obtained by choosing
 a uniformly random edge of $G$ with exactly one endpoint in $T_{i-1}$,
@@ -127,12 +129,16 @@ $(e+o(1))\ln n$ with probability $1-o(1)$.
 %edge-expansion can be viewed as a generalization of this result.
 
 \subparagraph{Our results.}
-Let $D=D(G)$ and $\Delta=\Delta(G)$ denote the diameter and maximum degree of $G$, respectively, and let us denote 
-the height of a tree $T$ by $h(T)$.
-An obvious lower bound for $h(\tcal(G,s))$ is $D/2$.
-We prove the following bounds hold with probability $1-o_n(1)$ for any $n$-vertex graph $G$ and any $s\in V(G)$.
-(The notation $o_k(1)$ denotes the set of functions $f:\R\to\R$ such
-that $f(k)\to 0$ as $k\to\infty$.)
+Let $D=D(G)$ and $\Delta=\Delta(G)$ denote the diameter and maximum degree
+of $G$, respectively, and let us denote the height of a rooted tree $T$
+by $h(T)$.  An obvious lower bound for $h(\tcal(G,s))$ is $D/2$.  We prove
+the following bounds hold with probability $1-o_n(1)$ for any $n$-vertex
+graph $G$ and any $s\in V(G)$.  (The notation $o_k(1)$ denotes the set
+of functions $f:\R\to\R$ such that $f(k)\to 0$ as $k\to\infty$.)  In all
+of these results, the reader should keep in mind that the diameter, $D$,
+the maximum-degree, $\Delta$, the degeneracy, $d$, and the edge-expansion
+factor, $\Phi$, may be increasing functions of $n$, the number of vertices
+in $G$.
 
 %In this paper we show that the height of $T$ depends (obviously) on
 %the diameter, $D$, of $G$ and (less obviously) on the maximum degree,
@@ -166,7 +172,7 @@ for any $\Delta>1$, $D>10^6\ln \Delta$
 and $d \leq \Delta$
 there exist a $d$-degenerate graph $G$ and vertex $s$ with
 $h(\tcal(G,s))\in
-    \Omega(\sqrt{d\Delta}(D+\log n))$
+    \Omega(\sqrt{d\Delta}(D+\log n))$.
     
   \item  If $G$ has Euler genus less than $C\sqrt{\Delta}D/\log\Delta$, then
   $h(\tcal(G,s))\in O(\sqrt{\Delta}(D+\log n))$ 
@@ -176,8 +182,7 @@ $h(\tcal(G,s))\in
   for any $\Delta>2$ and $D>10^6\ln \Delta$
   there exist a planar graph $G$ and vertex $s$ with
   $h(\tcal(G,s))\in
-      \Omega(\sqrt{\Delta}(D+\log n))$
-  
+      \Omega(\sqrt{\Delta}(D+\log n))$.
 
   \item For any $d,k\geq1$, if $G$ is the $d$-dimensional grid of side-length $k$ (which has
   $n=(k+1)^d$ vertices), we have $h(\tcal(G,s))\in O(dk+d^{5/3}\ln(k+1))$.
@@ -229,8 +234,8 @@ and recently to $1.575$ by Martinsson~\cite{martinsson:unoriented}.
 
 The remainder of the paper is organized as follows: 
 \Secref{inequalities} presents some preliminaries
-and useful facts about sums of independent  random variables,
-In~\secref{sec:fpp_connection} we present the connection with first-passage percolation and prove a general upper bound.
+and useful facts about sums of independent  random variables.
+In~\secref{sec:fpp_connection}, we present the connection with first-passage percolation and prove a general upper bound.
 \Secref{degeneracy}--\secref{grids} present our
 upper bounds on $h(T)$.  
 \Secref{lower-bounds} and
@@ -273,7 +278,7 @@ method (see, e.g., \cite[Theorem~5.1]{janson}).  If $Z_1,\ldots,Z_k$ are indepen
 random variables (so that they each have mean $\mu=1/\lambda$), then
 for all $d>1$,
 \begin{equation}
-    \Pr\left\{\sum_{i=1}^k Z_i \le \mu k/d\right\} \le \exp(-k(\ln d -1 + 1/d)) \le \left(\frac{e}{d}\right)^k  \eqlabel{head-bound}
+    \Pr\left\{\sum_{i=1}^k Z_i \le \mu k/d\right\} \le \exp\left(-k\left(\ln d -1 + \frac{1}{d}\right)\right) \le \left(\frac{e}{d}\right)^k  \eqlabel{head-bound}
 \end{equation}
 and for all $t>1$, 
 \begin{equation}
@@ -505,7 +510,10 @@ We now prove a lemma that upper bounds $h(\tcal(G,s))$ in terms of $\tau(G,s)$ a
 
 \begin{proof}
    Let $T = \tcal(G,s)$.
-   If $h(T)> L$, then at least one of the following two events occurred:
+   If $h(T)> L$, then $T$ contains a root-to-leaf path of length greater
+   than $L$ and therefore $T$ contains a path that begins at the root
+   and has length exactly $L$.  This implies that at least one of the
+   following two events occurred:
    \begin{enumerate}
      \item $T$ contains a root-to-leaf path of weight greater than $K$.
      \item $G$ contains a path starting at $s$ of length $L$ whose weight 
@@ -690,19 +698,22 @@ Applying \lemref{meta-theorem} completes the proof.
 \seclabel{degeneracy-discussion}
 
 Note that \thmref{alantree-upper-bound-degenerate} actually implies
-\thmref{alantree-upper-bound} up to constant factors, since all graphs of maximum degree $\Delta$
-are $\Delta$-degenerate, so $\sqrt{d\Delta}\le \Delta$ in all cases.
-However, \thmref{alantree-upper-bound-degenerate} provides sharper bounds for  many important graph classes:
+\thmref{alantree-upper-bound} up to constant factors, since all graphs
+of maximum degree $\Delta$ are $\Delta$-degenerate, so $\sqrt{d\Delta}\le
+\Delta$ in all cases.  However, \thmref{alantree-upper-bound-degenerate}
+provides sharper bounds for  many important graph classes:
 
 \begin{itemize}
   \item Planar graphs are 5-degenerate. (This is a consequence of Euler's
-    formula and the fact that planarity is preserved under taking subgraphs).
+    formula and the fact that planarity is preserved
+    under taking subgraphs---see, for example,
+    \cite[Corollary~10.22]{bondy.murty:graph}).
   
   \item The \emph{thickness} of a graph is the minimum number of planar
-    graphs into which the edges of $G$ can be partitioned. Graphs of
-    thickness $t$ are $5t$-degenerate.  (This follows from definitions
-    and the $5$-degeneracy of each individual planar graph in the
-    partition.)
+    graphs into which the edges of $G$ can be partitioned.  If $G$ has
+    thickness $t$ then, by Euler's Formula, $G$ has $m<3tn$ edges and
+    the average degree of $G$ is less than $2m/n < 6t$. It follows that
+    graphs of thickness $t$ are $(6t-1)$-degenerate.
 
   \item The \emph{Euler genus} of a graph is the minimum Euler genus of
     a surface on which the graph can be drawn without crossing edges.
@@ -1942,7 +1953,8 @@ February 12--18, 2017.  In both cases, we are grateful to the workshop
 organizers and other participants for providing stimulating working
 environments.  We are especially grateful to G\'abor~Lugosi for helpful
 discussions on many aspects of this work and to Tasos~Sidiropoulos
-for asking us about planar graphs.
+for asking us about planar graphs. The authors would also like to thank
+David Wood for 
 \bibliographystyle{plain}
 \bibliography{alantree}
 
