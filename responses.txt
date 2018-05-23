@@ -1,4 +1,4 @@
-
+-----------------------------------------------------------
 
 Referee: Page 1, line 2 in the subsection with the heading “our results”: This
 referee suggests to insert the word “rooted” in the phrase “the height
@@ -7,6 +7,8 @@ the height of a tree T rooted at s by h(T, s).” The height does not
 have a meaning, unless there is a reference point (the root).
 
 Response: We have added the word "rooted" before tree in this sentence. We are relunctant to use $h(T,s)$ for this notation since that will lead to the awkward $h((T(G,s),s)$ throughout the rest of the paper.  This should be sufficient, since T(G,s)$ has already been defined as a random spanning tree rooted at s.
+
+-----------------------------------------------------------
 
 Referee: The itemized list of results on Page 1 has the factors ∆ and D. At a
 first glance, the results looked strange. Upon taking a second look, one
@@ -23,16 +25,21 @@ the maximum-degree, $\Delta$, the degeneracy, $d$, and the edge-expansion
 factor, $\Phi$, may be increasing functions of $n$, the number of vertices
 in $G$."
 
+-----------------------------------------------------------
 
 Referee:  In item (3) of the list of results, please insert a space in “treewidth” to become “tree width.”
 
 Response:  We would prefer to stick with the single word treewidth, as that seems to have become the standard terminology in graph theory. See, for example: https://en.wikipedia.org/wiki/Treewidth#References
+
+-----------------------------------------------------------
 
 Referee: Page 3, seven lines above the title of Section 2: Period (not comma)
 before “In Section 3.” The referee also suggests a comma after “In
 Section 3,” and after similar grammatical constructs.
 
 Response: Corrected.
+
+-----------------------------------------------------------
 
 Referee: Page 4, right before Display (1): The referee suggests adding “we have.”
 Without this phrase, the sentence has no verb. One could interpret the
@@ -41,16 +48,11 @@ to take a display like (1) as a black box, not to be opened to take
 grammar from within. Think of the difference between Then x = y
 (then blah), versus, then we see that x = y (then we see blah).
 
-Response: We are reluctant to make this change since we don't agree that a display (or inline) formula is a black box. Rather, it does contain grammar.  Indeed, we consider all of the following to be grammatically correct:
+Response: We are reluctant to make this change since we don't agree that a display (or inline) formula is a black box. Rather, it does contain grammar and, in particular, the verb "is" is contained in the < symbol.  Otherwise, every sentence like
 
-1) If $a<b$ then $b>a$.
-2) If $a<b$ then 
-\[
-   b > a .
-\]
-3) If $a<b$ then $b$ is greater than $a$.
+"If $a< b$ then $b>a$." would have to be written like "If we have $a<b$ then we have that $a>b$." 
 
-
+-----------------------------------------------------------
 
 Referee: Page 3, Display (1): In this display, and many similar ones, it may be
 better to use the more modern symbol P for orobability. You can get it
@@ -60,15 +62,80 @@ two lines, anyway. The typesetting d 1 will be gentler on the eyes.
 
 Response: We have changed to using $\mathbb{P}$ for probability and used \frac{1}{d} here, as suggested.
 
+-----------------------------------------------------------
+
 Referee: Page 4, Lemma 2: Can you please add a verbal argument in the proof
 to justify items 1 and 2?
 
 Response: We have added text here to make it clearer why one of these two conditions must occur. (If the tree contains a long path then it contains a heavy path or it contains a long light path.)
 
+-----------------------------------------------------------
+
 Referee: Page 6, list of bulleted items: In the first bullet, isn’t this Kuratowski’s theorem? It may be a good idea here to give a reference to Euler genus formula.
 
-Response: Actually, this is Euler's formula:  $m = n + f - 2$, where m is the number of edges, n is the number of vertices, and f is the number of faces.  Since each 
+Response: Actually, this is Euler's formula.  We have added a reference to the exact location this argument is used in Bondy and Murty's Graph Theory text.
 
+-----------------------------------------------------------
+
+Referee: Notation here is not completely standard, e.g., I have not seen the
+"element of" epsilon symbol used in the statement that one quantity
+is \Omega of the other.  Probably everyone who expects an equal sign
+there will catch on, but a warning would be nice.  
+
+Response: We have switched to the more common = notation.
+
+-----------------------------------------------------------
+
+Referee: Also, using log for
+log_2 and \ln for natural log and never using common log is fine in CIS,
+but wouldn't it be less distracting just to use an unambiguous notation
+like lg ?  
+
+Response: We have double-checked and we only use log_2 n for binary logarithm and ln n for natural logarithm. All of occurrence of log n are within asymptotic notations where the exact base of the logarithm is irrelevant.
+
+-----------------------------------------------------------
+
+Referee: Also, in the probability world, sums of IID exponentials are
+called Gammas, not Erlangs.
+
+Response: We have changed Erlang to Gamma throughout
+
+-----------------------------------------------------------
+
+Referee: The term "(s,v) path" is not standard in my world, though we can tell what
+it means here; please introduce it.
+
+Response: We have changed both occurrences of (s,v)-path to "path from s to v".
+
+-----------------------------------------------------------
+
+Referee: Before (2), you say for all t > 1, which is of course true, but the truth
+is vacuous unless t >= 2.
+
+Response: We have changed this to t>=2.
+
+-----------------------------------------------------------
+
+Referee: Why is the proof of Lemma 1 in an appendix?  It would seem better in
+Section 2 "Preliminaries".  
+
+Response: We chose to put the proof of Lemma into the appendix because we found it simple, but just long enough to distract from the main story.
+
+-----------------------------------------------------------
+
+Referee: In Lemma 16, if the {Z_i} variables are really supposed to be IID, then
+the pairs (s_i , v_i) must all be at the same distance.  Is this intended?
+
+Response: The referee is correct. We meant independent here, but not identical, and have changed the statement of the lemma accordingly.
+
+-----------------------------------------------------------
+
+Referee: This is really minor, but when you quote a result from [9], it would
+help if this could be replace
+
+Response: We changed the reference to the journal version of this paper.
+
+    
 
 
 

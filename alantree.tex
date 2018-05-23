@@ -52,7 +52,7 @@
 
 \DeclareMathOperator{\exponential}{exponential}
 \DeclareMathOperator{\binomial}{binomial}
-\DeclareMathOperator{\erlang}{Erlang}
+\DeclareMathOperator{\erlang}{Gamma}
 \DeclareMathOperator{\diam}{diam}
 \let\Pr=\relax
 \DeclareMathOperator{\Pr}{\mathbb{P}}
@@ -146,12 +146,12 @@ in $G$.
 %with probability $1-o_n(1)$:
 
 \begin{enumerate}
-  \item In Theorem~\ref{thm:alantree-upper-bound} we show $h(\tcal(G,s))\in O(\Delta(D+\log n))$.
-  For $D\in \Omega(\log \Delta)$ this is tight: in~\thmref{genericlowerbound} we show that for every $\Delta\ge  2$ and every $D \ge e^6\ln\Delta$, there exist $G$ and $s$ with 
-   $h(\tcal(G,s))\in \Omega(\Delta(D+\log n))$.
+  \item In Theorem~\ref{thm:alantree-upper-bound} we show $h(\tcal(G,s))= O(\Delta(D+\log n))$.
+  For $D= \Omega(\log \Delta)$ this is tight: in~\thmref{genericlowerbound} we show that for every $\Delta\ge  2$ and every $D \ge e^6\ln\Delta$, there exist $G$ and $s$ with 
+   $h(\tcal(G,s))= \Omega(\Delta(D+\log n))$.
 
   \item If $G$ is $d$-degenerate (that is, every subgraph of $G$ has a vertex of degree at most $d$),
-  then in Theorem~\ref{thm:alantree-upper-bound-degenerate} we show  $h(\tcal(G,s))\in
+  then in Theorem~\ref{thm:alantree-upper-bound-degenerate} we show  $h(\tcal(G,s))=
     O(\sqrt{d\Delta}(D+\log n))$.  The class of $O(1)$-degenerate
     graphs is quite rich and includes every minor-closed graph family. 
   This upper bound is tight, even for planar graphs ($d=5$), graphs
@@ -159,43 +159,43 @@ in $G$.
   (The concepts of Euler genus, thickness, and treewidth
     are defined in \secref{degeneracy-discussion}).
 
-For $D\in \Omega(\log \Delta)$ and planar graphs (which are 5-degenerate) this is tight:
+For $D= \Omega(\log \Delta)$ and planar graphs (which are 5-degenerate) this is tight:
   in~\thmref{planartight} we show 
   for any $\Delta>2$ and $D>10^6\ln \Delta$
   there exists a planar graph $G$ and vertex $s$ with
-  $h(\tcal(G,s))\in
+  $h(\tcal(G,s))=
       \Omega(\sqrt{\Delta}(D+\log n))$.
   
-Also, for $D\in \Omega(\log \Delta)$ and $d\leq\Delta$ this is tight:
+Also, for $D= \Omega(\log \Delta)$ and $d\leq\Delta$ this is tight:
 in~\thmref{alantree-lower-bound-degenerate} we show 
 for any $\Delta>1$, $D>10^6\ln \Delta$
 and $d \leq \Delta$
 there exist a $d$-degenerate graph $G$ and vertex $s$ with
-$h(\tcal(G,s))\in
+$h(\tcal(G,s))=
     \Omega(\sqrt{d\Delta}(D+\log n))$.
     
   \item  If $G$ has Euler genus less than $C\sqrt{\Delta}D/\log\Delta$, then
-  $h(\tcal(G,s))\in O(\sqrt{\Delta}(D+\log n))$ 
+  $h(\tcal(G,s))= O(\sqrt{\Delta}(D+\log n))$ 
   (see \thmref{alantree-upper-bound-genus})  .
-  For $D\in \Omega(\log \Delta)$ and zero Euler genus this is tight:
+  For $D= \Omega(\log \Delta)$ and zero Euler genus this is tight:
   in~\thmref{planartight} we show 
   for any $\Delta>2$ and $D>10^6\ln \Delta$
   there exist a planar graph $G$ and vertex $s$ with
-  $h(\tcal(G,s))\in
+  $h(\tcal(G,s))=
       \Omega(\sqrt{\Delta}(D+\log n))$.
 
   \item For any $d,k\geq1$, if $G$ is the $d$-dimensional grid of side-length $k$ (which has
-  $n=(k+1)^d$ vertices), we have $h(\tcal(G,s))\in O(dk+d^{5/3}\ln(k+1))$.
-  If $k=2$ or $k/\ln(k+1)=\Omega(d^{2/3})$, we have $h(\tcal(G,s))\in \Theta(D)=\Theta(dk)$
+  $n=(k+1)^d$ vertices), we have $h(\tcal(G,s))= O(dk+d^{5/3}\ln(k+1))$.
+  If $k=2$ or $k/\ln(k+1)=\Omega(d^{2/3})$, we have $h(\tcal(G,s))= \Theta(D)=\Theta(dk)$
   (see \thmref{alantree-upper-bound-hypercube} and \corref{bestgrid}).
 
   \item If $G$ has edge-expansion factor\footnote{The
   edge expansion factor and related quantities are defined in
   \secref{edge-expanders}.} (i.e., Cheeger constant) $\Phi$, then
-  $h(\tcal(G,s))\in O(\Phi^{-1}\Delta\log n)$ (see \thmref{alantree-upper-bound-cheeger}).  This implies, for example,
-  that $h(\tcal(G,s))\in O(\log n)$ if $G$ is the complete graph or if $G$ is
+  $h(\tcal(G,s))= O(\Phi^{-1}\Delta\log n)$ (see \thmref{alantree-upper-bound-cheeger}).  This implies, for example,
+  that $h(\tcal(G,s))= O(\log n)$ if $G$ is the complete graph or if $G$ is
   a random $\Delta$-regular graph (since a random $\Delta$-regular
-  graph has $\Phi\in \Omega(\Delta)$, see~\cite{bollobas:isoperimetric}).
+  graph has $\Phi= \Omega(\Delta)$, see~\cite{bollobas:isoperimetric}).
 \end{enumerate}
 
 Our main tool for proving upper bounds, \lemref{meta-theorem}, bounds
@@ -207,7 +207,7 @@ families of graphs, which are of independent interest.
 
 \subparagraph{Our results on first-passage percolation cover time.}
 Suppose independent exponential(1) random variables $\{\tau_e\}$ are assigned to edges of $G$.
-Let $\Gamma(s,v)$ denote the set of all $(s,v)$-paths in the graph.
+Let $\Gamma(s,v)$ denote the set of all paths from $s$ to $v$ in $G$.
 Then the \emph{first-passage percolation cover time} is defined as 
 \[
 	\tau(G,s) = \max_{v\in V(G)} \min_{\gamma\in\Gamma(s,v)} \sum_{e\in\gamma} \tau(e)
@@ -243,10 +243,10 @@ upper bounds on $h(T)$.
 present families of
 graphs with matching lower bounds.
 
-We use the following notational conventions: $\log x$ denotes the binary
-logarithm of $x$ and $\ln x$ denotes the natural logarithm of $x$.
-Every graph, $G$, that we consider
-is finite, simple, undirected and connected, and $n$ denotes its number of vertices.
+We use the following notational conventions: $\log_2 x$ denotes the
+binary logarithm of $x$ and $\ln x$ denotes the natural logarithm of $x$.
+Every graph, $G$, that we consider is finite, simple, undirected and
+connected, and $n$ denotes its number of vertices.
 
 \section{Preliminaries}
 \label{sec:prelim}
@@ -280,12 +280,12 @@ for all $d>1$,
 \begin{equation}
     \Pr\left\{\sum_{i=1}^k Z_i \le \mu k/d\right\} \le \exp\left(-k\left(\ln d -1 + \frac{1}{d}\right)\right) \le \left(\frac{e}{d}\right)^k  \eqlabel{head-bound}
 \end{equation}
-and for all $t>1$, 
+and for all $t\ge 2$, 
 \begin{equation}
     \Pr\left\{\sum_{i=1}^k Z_i \ge \mu k t\right\} \le \exp (k-kt/2) \enspace . \eqlabel{tail-bound}
 \end{equation}
 The sum of $k$ independent $\exponential(\lambda)$
-random variables is called an $\erlang(k,\lambda)$ random variable.
+random variables is called a $\erlang(k,\lambda)$ random variable.
 %distribution.
 %, i.e.,
 %\[
@@ -465,7 +465,7 @@ Therefore, the tree along which the disease spreads has the same distribution as
 
 This viewpoint induces weights on the edges:
 to each edge $e$ we  assign weight $\tau(e)$, which is the ringing time for the timer on this edge.
-Note that the weights are i.i.d.\ exponential (1) random variables.
+Note that the weights are i.i.d.\ exponential(1) random variables.
 The weight of a path $P$, denoted $\tau(P)$, is simply the sum of weights of its edges.  The \emph{first-passage percolation hitting time} (or simply, the \emph{hitting time}) for $v$ is the weight of the lightest path from $s$ to $v$:
 \[
     \tau(G,s,v) = \min_{\gamma\in\Gamma(s,v)} \tau(\gamma) \enspace .
@@ -551,7 +551,7 @@ $1-1/n$.
 
 \begin{proof}
 For each vertex $v\in V(G)$, we show the probability that it is not infected by time $4 \ln n + 2 D$ is at most $n^{-2}$, and then apply the union bound over all vertices.
-Let $P$ be a shortest $(s,v)$-path in $G$.
+Let $P$ be a shortest path from $s$ to $v$ in $G$.
 Let $k\leq D$ denote the length of $P$, so $\tau(P)\sim \erlang(k,1)$.
 Note that for any $t$,  $\tau(P)\leq t$ implies $v$ is infected by time $t$.
 Thus, using \eqref{tail-bound}, the probability that $v$ is not infected by time $4 \ln n + 2 D$ is bounded by
@@ -739,13 +739,13 @@ provides sharper bounds for  many important graph classes:
 \end{itemize} 
 
 Therefore, \thmref{alantree-upper-bound-degenerate} implies that,
-when the relevant parameter, $g$, $t$ or $k$, is bounded, $h(T)\in
+when the relevant parameter, $g$, $t$ or $k$, is bounded, $h(T)=
 O(\sqrt{\Delta}(D+\log n))$ with high probability.  
 
 \section{An upper bound in terms of Euler genus}
 Since graphs of Euler genus $g$ are $O(\sqrt{g})$-degenerate,
 \thmref{alantree-upper-bound-degenerate} implies that if  $G$ has Euler genus
-$g$, then $h(\tcal(G,s))\in O(g^{1/4}\Delta^{1/2}(D+\log n))$.  In this section we show that the
+$g$, then $h(\tcal(G,s))= O(g^{1/4}\Delta^{1/2}(D+\log n))$.  In this section we show that the
 dependence on the genus $g$ can be eliminated when the diameter is large
 compared to the genus.  We begin with a upper-bound on path counts that
 is better (for graphs of small genus) than \lemref{few-walks}.
@@ -880,7 +880,7 @@ perimeter size} $\Psi$, which is closely related to the edge expansion:
   edge-expansion $\Phi$, total inverse perimeter size $\Psi$,
   and let $s$ be an arbitrary vertex.
   Then, with probability at least $1-\exp(-\Omega(\Psi\Delta))$ we have
-  $h(\tcal(G,s)) \in O(\Psi\Delta)\subseteq O(\Phi^{-1}\Delta\log n)$.
+  $h(\tcal(G,s)) = O(\Psi\Delta)\subseteq O(\Phi^{-1}\Delta\log n)$.
 \end{thm}
 
 Before proving \thmref{alantree-upper-bound-edge-expander}, we
@@ -888,7 +888,7 @@ consider the example of the complete graph $G=K_n$.  In this graph,
 the minimum degree is $n-1$, so all preceding theorems (at best)
 imply an upper bound of $O(n)$ on $h(\tcal(K_n,s))$.  However, $e_k(K_n) = k(n-k)$,
 so $\Phi(K_n) = \lceil n/2\rceil$, and $\Psi(K_n) = O(\log n/n)$.
-Then \thmref{alantree-upper-bound-edge-expander} implies that $h(\tcal(K_n,s))\in
+Then \thmref{alantree-upper-bound-edge-expander} implies that $h(\tcal(K_n,s))=
 O(\log n)$ with high probability. This upper bound
 is of the right order of magnitude, since it matches the (tight) results
 of Devroye and Pittel for the height of the random recursive tree
@@ -945,8 +945,8 @@ using which we immediately obtain the following corollary.
   and maximum degree $\Delta$, total inverse perimeter size $\Psi$,
   and let $s$ be an arbitrary vertex.
   Then, with probability at least $1-O(1/n)$,
-  $h(\tcal(G,s))\in O(\Psi\sqrt{d\Delta}+\log n)
-  \in O(\log n (1+ \sqrt{d\Delta}/\Phi))$.
+  $h(\tcal(G,s))= O(\Psi\sqrt{d\Delta}+\log n)
+  = O(\log n (1+ \sqrt{d\Delta}/\Phi))$.
 \end{cor}
 
 \begin{proof}
@@ -993,9 +993,9 @@ The $(d,k)$-grid has diameter $D=dk$ and maximum degree $\Delta=2d$.
 
 Note that in the case $k=1$, the $(d,1)$-grid is the $d$-cube, for which
 \thmref{alantree-upper-bound-hypercube} gives the optimal bound and this
-bound can be extended to $k\in O(1)$.   \thmref{alantree-upper-bound}
+bound can be extended to $k= O(1)$.   \thmref{alantree-upper-bound}
 gives an upper bound of $O(d^2k)$ on $h(\tcal(G,s))$, which is optimal
-for $d\in O(1)$.  The rest of this section is devoted to proving the
+for $d= O(1)$.  The rest of this section is devoted to proving the
 following result on the first-passage-percolation cover time of the
 $(d,k)$-grid, which gives an optimal bound on the height of $\tcal(G,s)$
 for all values of $k$ and $d$.
@@ -1036,7 +1036,7 @@ result about the first-passage percolation time on the $d$-cube.
 
    We will prove the result for all $x\le d^2$.  Proving it for $x$
    in this range is sufficient, by a standard bootstrapping argument:
-   For $x > d^2$, let $r=2^{\lceil\log(x/d^2)\rceil}$, so that 
+   For $x > d^2$, let $r=2^{\lceil\log_2(x/d^2)\rceil}$, so that 
    \[ x_0 \le x/r \le d^2 \]
    where the first inequality holds provided that $d^2\ge 2x_0$.
    Consider a modified version of Richardson's infection model,
@@ -1135,7 +1135,7 @@ like sums of independent $\exponential(cd)$ random variables.
 \begin{lem}\lemlabel{cube-diameter-sum}
    Let $Q$ be a $d$-cube, let $s_1,\ldots,s_k\in V(Q)$ and
    $v_1,\ldots,v_k\in V(Q)$ be arbitrary, and let $Z_1,\ldots,Z_k$
-   be i.i.d., random variables where $Z_i$ is distributed like
+   be independent random variables where $Z_i$ is distributed like
    $\tau(Q,s_i,v_i)$.  Then there exist universal constants $c>0$ and
    $x_0>0$ such that
    \[ \Pr\left\{\sum_{i=1}^k Z_i > ak\right\} \le e^{(x_0+1)k-acdk/2} \enspace ,\]
@@ -1346,7 +1346,7 @@ Let $a>e^2$. Then for any $1 \leq i < j \leq n$ and any $v\in V_i$, $w\in V_j$ w
    Let $m=j-i$.  Each of the first $m-1$ edges in the resulting path
    has a weight that is the minimum of $\delta$ $\exponential(1)$
    random variables.  Thus, the sum of weights of these edges is the sum of
-   $m-1$ $\exponential(\delta)$ random variables, i.e.\ an $\erlang(m-1,\delta)$ random variable.
+   $m-1$ $\exponential(\delta)$ random variables, i.e.\ a $\erlang(m-1,\delta)$ random variable.
    The weight of the final edge is an $\exponential(1)$ random variable.
    Thus we find
 \begin{align*}
@@ -1364,7 +1364,7 @@ Let $a>e^2$. Then for any $1 \leq i < j \leq n$ and any $v\in V_i$, $w\in V_j$ w
 \end{align*}   
 The first inequality follows from the discussion above.
 The second inequality follows from the union bound.
-The third inequality is because an $\erlang(L,\delta)$ random variable stochastically dominates an $\erlang(m-1,\delta)$ random variable,
+The third inequality is because a $\erlang(L,\delta)$ random variable stochastically dominates a $\erlang(m-1,\delta)$ random variable,
 and the definition of the exponential distribution.
 The final equality follows from the tail bound \eqref{tail-bound}.
 \end{proof}
@@ -1605,7 +1605,6 @@ with probability $1-o_n(1)$ we have $h(\tcal(G,s))>c\sqrt{\Delta}(D+\ln n)$.
 \end{thm}
 
 \begin{proof}
-
 Let $C =10^5$, $a=e^2C$, 
 $\delta=\Delta/2$, and 
 $L=D\sqrt{\delta}/3a$, and 
@@ -1626,9 +1625,6 @@ $L=\Omega(\sqrt{\Delta}(D+\ln n))$,
 to complete the proof, we need only show that
 with probability $1-o_n(1)$ we have 
  $h(\tcal(G,s)) \geq 2L-2$.
-
-
-
 
 Choose an arbitrary vertex $t\in V_L$.
 Let $\mathcal A$ denote the event
@@ -1952,9 +1948,10 @@ research took place at the Rio Workshop on Geometry and Graphs, at IMPA,
 February 12--18, 2017.  In both cases, we are grateful to the workshop
 organizers and other participants for providing stimulating working
 environments.  We are especially grateful to G\'abor~Lugosi for helpful
-discussions on many aspects of this work and to Tasos~Sidiropoulos
-for asking us about planar graphs. The authors would also like to thank
-David Wood for 
+discussions on many aspects of this work and to Tasos~Sidiropoulos for
+asking us about planar graphs. The authors would also like to thank
+David Wood for pointing out, and offering a fix for, a mistake in our
+discussion of graph thickness.
 \bibliographystyle{plain}
 \bibliography{alantree}
 
